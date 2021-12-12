@@ -1,6 +1,8 @@
 using Character;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using MouseButton = UnityEngine.UIElements.MouseButton;
 
 namespace Movement
 {
@@ -23,6 +25,11 @@ namespace Movement
         // Update is called once per frame
         void Update()
         {
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                UpdateCurrentCellMouse();
+            }
             if (Input.GetKeyDown(KeyCode.W))
             {
                 UpdateCurrentCell(Vector3Int.up);
@@ -38,6 +45,16 @@ namespace Movement
             if (Input.GetKeyDown(KeyCode.D))
             {
                 UpdateCurrentCell(Vector3Int.right);
+            }
+        }
+
+        void UpdateCurrentCellMouse()
+        {
+            if (Camera.main is not null)
+            {
+                Vector3Int tilemapPos = _tilemap.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                var newPos = _tilemap.CellToLocal(tilemapPos);
+                transform.position = new Vector3(newPos.x, newPos.y, transform.position.z);
             }
         }
  
