@@ -1,0 +1,6 @@
+Project Scope:
+Player Characters: 1
+Enemy types: 5
+Cards: 10
+Unique Level layouts: 5
+Boss Types: 1

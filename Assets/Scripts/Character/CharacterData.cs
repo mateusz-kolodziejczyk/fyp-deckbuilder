@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Character
@@ -23,6 +24,12 @@ namespace Character
         public CharacterData(int hitPoints)
         {
             HitPoints = hitPoints;
+        }
+
+        private void Update()
+        {
+            
+            Debug.Log($"{Position.x}, {Position.y}");
         }
     }
 }
