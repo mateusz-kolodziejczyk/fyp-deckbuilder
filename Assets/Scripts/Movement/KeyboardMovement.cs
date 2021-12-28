@@ -50,12 +50,17 @@ namespace Movement
 
         void UpdateCurrentCellMouse()
         {
-            if (Camera.main is not null)
+            if (Camera.main is null)
             {
-                Vector3Int tilemapPos = _tilemap.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-                var newPos = _tilemap.CellToLocal(tilemapPos);
-                transform.position = new Vector3(newPos.x, newPos.y, transform.position.z);
+                return;
             }
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3Int gridPos = _tilemap.WorldToCell(mousePos);
+            _currentCell = gridPos;
+            Debug.Log(gridPos.x + "," + gridPos.y);
+            var newPos = _tilemap.CellToLocal(gridPos);
+            transform.position = newPos;
+            Debug.Log(_tilemap.size);
         }
  
         void UpdateCurrentCell(Vector3Int offset)
