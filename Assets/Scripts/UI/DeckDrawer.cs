@@ -11,8 +11,9 @@ namespace UI
         // Start is called before the first frame update
         private void Start()
         {
-            foreach (GameObject child in gameObject.transform)
+            foreach (Transform childTransform in gameObject.transform)
             {
+                var child = childTransform.gameObject;
                 cards.Add(child);
                 child.SetActive(false);
             }
@@ -22,21 +23,28 @@ namespace UI
         {
             for (int i = 0; i < cards.Count; i++)
             {
+
                 var card = cards[i];
-                
-                var cardName = card.transform.GetChild(1).GetComponent<TextMeshPro>();
-                var description= card.transform.GetChild(2).GetComponent<TextMeshPro>();
+                // Set card to active so that children can be gotten.
+                card.SetActive(true);
+
+                var cardName = card.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
+                var description= card.transform.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>();
+                // Make sure the card contains both a name and description
+                if (cardName == null || description == null)
+                {
+                    continue;
+                }
                 
                 // If the card does not exist in the players deck, deactivate it so that the player can't see it.
-                if (i < newCards.Count)
+                if (i >= newCards.Count)
                 {
                     card.SetActive(false);
                     continue;
                 }
                 
                 cardName.text = newCards[i].prefabName;
-                description.text = newCards[i].prefabName;
-                card.SetActive(true);
+                description.text = newCards[i].description;
             }
         }
     }
