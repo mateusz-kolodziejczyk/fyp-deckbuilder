@@ -30,22 +30,7 @@ namespace Movement
             {
                 UpdateCurrentCellMouse();
             }
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-                UpdateCurrentCell(Vector3Int.up);
-            }
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                UpdateCurrentCell(Vector3Int.left);
-            }
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                UpdateCurrentCell(Vector3Int.down);
-            }
-            if (Input.GetKeyDown(KeyCode.D))
-            {
-                UpdateCurrentCell(Vector3Int.right);
-            }
+
         }
 
         void UpdateCurrentCellMouse()
@@ -56,6 +41,10 @@ namespace Movement
             }
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int gridPos = _tilemap.WorldToCell(mousePos);
+            if (!_tilemap.HasTile(gridPos))
+            {
+                return;
+            }
             _currentCell = gridPos;
             Debug.Log(gridPos.x + "," + gridPos.y);
             var newPos = _tilemap.CellToLocal(gridPos);

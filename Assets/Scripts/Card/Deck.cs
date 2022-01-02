@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using ScriptableObjects;
 using UI;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 namespace Card
 {
@@ -16,25 +18,34 @@ namespace Card
             get => cards;
             set => cards = value;
         }
-    
-        [SerializeField]
-        private GameObject uiDeck;
-
-        private DeckDrawer _deckDrawer;
 
 
-        // Start is called before the first frame update
-        void Start()
+        public CardScriptableObject DrawCard()
         {
-            _deckDrawer = uiDeck.GetComponent<DeckDrawer>();
+            if (cards.Count <= 0)
+            {
+                return null;
+            }
+            var c = cards[^1];
+            cards.RemoveAt(cards.Count-1);
+            return c;
         }
 
-        // Update is called once per frame
-        void Update()
+        private void Start()
         {
-            _deckDrawer.UpdateCards(cards);
+            Shuffle();
         }
-    
-    
+
+        // Code for shuffling from https://stackoverflow.com/questions/273313/randomize-a-listt
+        public void Shuffle()
+        {
+            var n = cards.Count;  
+            while (n > 1) {  
+                n--;  
+                var k = Random.Range(0, n + 1);  
+                (cards[k], cards[n]) = (cards[n], cards[k]);
+            }  
+            
+        }
     }
 }

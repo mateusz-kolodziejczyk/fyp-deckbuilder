@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Card;
 using ScriptableObjects;
 using TMPro;
 using UnityEngine;
@@ -7,24 +8,42 @@ namespace UI
 {
     public class DeckDrawer : MonoBehaviour
     {
-        private List<GameObject> cards = new List<GameObject>();
+        private List<GameObject> _cards = new ();
+
+        [SerializeField]
+        private Deck playerDeck;
+
+        [SerializeField] private CardPlaying cardPlayer;
+
+
+
+        public Deck PlayerDeck
+        {
+            get => playerDeck;
+            set => playerDeck = value;
+        }
+        public CardPlaying CardPlayer
+        {
+            get => cardPlayer;
+            set => cardPlayer = value;
+        }
         // Start is called before the first frame update
         private void Start()
         {
             foreach (Transform childTransform in gameObject.transform)
             {
                 var child = childTransform.gameObject;
-                cards.Add(child);
+                _cards.Add(child);
                 child.SetActive(false);
             }
         }
 
         public void UpdateCards(List<CardScriptableObject> newCards)
         {
-            for (int i = 0; i < cards.Count; i++)
+            for (int i = 0; i < _cards.Count; i++)
             {
 
-                var card = cards[i];
+                var card = _cards[i];
                 // Set card to active so that children can be gotten.
                 card.SetActive(true);
 
