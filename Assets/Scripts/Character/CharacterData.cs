@@ -8,28 +8,49 @@ namespace Character
         [SerializeField]
         private int hitPoints;
 
+        [SerializeField] private int movementSpeed;
+
+        [SerializeField] private Vector3Int position;
+
+        public Vector3Int Position
+        {
+            get => position;
+            set => position = value;
+        }
+
+        public int MovementSpeed
+        {
+            get => movementSpeed;
+            set => movementSpeed = value;
+        }
+
         public int HitPoints
         {
             get => hitPoints;
             set => hitPoints = value;
         }
-        public (int x, int y) Position { get; set; }
 
+        public int MAXHitPoints { get; set; }
+        public int TemporaryHitPoints { get; set; } = 0;
+
+        public string Tag { get; set; }
+
+        private void Start()
+        {
+            Tag = gameObject.tag;
+            MAXHitPoints = hitPoints;
+        }
+        
         public CharacterData()
         {
             hitPoints = 100;
-            Position = (0, 0);
+            Position = new Vector3Int(0,0, 0);
         }
 
         public CharacterData(int hitPoints)
         {
             HitPoints = hitPoints;
         }
-
-        private void Update()
-        {
-            
-            Debug.Log($"{Position.x}, {Position.y}");
-        }
+        
     }
 }

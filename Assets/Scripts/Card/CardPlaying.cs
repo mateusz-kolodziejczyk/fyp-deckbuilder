@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Character;
+using Enums;
 using JetBrains.Annotations;
 using ScriptableObjects;
 using UI;
@@ -15,7 +17,9 @@ namespace Card
         private Deck _deck;
 
         [NotNull] private List<CardScriptableObject> _hand = new ();
-        
+
+        [SerializeField] 
+        private Health enemyHealth;
             
         [SerializeField]
         private GameObject uiDeck;
@@ -53,15 +57,18 @@ namespace Card
             {
                 return;
             }
-            // TODO Max hand size check, compare to number of cards in hand already
-            // Set it to 5 for now, as only 5 cards are displayed
-            if (_hand.Count >= 5)
-            {
-                return;
-            }
+
             foreach (var _ in Enumerable.Range(0, 5 + modifier))
             {
+                // TODO Max hand size check, compare to number of cards in hand already
+                // Set it to 5 for now, as only 5 cards are displayed
+                if (_hand.Count >= 5)
+                {
+                    return;
+                }
+                
                 var c = _deck.DrawCard();
+
                 // Drawing a card might result in a null
                 // TODO Reshuffle used cards into the deck after all cards are exhausted.
                 if (c != null)
@@ -79,8 +86,27 @@ namespace Card
             }
 
             var c = _hand[index];
-            _hand.RemoveAt(index);
+            // Play the card
             Debug.Log($"Card Played \n Name: {c.prefabName} Description: {c.description}");
+
+            var playerHealth = GetComponent<Health>();
+            if (c is SimpleCardScriptableObject card)
+            {
+                switch (card.type)
+                {
+                    case CardType.Attack:
+                        enemyHealth.UpdateHealth(-card.magnitude);
+                        enemyHealth.UpdateHealthText();
+                        break;
+                    case CardType.Defence:
+                        playerHealth.AddTemporaryHP(card.magnitude);
+                        playerHealth.UpdateHealthText();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            _hand.RemoveAt(index);
             return false;
         }
     }

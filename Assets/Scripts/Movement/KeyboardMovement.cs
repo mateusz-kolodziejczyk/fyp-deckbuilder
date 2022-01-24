@@ -1,25 +1,28 @@
+using System;
 using Character;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 using MouseButton = UnityEngine.UIElements.MouseButton;
 
 namespace Movement
 {
+    [RequireComponent(typeof(CharacterData))]
     public class KeyboardMovement : MonoBehaviour
     {
         // code taken from https://forum.unity.com/threads/need-help-with-grid-based-movement-on-isometric-z-as-y-tilemap.931605/
-        [SerializeField]
-        private Tilemap _tilemap;
+        [FormerlySerializedAs("_tilemap")] [SerializeField]
+        private Tilemap tilemap;
  
-        private Vector3Int _currentCell;
+        private CharacterData _characterData;
  
         // Start is called before the first frame update
         void Start()
         {
-            _currentCell = Vector3Int.zero;
+            _characterData = GetComponent<CharacterData>();
             // start at 0
-            transform.position = _tilemap.CellToLocal(_currentCell);
+            transform.position = tilemap.CellToLocal(_characterData.Position);
         }
  
         // Update is called once per frame
@@ -40,22 +43,30 @@ namespace Movement
                 return;
             }
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int gridPos = _tilemap.WorldToCell(mousePos);
-            if (!_tilemap.HasTile(gridPos))
+            Vector3Int gridPos = tilemap.WorldToCell(mousePos);
+            if (!tilemap.HasTile(gridPos))
             {
                 return;
             }
-            _currentCell = gridPos;
+            // Get the manhattan distance to calculate where the player can move
+            int distance = Math.Abs(_characterData.Position.x - gridPos.x) +
+                           Math.Abs(_characterData.Position.y - gridPos.y);
+            if (distance > _characterData.MovementSpeed)
+            {
+                return;
+            }
+            
+            _characterData.Position = gridPos;
             Debug.Log(gridPos.x + "," + gridPos.y);
-            var newPos = _tilemap.CellToLocal(gridPos);
+            var newPos = tilemap.CellToLocal(gridPos);
             transform.position = newPos;
-            Debug.Log(_tilemap.size);
+            Debug.Log(tilemap.size);
         }
  
         void UpdateCurrentCell(Vector3Int offset)
         {
-            _currentCell += offset;
-            transform.position = _tilemap.CellToLocal(_currentCell);
+            _characterData.Position += offset;
+            transform.position = tilemap.CellToLocal(_characterData.Position);
         }
     }
 }
