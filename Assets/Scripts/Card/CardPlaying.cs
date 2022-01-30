@@ -12,11 +12,12 @@ using UnityEngine;
 namespace Card
 {
     [RequireComponent(typeof(Deck))]
+    [RequireComponent(typeof(PlayerTurn))]
     public class CardPlaying : MonoBehaviour
     {
-        private Deck _deck;
+        private Deck deck;
 
-        [NotNull] private List<CardScriptableObject> _hand = new ();
+        [NotNull] private List<CardScriptableObject> hand = new ();
 
         [SerializeField] 
         private Health enemyHealth;
@@ -24,27 +25,42 @@ namespace Card
         [SerializeField]
         private GameObject uiDeck;
 
-        private DeckDrawer _deckDrawer;
+        private DeckDrawer deckDrawer;
+
+        private PlayerTurn playerTurn;
+        
+        
 
 
         // Start is called before the first frame update
         private void Start()
         {
-            _deck = GetComponent<Deck>();
-            _deckDrawer = uiDeck.GetComponent<DeckDrawer>();
+            playerTurn = GetComponent<PlayerTurn>();
+            
+            deck = GetComponent<Deck>();
+            deckDrawer = uiDeck.GetComponent<DeckDrawer>();
         }
 
         // Update is called once per frame
         private void Update()
         {
-            if (_deckDrawer != null)
+            if (!playerTurn.IsPlayerTurn())
             {
-                _deckDrawer.UpdateCards(_hand);
+                return;
+            }
+            if (deckDrawer != null)
+            {
+                deckDrawer.UpdateCards(hand);
             }
             
             if (Input.GetKeyDown(KeyCode.D))
             {
                 DrawCards();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                playerTurn.FinishTurn();
             }
         }
 
@@ -62,30 +78,36 @@ namespace Card
             {
                 // TODO Max hand size check, compare to number of cards in hand already
                 // Set it to 5 for now, as only 5 cards are displayed
-                if (_hand.Count >= 5)
+                if (hand.Count >= 5)
                 {
                     return;
                 }
                 
-                var c = _deck.DrawCard();
+                var c = deck.DrawCard();
 
                 // Drawing a card might result in a null
                 // TODO Reshuffle used cards into the deck after all cards are exhausted.
                 if (c != null)
                 {
-                    _hand.Add(c);
+                    hand.Add(c);
                 }
             }
         }
 
         public bool PlayCard(int index)
         {
-            if (index < 0 || index >= _hand.Count)
+            // If it's not the player's turn, do not allow playing cards.
+            if (!playerTurn.IsPlayerTurn())
+            {
+                return false;
+            }
+            
+            if (index < 0 || index >= hand.Count)
             {
                 return false;
             }
 
-            var c = _hand[index];
+            var c = hand[index];
             // Play the card
             Debug.Log($"Card Played \n Name: {c.prefabName} Description: {c.description}");
 
@@ -106,8 +128,8 @@ namespace Card
                         break;
                 }
             }
-            _hand.RemoveAt(index);
-            return false;
+            hand.RemoveAt(index);
+            return true;
         }
     }
 }
