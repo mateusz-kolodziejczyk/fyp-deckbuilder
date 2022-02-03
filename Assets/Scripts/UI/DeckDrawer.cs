@@ -3,6 +3,7 @@ using Card;
 using ScriptableObjects;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI
 {
@@ -49,6 +50,8 @@ namespace UI
 
                 var cardName = card.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
                 var description= card.transform.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>();
+                var resourceCost = card.transform.GetChild(3).GetChild(1).GetComponent<TextMeshProUGUI>();
+                
                 // Make sure the card contains both a name and description
                 if (cardName == null || description == null)
                 {
@@ -64,6 +67,7 @@ namespace UI
                 
                 cardName.text = newCards[i].prefabName;
                 description.text = newCards[i].description;
+                resourceCost.text = newCards[i].resourceCost.ToString();
             }
         }
     }

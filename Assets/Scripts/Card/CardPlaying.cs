@@ -13,6 +13,7 @@ namespace Card
 {
     [RequireComponent(typeof(Deck))]
     [RequireComponent(typeof(PlayerTurn))]
+    [RequireComponent(typeof(Resource))]
     public class CardPlaying : MonoBehaviour
     {
         private Deck deck;
@@ -28,9 +29,10 @@ namespace Card
         private DeckDrawer deckDrawer;
 
         private PlayerTurn playerTurn;
-        
-        
 
+        private CharacterData characterData;
+
+        private Resource resource;
 
         // Start is called before the first frame update
         private void Start()
@@ -39,6 +41,8 @@ namespace Card
             
             deck = GetComponent<Deck>();
             deckDrawer = uiDeck.GetComponent<DeckDrawer>();
+            characterData = GetComponent<CharacterData>();
+            resource = GetComponent<Resource>();
         }
 
         // Update is called once per frame
@@ -108,6 +112,15 @@ namespace Card
             }
 
             var c = hand[index];
+            // Make sure the player has enough resource to play the card
+            if (!resource.HasEnoughResources(c.resourceCost))
+            {
+                return false;
+            }
+            // Otherwise remove the resource amount from the player equivalent to the cost of the card
+            resource.UpdateResources(-c.resourceCost);
+            // Update the resource cost text
+            resource.UpdateText();
             // Play the card
             Debug.Log($"Card Played \n Name: {c.prefabName} Description: {c.description}");
 

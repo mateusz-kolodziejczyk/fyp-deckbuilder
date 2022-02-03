@@ -12,6 +12,7 @@ namespace Character
 
         [SerializeField] private Vector3Int position;
 
+        [SerializeField] private int resourceAmount;
         public Vector3Int Position
         {
             get => position;
@@ -30,7 +31,20 @@ namespace Character
             set => hitPoints = value;
         }
 
-        public int MAXHitPoints { get; set; }
+        public int MAXResource
+        {
+            get;
+            private set;
+        }
+
+        public int ResourceAmount
+        {
+            get => resourceAmount;
+            set => resourceAmount = value;
+        }
+        
+
+        public int MAXHitPoints { get; private set; }
         public int TemporaryHitPoints { get; set; } = 0;
 
         public string Tag { get; set; }
@@ -39,6 +53,7 @@ namespace Character
         {
             Tag = gameObject.tag;
             MAXHitPoints = hitPoints;
+            MAXResource = resourceAmount;
         }
         
         public CharacterData()
