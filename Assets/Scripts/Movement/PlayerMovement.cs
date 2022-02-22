@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Character;
 using Helper;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -25,6 +26,10 @@ namespace Movement
         private bool isShowingMovementRange = false;
 
         private HashSet<Vector3Int> movableSquares = new HashSet<Vector3Int>();
+
+        [SerializeField]
+        private TextMeshProUGUI movementPointsText;
+        
         // Start is called before the first frame update
         void Start()
         {
@@ -33,13 +38,13 @@ namespace Movement
             characterData = GetComponent<CharacterData>();
             // start at 0
             transform.position = tilemap.CellToLocal(characterData.Position);
+
+            movementPointsText.text = $"{characterData.MovementSpeed}/{characterData.MovementSpeed}";
         }
  
         // Update is called once per frame
         void Update()
         {
-
-
             if (!playerTurn.IsPlayerTurn())
             {
                 return;
@@ -55,7 +60,7 @@ namespace Movement
             {
                 UpdateCurrentCellMouse();
             }
-
+            movementPointsText.text = $"{characterData.MovementPoints}/{characterData.MovementSpeed}";
         }
 
         void UpdateCurrentCellMouse()
@@ -96,7 +101,7 @@ namespace Movement
             transform.position = tilemap.CellToLocal(characterData.Position);
         }
 
-        private void ShowMovementRange()
+        public void ShowMovementRange()
         {
             var startPos = characterData.Position;
             // Color moveable tiles black
@@ -141,7 +146,7 @@ namespace Movement
             }
         }
 
-        private void CleanupMovementRange()
+        public void CleanupMovementRange()
         {
             foreach (var movableSquare in movableSquares)
             {

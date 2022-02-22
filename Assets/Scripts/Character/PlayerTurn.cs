@@ -1,5 +1,6 @@
 using Card;
 using Enums;
+using Movement;
 using TMPro;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ namespace Character
 
         private CardPlaying cardPlaying;
         private CharacterData characterData;
+        private PlayerMovement playerMovement;
 
         // This controls things that happen at the start of the player turn(draw cards, replenish energy)
         private bool finishedTurnSetup = false;
@@ -23,6 +25,7 @@ namespace Character
         {
             cardPlaying = GetComponent<CardPlaying>();
             characterData = GetComponent<CharacterData>();
+            playerMovement = GetComponent<PlayerMovement>();
             
             turnManager = GameObject.FindWithTag("TurnManager").GetComponent<TurnManagement>();
             if (turnManager == null)
@@ -44,6 +47,9 @@ namespace Character
             
             cardPlaying.DrawCards();
             characterData.ResourceAmount = characterData.MAXResource;
+            characterData.ResetMovementPoints();
+            playerMovement.CleanupMovementRange();
+            playerMovement.ShowMovementRange();
             finishedTurnSetup = true;
         }
 
