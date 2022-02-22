@@ -72,7 +72,7 @@ namespace Movement
             }
             // Get the manhattan distance to calculate where the player can move
             int distance = DistanceHelpers.Vector3IntManhattanDistance(characterData.Position, gridPos);
-            if (distance > characterData.MovementSpeed)
+            if (distance > characterData.MovementPoints)
             {
                 return;
             }
@@ -85,6 +85,9 @@ namespace Movement
             // Cleanup the movement range visual
             CleanupMovementRange();
             isShowingMovementRange = false;
+            
+            // Lower Available movement points
+            characterData.UseMovementPoints(distance);
         }
  
         void UpdateCurrentCell(Vector3Int offset)
@@ -116,8 +119,8 @@ namespace Movement
                 var pos = queue.Dequeue();
                 if (!visited.Contains(pos))
                 {
-                    // If current node's distance to the start is the same as movement speed, return
-                    if (DistanceHelpers.Vector3IntManhattanDistance(pos, startPos) >= characterData.MovementSpeed)
+                    // If current node's distance to the start is the same as movement points, return
+                    if (DistanceHelpers.Vector3IntManhattanDistance(pos, startPos) >= characterData.MovementPoints)
                     {
                         return;
                     }

@@ -22,13 +22,19 @@ namespace Character
         public int MovementSpeed
         {
             get => movementSpeed;
-            set => movementSpeed = value;
+            private set => movementSpeed = value;
         }
 
         public int HitPoints
         {
             get => hitPoints;
             set => hitPoints = value;
+        }
+
+        public int MovementPoints
+        {
+            get;
+            private set;
         }
 
         public int MAXResource
@@ -54,6 +60,7 @@ namespace Character
             Tag = gameObject.tag;
             MAXHitPoints = hitPoints;
             MAXResource = resourceAmount;
+            MovementPoints = movementSpeed;
         }
         
         public CharacterData()
@@ -65,6 +72,20 @@ namespace Character
         public CharacterData(int hitPoints)
         {
             HitPoints = hitPoints;
+        }
+
+        public void UseMovementPoints(int pointsToUse)
+        {
+            MovementPoints -= pointsToUse;
+            if (MovementPoints < 0)
+            {
+                MovementPoints = 0;
+            }
+        }
+
+        public void ResetMovementPoints()
+        {
+            MovementPoints = MovementSpeed;
         }
         
     }
