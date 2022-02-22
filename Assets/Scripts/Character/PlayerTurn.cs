@@ -1,3 +1,4 @@
+using Card;
 using Enums;
 using TMPro;
 using UnityEngine;
@@ -11,9 +12,18 @@ namespace Character
         [SerializeField] 
         private TextMeshProUGUI turnIndicator;
 
+        private CardPlaying cardPlaying;
+        private CharacterData characterData;
+
+        // This controls things that happen at the start of the player turn(draw cards, replenish energy)
+        private bool finishedTurnSetup = false;
+
         // Start is called before the first frame update
         void Start()
         {
+            cardPlaying = GetComponent<CardPlaying>();
+            characterData = GetComponent<CharacterData>();
+            
             turnManager = GameObject.FindWithTag("TurnManager").GetComponent<TurnManagement>();
             if (turnManager == null)
             {
@@ -27,11 +37,19 @@ namespace Character
         // Update is called once per frame
         void Update()
         {
-        
+            if (finishedTurnSetup || turnManager.CurrentTurn != Turn.Player)
+            {
+                return;
+            }
+            
+            cardPlaying.DrawCards();
+            characterData.ResourceAmount = characterData.MAXResource;
+            finishedTurnSetup = true;
         }
 
         public void FinishTurn()
         {
+            finishedTurnSetup = false;
             turnManager.FinishPlayerTurn();
             updateText();
         }
