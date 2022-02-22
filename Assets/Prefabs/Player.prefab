@@ -13,9 +13,11 @@ GameObject:
   - component: {fileID: 1875848751212212744}
   - component: {fileID: 1875848751212212747}
   - component: {fileID: 783666116}
+  - component: {fileID: 783666117}
+  - component: {fileID: 3823364092059780508}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,7 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a868b9a6a50474cacb76272411bbff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tilemap: {fileID: 0}
+  tilemap: {fileID: 0}
 --- !u!114 &1875848751212212747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,4 +137,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c62659601897f3642b32468926e89f59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyHealth: {fileID: 0}
   uiDeck: {fileID: 0}
+--- !u!114 &783666117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875848751212212855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ddd0445e6a70b949b1b19a061a27759, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthText: {fileID: 0}
+--- !u!114 &3823364092059780508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875848751212212855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 058607602b6459e4d9fcb6bbf7ef1d05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

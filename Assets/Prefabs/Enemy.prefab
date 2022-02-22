@@ -11,9 +11,12 @@ GameObject:
   - component: {fileID: 5437333419950350167}
   - component: {fileID: 3368613426320608274}
   - component: {fileID: 4293070606737943321}
+  - component: {fileID: 1833609231}
+  - component: {fileID: 1833609232}
+  - component: {fileID: 1557712097988107109}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -95,5 +98,46 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f67bc180ffd1f9489f7c3b259378302, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1833609231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2958106504354438867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ddd0445e6a70b949b1b19a061a27759, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthText: {fileID: 0}
+--- !u!114 &1833609232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2958106504354438867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b759d69208c6fc49b695a6a27e4af50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitPoints: 20
+  movementSpeed: 0
+  position: {x: 0, y: 0, z: 0}
+  resourceAmount: 0
+--- !u!114 &1557712097988107109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2958106504354438867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 754577b3091ae4548b7f059bb730d67c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
