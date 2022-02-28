@@ -3,14 +3,14 @@ using UnityEngine.SceneManagement;
 
 namespace SceneManagement
 {
-    public class SceneMovement : MonoBehaviour
+    public static class SceneMovement
     {
-        public void loadMainMenu()
+        public static void loadMainMenu()
         {
             SceneManager.LoadScene(0);
         }
 
-        public void loadCombat()
+        public static void loadCombat()
         {
             SceneManager.LoadScene(1);
         }
