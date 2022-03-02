@@ -2621,6 +2621,10 @@ PrefabInstance:
       propertyPath: movementPointsText
       value: 
       objectReference: {fileID: 197250777}
+    - target: {fileID: 1875848751212212745, guid: aa39228571e906a4cb84a7c8522159d6, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8d1442b63c712aa438c96b8786cfff7c, type: 3}
     - target: {fileID: 1875848751212212746, guid: aa39228571e906a4cb84a7c8522159d6, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -2702,6 +2706,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 3368613426320608274, guid: b76b2968286fee3499b1c14773607e6e, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 29ae68c51668571438b668649add205d, type: 3}
     - target: {fileID: 5437333419950350167, guid: b76b2968286fee3499b1c14773607e6e, type: 3}
       propertyPath: m_RootOrder
       value: 5

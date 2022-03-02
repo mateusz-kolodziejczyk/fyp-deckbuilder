@@ -6,9 +6,11 @@ using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(EnemyMovement))]
+[RequireComponent(typeof(Intent))]
 public class EnemyTurn : MonoBehaviour
 {
     private EnemyMovement enemyMovement;
+    private Intent intent;
     private TurnManagement turnManager;
     [SerializeField] 
     private TextMeshProUGUI turnIndicator;
@@ -16,6 +18,7 @@ public class EnemyTurn : MonoBehaviour
     void Start()
     {
         enemyMovement = GetComponent<EnemyMovement>();
+        intent = GetComponent<Intent>();
         turnManager = GameObject.FindWithTag("TurnManager").GetComponent<TurnManagement>();
         if (turnManager == null)
         {
@@ -30,7 +33,9 @@ public class EnemyTurn : MonoBehaviour
     {
         if (turnManager.CurrentTurn == Turn.Enemy)
         {
+            intent.ClearIntent();
             enemyMovement.Move(new Vector3Int(1,0));
+            intent.DrawIntent();
             turnManager.AdvanceTurn();
             SetTurnText();
         }

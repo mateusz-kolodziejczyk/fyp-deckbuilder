@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Character;
 using Helper;
 using TMPro;
@@ -124,10 +125,10 @@ namespace Movement
                 var pos = queue.Dequeue();
                 if (!visited.Contains(pos))
                 {
-                    // If current node's distance to the start is the same as movement points, return
+                    // If current node's distance to the start is the same as movement points, break
                     if (DistanceHelpers.Vector3IntManhattanDistance(pos, startPos) >= characterData.MovementPoints)
                     {
-                        return;
+                        break;
                     }
                     visited.Add(pos);
                     foreach (var adjacentAdd in adjacentAddition)
@@ -135,8 +136,6 @@ namespace Movement
                         var adjacent = adjacentAdd + pos;
                         if (tilemap.HasTile(adjacent))
                         {
-                            tilemap.SetTileFlags(adjacent, TileFlags.None);
-                            tilemap.SetColor(adjacent, Color.magenta);
                             movableSquares.Add(adjacent);
                             queue.Enqueue(adjacent);
                         }
@@ -144,14 +143,12 @@ namespace Movement
                     }
                 }
             }
+            GridPainter.PaintSquares(ref tilemap, movableSquares.ToList(), Color.magenta);
         }
 
         public void CleanupMovementRange()
         {
-            foreach (var movableSquare in movableSquares)
-            {
-                tilemap.SetColor(movableSquare, Color.white);
-            }
+            GridPainter.ResetSquares(ref tilemap, movableSquares.ToList());
             movableSquares.Clear();
         }
     }
