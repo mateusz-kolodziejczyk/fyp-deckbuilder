@@ -14,6 +14,10 @@ public class EnemyTurn : MonoBehaviour
     private TurnManagement turnManager;
     [SerializeField] 
     private TextMeshProUGUI turnIndicator;
+
+    private EnemyAttack enemyAttack;
+
+    private bool attacked = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +30,7 @@ public class EnemyTurn : MonoBehaviour
             return;
         }
         SetTurnText();
+        enemyAttack = GetComponent<EnemyAttack>();
     }
 
     // Update is called once per frame
@@ -33,11 +38,20 @@ public class EnemyTurn : MonoBehaviour
     {
         if (turnManager.CurrentTurn == Turn.Enemy)
         {
+            attacked = false;
             intent.ClearIntent();
             enemyMovement.Move(new Vector3Int(1,0));
+            enemyAttack.CalculateSquaresToAttack();
             intent.DrawIntent();
             turnManager.AdvanceTurn();
             SetTurnText();
+        }
+
+        // Attack only once at the start of the player's turn.
+        if (!attacked && turnManager.CurrentTurn == Turn.Player)
+        {
+            enemyAttack.Attack();
+            attacked = true;
         }
     }
 

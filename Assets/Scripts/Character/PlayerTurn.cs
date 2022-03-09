@@ -51,6 +51,8 @@ namespace Character
             playerMovement.CleanupMovementRange();
             playerMovement.ShowMovementRange();
             finishedTurnSetup = true;
+            
+            Debug.Log(characterData.HitPoints);
         }
 
         public void FinishTurn()
