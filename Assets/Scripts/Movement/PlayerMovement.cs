@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Character;
+using Enums;
 using Helper;
 using TMPro;
 using Unity.VisualScripting;
@@ -30,6 +31,8 @@ namespace Movement
 
         [SerializeField]
         private TextMeshProUGUI movementPointsText;
+
+        private DrawSquares drawSquares;
         
         // Start is called before the first frame update
         void Start()
@@ -41,6 +44,15 @@ namespace Movement
             transform.position = tilemap.CellToLocal(characterData.Position);
 
             movementPointsText.text = $"{characterData.MovementSpeed}/{characterData.MovementSpeed}";
+            
+            var gridDrawerController = GameObject.FindWithTag("GridDrawerController");
+            if (gridDrawerController != null)
+            {
+                if (gridDrawerController.TryGetComponent(out DrawSquares drawSquares))
+                {
+                    this.drawSquares = drawSquares;
+                }
+            }
         }
  
         // Update is called once per frame
@@ -143,12 +155,19 @@ namespace Movement
                     }
                 }
             }
-            GridPainter.PaintSquares(ref tilemap, movableSquares.ToList(), Color.magenta);
+
+            if (drawSquares != null)
+            {
+                drawSquares.DrawHighlights(movableSquares.ToList(), EntityType.Player);
+            }
         }
 
         public void CleanupMovementRange()
         {
-            GridPainter.ResetSquares(ref tilemap, movableSquares.ToList());
+            if (drawSquares != null)
+            {
+                drawSquares.ResetHighlights(movableSquares.ToList(), EntityType.Player);
+            }            
             movableSquares.Clear();
         }
     }

@@ -15,6 +15,9 @@ GameObject:
   - component: {fileID: 783666116}
   - component: {fileID: 783666117}
   - component: {fileID: 3823364092059780508}
+  - component: {fileID: 8337417312793649789}
+  - component: {fileID: 3745544313155623843}
+  - component: {fileID: 1504920758120794015}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -75,8 +78,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1253681955
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 8d1442b63c712aa438c96b8786cfff7c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -165,3 +168,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 058607602b6459e4d9fcb6bbf7ef1d05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8337417312793649789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875848751212212855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b759d69208c6fc49b695a6a27e4af50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitPoints: 100
+  movementSpeed: 3
+  position: {x: 0, y: 0, z: 0}
+  resourceAmount: 3
+--- !u!114 &3745544313155623843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875848751212212855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7757d72bc2b57bf4e844e969410b79c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnIndicator: {fileID: 0}
+--- !u!114 &1504920758120794015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875848751212212855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57c32de0d1444aae8e247a452d436c9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourceText: {fileID: 0}

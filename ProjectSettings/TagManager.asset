@@ -7,6 +7,9 @@ TagManager:
   - Enemy
   - TurnManager
   - TileMap
+  - GridDrawerController
+  - PlayerHighlight
+  - EnemyHighlight
   layers:
   - Default
   - TransparentFX
@@ -14,7 +17,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Background
   - 
   - 
   - 
@@ -41,6 +44,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 2896367985
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: TileMap
+    uniqueID: 4196125623
+    locked: 0
+  - name: Highlight
+    uniqueID: 4102393795
+    locked: 0
+  - name: Character
+    uniqueID: 1253681955
     locked: 0
