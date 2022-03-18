@@ -10,6 +10,8 @@ namespace ScriptableObjects
         
         public int resourceCost;
         public int goldValue;
+
+        public int range;
         
         public string description;
     }

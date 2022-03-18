@@ -22,7 +22,7 @@ namespace Card
         {
             if (deckDrawer != null)
             {
-                deckDrawer.CardPlayer.PlayCard(_index);
+                deckDrawer.CardPlayer.SelectCard(_index);
             }
         }
     }

@@ -10,6 +10,7 @@ TagManager:
   - GridDrawerController
   - PlayerHighlight
   - EnemyHighlight
+  - UIDeck
   layers:
   - Default
   - TransparentFX

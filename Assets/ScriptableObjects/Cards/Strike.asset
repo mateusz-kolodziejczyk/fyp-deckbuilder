@@ -15,6 +15,7 @@ MonoBehaviour:
   prefabName: Strike
   resourceCost: 1
   goldValue: 10
+  range: 3
   description: Do 4 Damage
   type: 0
   magnitude: 4

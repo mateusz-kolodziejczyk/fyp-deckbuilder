@@ -17,10 +17,17 @@ namespace Character
         private CharacterData characterData;
         private PlayerMovement playerMovement;
 
+        private CardTarget cardTarget;
         // This controls things that happen at the start of the player turn(draw cards, replenish energy)
         private bool finishedTurnSetup = false;
 
         private PlayerState state = PlayerState.Idle;
+        
+        public PlayerState State
+        {
+            get => state;
+            set => state = value;
+        }
 
         private PlayerInput input;
 
@@ -30,6 +37,8 @@ namespace Character
             cardPlaying = GetComponent<CardPlaying>();
             characterData = GetComponent<CharacterData>();
             playerMovement = GetComponent<PlayerMovement>();
+            cardTarget = GetComponent<CardTarget>();
+            
             input = GetComponent<PlayerInput>();
             
             turnManager = GameObject.FindWithTag("TurnManager").GetComponent<TurnManagement>();
@@ -61,6 +70,7 @@ namespace Character
                     playerMovement.ShowMovementRange();
                     break;
                 case PlayerState.Targeting:
+                    cardTarget.HighlightTargetSquares();
                     break;
                 case PlayerState.EndTurn:
                     FinishTurn();
@@ -68,8 +78,12 @@ namespace Character
                 default:
                     break;
             }
-            
-            Debug.Log(state);
+            // If not targeting, clear the target squares
+            if (state != PlayerState.Targeting)
+            {
+                cardTarget.ClearTargetSquares();
+
+            }
             if (finishedTurnSetup)
             {
                 return;
@@ -79,6 +93,7 @@ namespace Character
             characterData.ResourceAmount = characterData.MAXResource;
             characterData.ResetMovementPoints();
             playerMovement.CleanupMovementRange();
+            cardTarget.ClearTargetSquares();
             finishedTurnSetup = true;
             
             Debug.Log(characterData.HitPoints);

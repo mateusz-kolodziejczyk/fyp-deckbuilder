@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Character;
 using Enums;
+using Helper;
 using ScriptableObjects;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -38,7 +39,7 @@ public class EnemyAttack : MonoBehaviour
     public void CalculateSquaresToAttack()
     {
         currentAbility = abilityChooser.GetNextAbility();
-        var directions = new List<Vector3Int> {Vector3Int.up, Vector3Int.down, Vector3Int.left, Vector3Int.right};
+        var directions = HelperConstants.adjacentAddition;
         foreach (var direction in directions)
         {
             for (int i = 1; i <= currentAbility.range; i++)

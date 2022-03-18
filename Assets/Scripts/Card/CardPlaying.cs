@@ -23,8 +23,6 @@ namespace Card
         [SerializeField] 
         private Health enemyHealth;
             
-        [SerializeField]
-        private GameObject uiDeck;
 
         private DeckDrawer deckDrawer;
 
@@ -34,13 +32,15 @@ namespace Card
 
         private Resource resource;
 
+        private int currentCardIndex = -1;
+
         // Start is called before the first frame update
         private void Start()
         {
             playerTurn = GetComponent<PlayerTurn>();
             
             deck = GetComponent<Deck>();
-            deckDrawer = uiDeck.GetComponent<DeckDrawer>();
+            deckDrawer = GameObject.FindWithTag("UIDeck").GetComponent<DeckDrawer>();
             characterData = GetComponent<CharacterData>();
             resource = GetComponent<Resource>();
         }
@@ -88,25 +88,24 @@ namespace Card
             }
         }
 
-        public bool PlayCard(int index)
+        public CardScriptableObject GetCurrentCard()
         {
-            // If it's not the player's turn, do not allow playing cards.
-            if (!playerTurn.IsPlayerTurn())
+            if (hand.ElementAtOrDefault(currentCardIndex) != null)
             {
-                return false;
-            }
-            
-            if (index < 0 || index >= hand.Count)
-            {
-                return false;
+                return hand[currentCardIndex];
             }
 
-            var c = hand[index];
-            // Make sure the player has enough resource to play the card
-            if (!resource.HasEnoughResources(c.resourceCost))
+            return null;
+        }
+
+        public void PlayCard()
+        {
+            if (hand.ElementAtOrDefault(currentCardIndex) == null)
             {
-                return false;
+                return;
             }
+            
+            var c = hand[currentCardIndex];
             // Otherwise remove the resource amount from the player equivalent to the cost of the card
             resource.UpdateResources(-c.resourceCost);
             // Update the resource cost text
@@ -131,8 +130,54 @@ namespace Card
                         break;
                 }
             }
-            hand.RemoveAt(index);
-            return true;
+            hand.RemoveAt(currentCardIndex);
+        }
+
+        public void DeselectCard()
+        {
+            currentCardIndex = -1;
+            deckDrawer.UnhighlightCards();
+        }
+        
+        public void SelectCard(int index)
+        {
+            // If it's not the player's turn, do not allow playing cards.
+            if (!playerTurn.IsPlayerTurn())
+            {
+                return;
+            }
+            // If index is teh same as the current index, deselect card
+            if (index == currentCardIndex)
+            {
+                DeselectCard();
+                playerTurn.State = PlayerState.Idle;
+                return;
+            }
+            if (index < 0 || index >= hand.Count)
+            {
+                return;
+            }
+
+            var c = hand[index];
+            // Make sure the player has enough resource to play the card
+            if (!resource.HasEnoughResources(c.resourceCost))
+            {
+                return;
+            }
+            
+                        
+            
+            // set the current card id to whatever was selected
+            currentCardIndex = index;
+            
+            // Unhighlight other cards
+            deckDrawer.UnhighlightCards();
+
+            // Highlight the card
+            deckDrawer.HighlightCard(currentCardIndex);
+            
+            // Set the playeturn state to "targeting"
+            playerTurn.State = PlayerState.Targeting;
         }
     }
 }
