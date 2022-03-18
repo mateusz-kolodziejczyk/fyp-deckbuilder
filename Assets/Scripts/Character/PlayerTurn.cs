@@ -20,12 +20,17 @@ namespace Character
         // This controls things that happen at the start of the player turn(draw cards, replenish energy)
         private bool finishedTurnSetup = false;
 
+        private PlayerState state = PlayerState.Idle;
+
+        private PlayerInput input;
+
         // Start is called before the first frame update
         void Start()
         {
             cardPlaying = GetComponent<CardPlaying>();
             characterData = GetComponent<CharacterData>();
             playerMovement = GetComponent<PlayerMovement>();
+            input = GetComponent<PlayerInput>();
             
             turnManager = GameObject.FindWithTag("TurnManager").GetComponent<TurnManagement>();
             if (turnManager == null)
@@ -40,7 +45,32 @@ namespace Character
         // Update is called once per frame
         void Update()
         {
-            if (finishedTurnSetup || turnManager.CurrentTurn != Turn.Player)
+
+            
+            if (turnManager.CurrentTurn != Turn.Player)
+            {
+                return;
+            }
+            // Get input and update state at the same time
+            state = input.HandleInput(state);
+            
+            // Depending on the state of the player, either draw movement or current card
+            switch (state)
+            {
+                case PlayerState.Moving:
+                    playerMovement.ShowMovementRange();
+                    break;
+                case PlayerState.Targeting:
+                    break;
+                case PlayerState.EndTurn:
+                    FinishTurn();
+                    break;
+                default:
+                    break;
+            }
+            
+            Debug.Log(state);
+            if (finishedTurnSetup)
             {
                 return;
             }
@@ -49,7 +79,6 @@ namespace Character
             characterData.ResourceAmount = characterData.MAXResource;
             characterData.ResetMovementPoints();
             playerMovement.CleanupMovementRange();
-            playerMovement.ShowMovementRange();
             finishedTurnSetup = true;
             
             Debug.Log(characterData.HitPoints);
@@ -60,6 +89,7 @@ namespace Character
             finishedTurnSetup = false;
             turnManager.FinishPlayerTurn();
             updateText();
+            state = PlayerState.Idle;
         }
 
         public bool IsPlayerTurn()

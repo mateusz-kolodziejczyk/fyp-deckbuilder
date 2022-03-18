@@ -62,21 +62,11 @@ namespace Movement
             {
                 return;
             }
-            
-            if (isShowingMovementRange == false)
-            {
-                ShowMovementRange();
-                isShowingMovementRange = true;
-            }
-            
-            if (Input.GetMouseButtonDown(0))
-            {
-                UpdateCurrentCellMouse();
-            }
+
             movementPointsText.text = $"{characterData.MovementPoints}/{characterData.MovementSpeed}";
         }
 
-        void UpdateCurrentCellMouse()
+        public void UpdateCurrentCellMouse()
         {
             if (Camera.main is null)
             {
@@ -102,7 +92,6 @@ namespace Movement
             
             // Cleanup the movement range visual
             CleanupMovementRange();
-            isShowingMovementRange = false;
             
             // Lower Available movement points
             characterData.UseMovementPoints(distance);
@@ -116,6 +105,11 @@ namespace Movement
 
         public void ShowMovementRange()
         {
+            // Do not recalculate movement range if it has already been done
+            if (isShowingMovementRange)
+            {
+                return;
+            }
             var startPos = characterData.Position;
             // Color moveable tiles black
 
@@ -160,6 +154,9 @@ namespace Movement
             {
                 drawSquares.DrawHighlights(movableSquares.ToList(), EntityType.Player);
             }
+            
+            // Set the flag to true
+            isShowingMovementRange = true;
         }
 
         public void CleanupMovementRange()
@@ -169,6 +166,8 @@ namespace Movement
                 drawSquares.ResetHighlights(movableSquares.ToList(), EntityType.Player);
             }            
             movableSquares.Clear();
+            // Reset flag
+            isShowingMovementRange = false;
         }
     }
 }

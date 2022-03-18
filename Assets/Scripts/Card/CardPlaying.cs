@@ -56,16 +56,6 @@ namespace Card
             {
                 deckDrawer.UpdateCards(hand);
             }
-            
-            if (Input.GetKeyDown(KeyCode.D))
-            {
-                DrawCards();
-            }
-
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                playerTurn.FinishTurn();
-            }
         }
 
         // Modifier modifies the number of cards drawn.

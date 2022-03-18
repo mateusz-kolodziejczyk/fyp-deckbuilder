@@ -8,6 +8,6 @@ public class LevelClick : MonoBehaviour, IPointerClickHandler
 {
     public void OnPointerClick(PointerEventData eventData)
     {
-        SceneMovement.loadCombat();
+        SceneMovement.LoadCombat();
     }
 }
