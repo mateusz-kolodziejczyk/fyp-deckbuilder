@@ -38,7 +38,7 @@ public class Intent : MonoBehaviour
         var squaresToPaint = enemyAttack.SquaresToAttack;
         if (drawSquares != null)
         {
-            drawSquares.DrawHighlights(squaresToPaint, EntityType.Enemy);
+            drawSquares.DrawHighlights(squaresToPaint, HighlightType.EnemyAttack);
         }
         paintedTiles = squaresToPaint;
     }
@@ -47,7 +47,7 @@ public class Intent : MonoBehaviour
     {
         if (drawSquares != null)
         {
-            drawSquares.ResetHighlights(paintedTiles, EntityType.Enemy);
+            drawSquares.ResetHighlights(paintedTiles, HighlightType.EnemyAttack);
 
         }
         paintedTiles.Clear();

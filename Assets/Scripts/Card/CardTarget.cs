@@ -39,7 +39,7 @@ namespace Card
                 return;
             }
             isHighlightingSquares = false;
-            drawSquares.ResetHighlights(highlightedSquares, EntityType.Player);
+            drawSquares.ResetHighlights(highlightedSquares, HighlightType.PlayerAttack);
         }
         public void HighlightTargetSquares()
         {
@@ -55,7 +55,7 @@ namespace Card
             }
 
             highlightedSquares = GridHighlightHelper.CalculateHightlightedSquares(data.Position, card.range);
-            drawSquares.DrawHighlights(highlightedSquares, EntityType.Player);
+            drawSquares.DrawHighlights(highlightedSquares, HighlightType.PlayerAttack);
             
             isHighlightingSquares = true;
         }

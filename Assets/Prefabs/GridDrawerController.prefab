@@ -46,4 +46,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHighlight: {fileID: 8086279366138111552, guid: 2115501ec23e0b44d9f08a5516425ca1, type: 3}
   enemyHighlight: {fileID: 8591841365022580671, guid: 12ec650c1912c2d41830fd5a9db08b2b, type: 3}
+  playerAttackHighlight: {fileID: 8086279366138111552, guid: b95ea1a12565aab40b6c1d321938e692, type: 3}
   tilemap: {fileID: 0}

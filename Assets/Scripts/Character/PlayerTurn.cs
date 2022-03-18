@@ -62,34 +62,46 @@ namespace Character
             }
             // Get input and update state at the same time
             state = input.HandleInput(state);
+            // If not targeting, clear the target squares
+            if (state != PlayerState.Targeting)
+            {
+
+
+            }
+            // If not moving, clear movement range
+            if (state != PlayerState.Moving)
+            {
+            }
             
             // Depending on the state of the player, either draw movement or current card
             switch (state)
             {
                 case PlayerState.Moving:
                     playerMovement.ShowMovementRange();
+                    cardTarget.ClearTargetSquares();
+                    cardPlaying.DeselectCard();
                     break;
                 case PlayerState.Targeting:
+                    playerMovement.CleanupMovementRange();
                     cardTarget.HighlightTargetSquares();
                     break;
                 case PlayerState.EndTurn:
+                    playerMovement.CleanupMovementRange();
+                    cardTarget.ClearTargetSquares();
+                    cardPlaying.DeselectCard();
                     FinishTurn();
                     break;
                 default:
                     break;
             }
-            // If not targeting, clear the target squares
-            if (state != PlayerState.Targeting)
-            {
-                cardTarget.ClearTargetSquares();
 
-            }
             if (finishedTurnSetup)
             {
                 return;
             }
             
             cardPlaying.DrawCards();
+            cardPlaying.DeselectCard();
             characterData.ResourceAmount = characterData.MAXResource;
             characterData.ResetMovementPoints();
             playerMovement.CleanupMovementRange();

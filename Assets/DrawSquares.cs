@@ -7,13 +7,15 @@ using UnityEngine.Tilemaps;
 
 public class DrawSquares : MonoBehaviour
 {
-    private Dictionary<Vector3Int, GameObject> playerHighlights = new();
-    private Dictionary<Vector3Int, GameObject> enemyHighlights = new();
+    private Dictionary<Vector3Int, GameObject> playerMovementHighlights = new();
+    private Dictionary<Vector3Int, GameObject> enemyAttackHighlights = new();
+    private Dictionary<Vector3Int, GameObject> playerAttackHighlights = new();
 
-    private Dictionary<EntityType, Dictionary<Vector3Int, GameObject>> entityToHighlights = new();
+    private Dictionary<HighlightType, Dictionary<Vector3Int, GameObject>> typeToHighlights = new();
 
     [SerializeField] private GameObject playerHighlight;
     [SerializeField] private GameObject enemyHighlight;
+    [SerializeField] private GameObject playerAttackHighlight;
 
     [SerializeField] private Tilemap tilemap;
 
@@ -22,8 +24,9 @@ public class DrawSquares : MonoBehaviour
     void Start()
     {
         InitializeHighlights();
-        entityToHighlights[EntityType.Player] = playerHighlights;
-        entityToHighlights[EntityType.Enemy] = enemyHighlights;
+        typeToHighlights[HighlightType.PlayerMovement] = playerMovementHighlights;
+        typeToHighlights[HighlightType.EnemyAttack] = enemyAttackHighlights;
+        typeToHighlights[HighlightType.PlayerAttack] = playerAttackHighlights;
     }
 
     // Update is called once per frame
@@ -53,15 +56,18 @@ public class DrawSquares : MonoBehaviour
 
             var worldPos = new Vector3(tilemap.CellToWorld(pos).x, tilemap.CellToWorld(pos).y + yOffset,
                 tilemap.CellToWorld(pos).z);
+            
             // Draw highlight at position.
-            var newPlayerHighlight = Instantiate(playerHighlight, worldPos, Quaternion.identity);
-            var newEnemyHighlight = Instantiate(enemyHighlight, worldPos, Quaternion.identity);
+            var newPlayerMovementHighlight = Instantiate(playerHighlight, worldPos, Quaternion.identity);
+            var newEnemyAttackHighlight = Instantiate(enemyHighlight, worldPos, Quaternion.identity);
+            var newPlayerAttackHighlight = Instantiate(playerAttackHighlight, worldPos, Quaternion.identity);
+            playerMovementHighlights[pos] = newPlayerMovementHighlight;
+            enemyAttackHighlights[pos] = newEnemyAttackHighlight;
+            playerAttackHighlights[pos] = newPlayerAttackHighlight;
             
-            playerHighlights[pos] = newPlayerHighlight;
-            enemyHighlights[pos] = newEnemyHighlight;
-            
-            newPlayerHighlight.SetActive(false);
-            newEnemyHighlight.SetActive(false);
+            newPlayerMovementHighlight.SetActive(false);
+            newEnemyAttackHighlight.SetActive(false);
+            newPlayerAttackHighlight.SetActive(false);
             
             foreach (var adjacentAdd in HelperConstants.adjacentAddition)
             {
@@ -80,9 +86,9 @@ public class DrawSquares : MonoBehaviour
             }
         }
     }
-    public void DrawHighlights(List<Vector3Int> squareCoords, EntityType type)
+    public void DrawHighlights(List<Vector3Int> squareCoords, HighlightType type)
     {
-        var currentHighlights = entityToHighlights[type];
+        var currentHighlights = typeToHighlights[type];
         foreach (var coord in squareCoords)
         {
             if (currentHighlights.ContainsKey(coord))
@@ -93,15 +99,16 @@ public class DrawSquares : MonoBehaviour
 
     }
  
-    public void ResetHighlights(List<Vector3Int> squareCoords, EntityType type)
+    public void ResetHighlights(List<Vector3Int> squareCoords, HighlightType type)
     {
-        var currentHighlights = entityToHighlights[type];
+        var currentHighlights = typeToHighlights[type];
         foreach (var coord in squareCoords)
         {
             if (currentHighlights.ContainsKey(coord))
             {
                 currentHighlights[coord].SetActive(false);
-            }        }
+            }        
+        }
     }
     
 }

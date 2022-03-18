@@ -34,11 +34,13 @@ namespace Card
 
         private int currentCardIndex = -1;
 
+        private CardTarget cardTarget;
+
         // Start is called before the first frame update
         private void Start()
         {
             playerTurn = GetComponent<PlayerTurn>();
-            
+            cardTarget = GetComponent<CardTarget>();
             deck = GetComponent<Deck>();
             deckDrawer = GameObject.FindWithTag("UIDeck").GetComponent<DeckDrawer>();
             characterData = GetComponent<CharacterData>();
@@ -135,8 +137,11 @@ namespace Card
 
         public void DeselectCard()
         {
-            currentCardIndex = -1;
-            deckDrawer.UnhighlightCards();
+            if (currentCardIndex != -1)
+            {
+                currentCardIndex = -1;
+                deckDrawer.UnhighlightCards();
+            }
         }
         
         public void SelectCard(int index)
@@ -151,6 +156,7 @@ namespace Card
             {
                 DeselectCard();
                 playerTurn.State = PlayerState.Idle;
+                cardTarget.ClearTargetSquares();
                 return;
             }
             if (index < 0 || index >= hand.Count)
@@ -175,6 +181,12 @@ namespace Card
 
             // Highlight the card
             deckDrawer.HighlightCard(currentCardIndex);
+            
+            // Unhighlight currently highlighted squares
+            cardTarget.ClearTargetSquares();
+            
+            // Highlight new squares
+            cardTarget.HighlightTargetSquares();
             
             // Set the playeturn state to "targeting"
             playerTurn.State = PlayerState.Targeting;

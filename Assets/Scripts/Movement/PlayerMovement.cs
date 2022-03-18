@@ -152,7 +152,7 @@ namespace Movement
 
             if (drawSquares != null)
             {
-                drawSquares.DrawHighlights(movableSquares.ToList(), EntityType.Player);
+                drawSquares.DrawHighlights(movableSquares.ToList(), HighlightType.PlayerMovement);
             }
             
             // Set the flag to true
@@ -161,9 +161,13 @@ namespace Movement
 
         public void CleanupMovementRange()
         {
+            if (!isShowingMovementRange)
+            {
+                return;
+            }
             if (drawSquares != null)
             {
-                drawSquares.ResetHighlights(movableSquares.ToList(), EntityType.Player);
+                drawSquares.ResetHighlights(movableSquares.ToList(), HighlightType.PlayerMovement);
             }            
             movableSquares.Clear();
             // Reset flag

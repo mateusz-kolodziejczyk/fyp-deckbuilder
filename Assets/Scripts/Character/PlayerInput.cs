@@ -34,7 +34,7 @@ public class PlayerInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             // Switch between the states.
-            state = state == PlayerState.Idle ? PlayerState.Moving : PlayerState.Idle;
+            state = state == PlayerState.Moving ? PlayerState.Idle : PlayerState.Moving;
             // Cleanup movement range
             movement.CleanupMovementRange();
         }

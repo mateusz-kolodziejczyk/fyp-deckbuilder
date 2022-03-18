@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1542162002070912061}
   - component: {fileID: 4495331462972905487}
   m_Layer: 0
-  m_Name: PlayerHighlight
+  m_Name: PlayerAttackHighlight
   m_TagString: PlayerHighlight
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: -192573501
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 188d8ca4f4e0f8b429d62f33c03feeab, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fdf83526a512cfd448c663ed6cae1303, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.83137256}
   m_FlipX: 0
   m_FlipY: 0
