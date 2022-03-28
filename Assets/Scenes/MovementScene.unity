@@ -2865,6 +2865,10 @@ PrefabInstance:
       propertyPath: turnIndicator
       value: 
       objectReference: {fileID: 805971413}
+    - target: {fileID: 1833609244, guid: b76b2968286fee3499b1c14773607e6e, type: 3}
+      propertyPath: hitPoints
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2958106504354438867, guid: b76b2968286fee3499b1c14773607e6e, type: 3}
       propertyPath: m_Name
       value: Enemy

@@ -36,6 +36,8 @@ namespace Card
 
         private CardTarget cardTarget;
 
+        private EnemyHolder enemyHolder;
+
         // Start is called before the first frame update
         private void Start()
         {
@@ -45,6 +47,7 @@ namespace Card
             deckDrawer = GameObject.FindWithTag("UIDeck").GetComponent<DeckDrawer>();
             characterData = GetComponent<CharacterData>();
             resource = GetComponent<Resource>();
+            enemyHolder = GetComponent<EnemyHolder>();
         }
 
         // Update is called once per frame
@@ -100,20 +103,19 @@ namespace Card
             return null;
         }
 
-        public void PlayCard()
+        public bool PlayCard(Vector3Int position)
         {
+            // Check if position is currently drawn.
+            if (!cardTarget.ContainsPos(position))
+            {
+                return false;
+            }
             if (hand.ElementAtOrDefault(currentCardIndex) == null)
             {
-                return;
+                return false;
             }
             
             var c = hand[currentCardIndex];
-            // Otherwise remove the resource amount from the player equivalent to the cost of the card
-            resource.UpdateResources(-c.resourceCost);
-            // Update the resource cost text
-            resource.UpdateText();
-            // Play the card
-            Debug.Log($"Card Played \n Name: {c.prefabName} Description: {c.description}");
 
             var playerHealth = GetComponent<Health>();
             if (c is SimpleCardScriptableObject card)
@@ -121,8 +123,15 @@ namespace Card
                 switch (card.type)
                 {
                     case CardType.Attack:
-                        enemyHealth.UpdateHealth(-card.magnitude);
-                        enemyHealth.UpdateHealthText();
+                        if (enemyHolder.GetEnemyPositions().Contains(position))
+                        {
+                            enemyHealth.UpdateHealth(-card.magnitude);
+                            enemyHealth.UpdateHealthText();
+                        }
+                        else
+                        {
+                            return false;
+                        }
                         break;
                     case CardType.Defence:
                         playerHealth.AddTemporaryHP(card.magnitude);
@@ -132,7 +141,19 @@ namespace Card
                         break;
                 }
             }
+            
+            // Only update resources if card was successfully played
+            resource.UpdateResources(-c.resourceCost);
+            // Update the resource cost text
+            resource.UpdateText();
+            // Play the card
+            Debug.Log($"Card Played \n Name: {c.prefabName} Description: {c.description}");
+
+            
             hand.RemoveAt(currentCardIndex);
+            
+            cardTarget.ClearTargetSquares();
+            return true;
         }
 
         public void DeselectCard()

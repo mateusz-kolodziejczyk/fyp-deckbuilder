@@ -59,5 +59,10 @@ namespace Card
             
             isHighlightingSquares = true;
         }
+
+        public bool ContainsPos(Vector3Int pos)
+        {
+            return highlightedSquares.Contains(pos);
+        }
     }
 }

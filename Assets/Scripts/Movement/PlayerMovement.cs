@@ -66,28 +66,23 @@ namespace Movement
             movementPointsText.text = $"{characterData.MovementPoints}/{characterData.MovementSpeed}";
         }
 
-        public void UpdateCurrentCellMouse()
+        public void UpdateCurrentCellMouse(Vector3Int pos)
         {
             if (Camera.main is null)
             {
                 return;
             }
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int gridPos = tilemap.WorldToCell(mousePos);
-            if (!tilemap.HasTile(gridPos))
-            { 
-                return;
-            }
+
             // Get the manhattan distance to calculate where the player can move
-            int distance = DistanceHelpers.Vector3IntManhattanDistance(characterData.Position, gridPos);
+            int distance = DistanceHelpers.Vector3IntManhattanDistance(characterData.Position, pos);
             if (distance > characterData.MovementPoints)
             {
                 return;
             }
             
-            characterData.Position = gridPos;
-            Debug.Log(gridPos.x + "," + gridPos.y);
-            var newPos = tilemap.CellToLocal(gridPos);
+            characterData.Position = pos;
+            Debug.Log(pos.x + "," + pos.y);
+            var newPos = tilemap.CellToLocal(pos);
             transform.position = newPos;
             
             // Cleanup the movement range visual

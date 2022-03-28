@@ -1,16 +1,25 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Card;
 using Enums;
+using Helper;
 using Movement;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class PlayerInput : MonoBehaviour
 {
     private PlayerMovement movement;
+    private CardPlaying cardPlaying;
+
+    private Tilemap tilemap;
     private void Start()
     {
         movement = GetComponent<PlayerMovement>();
+        cardPlaying = GetComponent<CardPlaying>();
+
+        tilemap = GameObject.FindWithTag("TileMap").GetComponent<Tilemap>();
     }
 
     // Returns a state since a keyboard input might involve a change in state.
@@ -18,15 +27,23 @@ public class PlayerInput : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            switch (state)
+            var (pos, tileExists) = GridHelper.MousePosToGrid(tilemap);
+            if (tileExists)
             {
-                case PlayerState.Moving:
-                    movement.UpdateCurrentCellMouse();
-                    break;
-                case PlayerState.Targeting:
-                    break;
-                default:
-                    break;
+                switch (state)
+                {
+                    case PlayerState.Moving:
+                        movement.UpdateCurrentCellMouse(pos);
+                        break;
+                    case PlayerState.Targeting:
+                        if (cardPlaying.PlayCard(pos))
+                        {
+                            state = PlayerState.Idle;
+                        }
+                        break;
+                    default:
+                        break;
+                } 
             }
         }
         

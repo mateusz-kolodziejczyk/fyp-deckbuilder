@@ -24,5 +24,18 @@ namespace Character
             Enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
 
         }
+
+        public List<Vector3Int> GetEnemyPositions()
+        {
+            var positions = new List<Vector3Int>();
+            foreach (var enemy in Enemies)
+            {
+                if (enemy.TryGetComponent(out CharacterData data))
+                {
+                    positions.Add(data.Position);
+                }
+            }
+            return positions;
+        }
     }
 }

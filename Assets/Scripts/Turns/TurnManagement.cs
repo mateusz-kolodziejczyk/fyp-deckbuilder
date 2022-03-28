@@ -8,6 +8,7 @@ public class TurnManagement : MonoBehaviour
 {
     private Turn currentTurn;
 
+    private GameManager gameManager;
     public Turn CurrentTurn
     {
         get => currentTurn;
@@ -18,6 +19,7 @@ public class TurnManagement : MonoBehaviour
     void Start()
     {
         currentTurn = Turn.Player;
+        gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -36,6 +38,7 @@ public class TurnManagement : MonoBehaviour
         {
             currentTurn = Turn.Player;
         }
+        gameManager.CheckStatus();
     }
 
     public void FinishPlayerTurn()
