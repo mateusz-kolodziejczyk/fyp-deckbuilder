@@ -40,7 +40,7 @@ public class EnemyTurn : MonoBehaviour
         {
             attacked = false;
             intent.ClearIntent();
-            enemyMovement.Move(new Vector3Int(1,0));
+            enemyMovement.Move();
             enemyAttack.CalculateSquaresToAttack();
             intent.DrawIntent();
             turnManager.AdvanceTurn();
