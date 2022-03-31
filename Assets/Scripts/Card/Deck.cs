@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using ScriptableObjects;
+using Statics;
 using UI;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -34,6 +35,14 @@ namespace Card
         private void Start()
         {
             Shuffle();
+            var d = PlayerDataStore.Deck;
+            // If it doesn't already exist, return;
+            if (d == null)
+            {
+                PlayerDataStore.Deck = cards;
+                return;
+            }
+            cards = d;
         }
 
         // Code for shuffling from https://stackoverflow.com/questions/273313/randomize-a-listt
