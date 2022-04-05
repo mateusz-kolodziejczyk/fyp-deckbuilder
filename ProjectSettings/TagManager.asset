@@ -11,6 +11,8 @@ TagManager:
   - PlayerHighlight
   - EnemyHighlight
   - UIDeck
+  - RewardCards
+  - RewardCardManager
   layers:
   - Default
   - TransparentFX
