@@ -41,5 +41,6 @@ public class CardSelectConfirmButton : MonoBehaviour
         rewardCardManagement.CardAlreadyChosen = true;
         rewardCardManagement.UnhighlightCards();
         rewardCardManagement.SelectedCardIndex = -1;
+        GameObject.FindWithTag("GameController").GetComponent<GameManager>().GoToCampaign();
     }
 }

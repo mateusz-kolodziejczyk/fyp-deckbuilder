@@ -13,6 +13,9 @@ TagManager:
   - UIDeck
   - RewardCards
   - RewardCardManager
+  - RewardScreen
+  - MapScroll
+  - MapManager
   layers:
   - Default
   - TransparentFX
@@ -58,6 +61,12 @@ TagManager:
     locked: 0
   - name: Highlight
     uniqueID: 4102393795
+    locked: 0
+  - name: MapLine
+    uniqueID: 3169717533
+    locked: 0
+  - name: Encounter
+    uniqueID: 1210275175
     locked: 0
   - name: Character
     uniqueID: 1253681955

@@ -7,13 +7,15 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private List<EnemyData> enemyData = new();
-
+    private GameObject rewardScreen;
     private CharacterData playerData;
     // Start is called before the first frame update
     void Start()
     {
         FindEnemies();
         FindPlayer();
+        rewardScreen = GameObject.FindWithTag("RewardScreen");
+        rewardScreen.SetActive(false);
     }
 
     // Update is called once per frame
@@ -55,7 +57,7 @@ public class GameManager : MonoBehaviour
 
         if (allEnemiesDead)
         {
-            GoToCampaign();
+            activateRewardScreen();
         }
     }
 
@@ -80,5 +82,10 @@ public class GameManager : MonoBehaviour
         {
             playerData = data;
         }
+    }
+
+    private void activateRewardScreen()
+    {
+        rewardScreen.SetActive(true);
     }
 }
