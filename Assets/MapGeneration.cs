@@ -32,8 +32,10 @@ public class MapGeneration : MonoBehaviour
 
     [SerializeField] private GameObject map;
 
-    private GameObject startEncounter;
-    private GameObject finalEncounter;
+    [SerializeField] private GameObject startEncounterPrefab, finalEncounterPrefab;
+    
+    private (Vector2Int pos, GameObject o) startEncounter, finalEncounter;
+    
     private int targetEdgesRemoved = 0;
     
     // Start is called before the first frame update
@@ -46,13 +48,22 @@ public class MapGeneration : MonoBehaviour
         // Sum the connections using LINQ
         var totalConnections = connections.Values.Select(x => x.Count).Sum();
         targetEdgesRemoved = (int)(totalConnections * percentEdgesRemoved);
+
     }
     
     private void InitialiseMap()
     {
-        for (int p = 0; p < nPaths; p++)
+        var startEnc = GameObject.Instantiate(startEncounterPrefab, new Vector3(-encounterSpacing, pathSpacing, 0) , quaternion.identity);
+        startEnc.transform.SetParent(map.transform, false);
+        
+        startEncounter = (new Vector2Int(-1, 0), startEnc);
+
+        var p = 0;
+        var i = 0;
+        
+        for (p = 0; p < nPaths; p++)
         {
-            for (int i = 0; i < length; i++)
+            for (i = 0; i < length; i++)
             {
                 var v = new Vector2Int(p, i);
                 var encounter = GameObject.Instantiate(encounterPrefab, new Vector3(i*encounterSpacing, p*pathSpacing, 0) , quaternion.identity);
@@ -60,16 +71,26 @@ public class MapGeneration : MonoBehaviour
                 encounters[v] = encounter;
             }
         }
+        
+        var finalEnc = GameObject.Instantiate(encounterPrefab, new Vector3(i*encounterSpacing, pathSpacing, 0) , quaternion.identity);
+        finalEnc.transform.SetParent(map.transform, false);
+        finalEncounter = (new Vector2Int(i, 0), finalEnc);
     }
 
     private void InitialiseConnections()
     {
+        connections[startEncounter.pos] = new HashSet<Vector2Int>();
+        // Add connection from start encounter to every initial
+        for (int i = 0; i < nPaths; i++)
+        {
+            connections[startEncounter.pos].Add(new Vector2Int(i, 0));
+        }
         foreach (var encounterPos in encounters.Keys)
         {
             foreach (var direction in directions)
             {
                 var pos = direction + encounterPos;
-                if (!encounters.ContainsKey(pos))
+                if (!encounters.ContainsKey(pos) && pos != finalEncounter.pos)
                 {
                     continue;
                 }
@@ -83,10 +104,17 @@ public class MapGeneration : MonoBehaviour
                 connections[encounterPos].Add(pos);
             }
         }
+        // Go through final nodes and add connections to final encounter
+        
+        for (int p = 0; p < nPaths; p++)
+        {
+            connections[new Vector2Int(p, length - 1)] = new HashSet<Vector2Int>{finalEncounter.pos};
+        }
     }
 
     private void DisplayConnections()
     {
+        DisplayStartConnections();
         foreach (var (pos, encounterObject) in encounters)
         {
             // Go through each encounter, and set each of its three children to a connected value
@@ -97,6 +125,7 @@ public class MapGeneration : MonoBehaviour
             {
                 continue;
             }
+
             foreach (var connection in connections[pos])
             {
                 if (i >= lineRenderers.Length)
@@ -104,13 +133,67 @@ public class MapGeneration : MonoBehaviour
                     break;
                 }
 
+                if (!encounters.TryGetValue(connection, out _))
+                {
+                    continue;
+                }
+
                 var lineRenderer = lineRenderers[i];
                 // Set the second point to where the other encounter is
-                lineRenderer.SetPositions(new []{encounterObject.transform.position, encounters[connection].transform.position});
-                Debug.Log(connection);
+                lineRenderer.SetPositions(new[]
+                    {encounterObject.transform.position, encounters[connection].transform.position});
                 i++;
             }
         }
+
+        DisplayEndConnections();
+    }
+
+    private void DisplayStartConnections()
+    {
+        int i = 0;
+        var lineRenderers = startEncounter.o.GetComponentsInChildren<LineRenderer>();
+        if (!connections.TryGetValue(startEncounter.pos, out _))
+        {
+            return;
+        }
+        foreach (var connection in connections[startEncounter.pos])
+        {
+            if (i >= lineRenderers.Length)
+            {
+                break;
+            }
+
+            var lineRenderer = lineRenderers[i];
+            // Set the second point to where the other encounter is
+            lineRenderer.SetPositions(new []{startEncounter.o.transform.position, encounters[connection].transform.position});
+            Debug.Log(connection);
+            i++;
+        }
+    }
+
+    private void DisplayEndConnections()
+    {
+        for (int p = 0; p < nPaths; p++)
+        {
+            var pos = new Vector2Int(p, length - 1);
+            var go = encounters[pos];
+            if (!connections.TryGetValue(pos, out _))
+            {
+                return;
+            }
+            
+            var lineRenderers = go.GetComponentsInChildren<LineRenderer>();
+
+            foreach (var connection in connections[pos])
+            {
+                var lineRenderer = lineRenderers[0];
+                // Set the second point to where the other encounter is
+                lineRenderer.SetPositions(new []{go.transform.position, finalEncounter.o.transform.position});
+                Debug.Log(connection);
+            }
+        }
+
     }
 
     private void HideConnections()
@@ -124,5 +207,10 @@ public class MapGeneration : MonoBehaviour
         // Choose random start vertex
         // Choose random connection from that vertex
         // Try to delete it, check if path to exit still exists from start
+    }
+
+    private (bool, List<Vector2Int>) FindPath(Vector2Int start, Vector2Int destination)
+    {
+        return (false, null);
     }
 }

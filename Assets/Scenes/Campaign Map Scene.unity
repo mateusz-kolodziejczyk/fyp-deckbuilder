@@ -405,10 +405,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nPaths: 3
   length: 2
+  percentEdgesRemoved: 0.279
   encounterPrefab: {fileID: 589117035304227774, guid: 82533c9324e160e4aaba86f4455f0cf9, type: 3}
   pathSpacing: 1.75
   encounterSpacing: 2.4
   map: {fileID: 1626247351}
+  startEncounterPrefab: {fileID: 589117035304227774, guid: 82533c9324e160e4aaba86f4455f0cf9, type: 3}
+  finalEncounterPrefab: {fileID: 589117035304227774, guid: 82533c9324e160e4aaba86f4455f0cf9, type: 3}
 --- !u!4 &237804530
 Transform:
   m_ObjectHideFlags: 0
