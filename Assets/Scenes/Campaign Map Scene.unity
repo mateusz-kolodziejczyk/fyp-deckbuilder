@@ -404,14 +404,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nPaths: 3
-  length: 2
-  percentEdgesRemoved: 0.279
+  length: 5
+  percentEdgesRemoved: 0.472
+  allowedConsecutiveSkips: 8
   encounterPrefab: {fileID: 589117035304227774, guid: 82533c9324e160e4aaba86f4455f0cf9, type: 3}
   pathSpacing: 1.75
   encounterSpacing: 2.4
   map: {fileID: 1626247351}
-  startEncounterPrefab: {fileID: 589117035304227774, guid: 82533c9324e160e4aaba86f4455f0cf9, type: 3}
-  finalEncounterPrefab: {fileID: 589117035304227774, guid: 82533c9324e160e4aaba86f4455f0cf9, type: 3}
+  startEncounterPrefab: {fileID: 589117035304227774, guid: 67f1dd6931eb011468759d33315da460, type: 3}
+  finalEncounterPrefab: {fileID: 589117035304227774, guid: 69222a47eb8d4d544851d18de2e90cae, type: 3}
+  seed: 0
+  useSeed: 0
 --- !u!4 &237804530
 Transform:
   m_ObjectHideFlags: 0
@@ -1581,7 +1584,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1626247351}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.17, y: -1.22, z: 0}
+  m_LocalPosition: {x: -5.12, y: -1.22, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

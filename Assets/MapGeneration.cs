@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using Unity.Mathematics;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(MapData))]
 public class MapGeneration : MonoBehaviour
@@ -23,6 +24,9 @@ public class MapGeneration : MonoBehaviour
     [SerializeField] [Range(1, 50)] private int length;
 
     [SerializeField] [Range(0f, 1f)] private float percentEdgesRemoved;
+
+    [SerializeField] [Range(0, 100)] private int allowedConsecutiveSkips;
+    
     // This is a directional graph, so it is fine to do this
     private Dictionary<Vector2Int, HashSet<Vector2Int>> connections = new();
 
@@ -37,17 +41,27 @@ public class MapGeneration : MonoBehaviour
     private (Vector2Int pos, GameObject o) startEncounter, finalEncounter;
     
     private int targetEdgesRemoved = 0;
+
+    [SerializeField] private int seed;
+    [SerializeField] private bool useSeed;
     
     // Start is called before the first frame update
     void Start()
     {
+        if (useSeed)
+        {
+            Random.InitState(seed);
+        }
         data = GetComponent<MapData>();
         InitialiseMap();
         InitialiseConnections();
-        DisplayConnections();
+
         // Sum the connections using LINQ
         var totalConnections = connections.Values.Select(x => x.Count).Sum();
         targetEdgesRemoved = (int)(totalConnections * percentEdgesRemoved);
+        
+        GenerateMap();
+        DisplayConnections();
 
     }
     
@@ -166,8 +180,11 @@ public class MapGeneration : MonoBehaviour
 
             var lineRenderer = lineRenderers[i];
             // Set the second point to where the other encounter is
+            if (!encounters.ContainsKey(connection))
+            {
+                continue;
+            }
             lineRenderer.SetPositions(new []{startEncounter.o.transform.position, encounters[connection].transform.position});
-            Debug.Log(connection);
             i++;
         }
     }
@@ -177,6 +194,10 @@ public class MapGeneration : MonoBehaviour
         for (int p = 0; p < nPaths; p++)
         {
             var pos = new Vector2Int(p, length - 1);
+            if (!encounters.ContainsKey(pos))
+            {
+                continue;
+            }
             var go = encounters[pos];
             if (!connections.TryGetValue(pos, out _))
             {
@@ -190,7 +211,6 @@ public class MapGeneration : MonoBehaviour
                 var lineRenderer = lineRenderers[0];
                 // Set the second point to where the other encounter is
                 lineRenderer.SetPositions(new []{go.transform.position, finalEncounter.o.transform.position});
-                Debug.Log(connection);
             }
         }
 
@@ -201,16 +221,142 @@ public class MapGeneration : MonoBehaviour
         
     }
 
+    private void GenerateMap()
+    {
+        RemoveEdges();
+        // After edges are removed, remove any vertices from the back that do not have any connections forwards
+        RemoveDanglingVertices();
+    }
     // Remove edges until the desired total is reached
     private void RemoveEdges()
     {
-        // Choose random start vertex
-        // Choose random connection from that vertex
-        // Try to delete it, check if path to exit still exists from start
+        var consecutiveSkips = 0;
+        var edgesRemoved = 0;
+        while (edgesRemoved < targetEdgesRemoved && consecutiveSkips < allowedConsecutiveSkips)
+        {
+            // Choose random start vertex
+            var randomPos = new Vector2Int(Random.Range(0, nPaths), Random.Range(0, length));
+            // Choose random connection from that vertex
+            if (!connections.ContainsKey(randomPos))
+            {
+                continue;
+            }
+            
+            var connectionsList = new List<Vector2Int>(connections[randomPos]);
+            // If the pos has no connections left, return
+            if (connectionsList.Count <= 0)
+            {
+                continue;
+            }
+
+            var connection = connectionsList[Random.Range(0, connectionsList.Count)];
+            
+            // Try to delete it, check if path to exit still exists from start, if not, restore it and continue
+            connections[randomPos].Remove(connection);
+            var pathFound = FindPath(startEncounter.pos, finalEncounter.pos);
+            if (!pathFound)
+            {
+                connections[randomPos].Add(connection);
+                consecutiveSkips++;
+                continue;
+            }
+            // If there are no connections left, delete the node from both encounters and connections
+            if (connections[randomPos].Count <= 0)
+            {
+                RemoveDanglingVertices();
+            }
+            // Reset consecutive skip count;
+            consecutiveSkips = 0;
+            edgesRemoved++;
+        }
+    }
+    private void RemoveDanglingVertices()
+    {
+        // Go backwards
+        for (int p = nPaths - 1; p >= 0; p--)
+        {
+            for (int i = length - 1; i >= 0; i--)
+            {
+                var pos = new Vector2Int(p, i);
+                
+                if (IsAlive(pos)) continue;
+                
+                if (encounters.ContainsKey(pos))
+                {
+                    encounters[pos].SetActive(false);
+                    encounters.Remove(pos);
+                }
+
+                if (connections.ContainsKey(pos))
+                {
+                    connections.Remove(pos);
+                }
+                
+                
+            }
+        }
+
+        foreach (var key in connections.Keys)
+        {
+            connections[key].RemoveWhere(x => !connections.ContainsKey(x) && x != finalEncounter.pos);
+        }
     }
 
-    private (bool, List<Vector2Int>) FindPath(Vector2Int start, Vector2Int destination)
+    private bool IsAlive(Vector2Int node)
     {
-        return (false, null);
+        // If start node or end node, return alive
+        if (node == startEncounter.pos || node == finalEncounter.pos)
+        {
+            return true;
+        }
+        // Check if node is alive
+        // Conditions: Must have at least one node in, one node out
+        // Node out
+        if (connections.TryGetValue(node, out var localConnections))
+        {
+            if (localConnections.Count <= 0)
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+        // Node in
+        // Go through every value in connections and make sure the node is in at least one connection
+        return connections.Values.Any(x => x.Contains(node));
+    }
+    private bool FindPath(Vector2Int start, Vector2Int destination)
+    {
+        // Use DFS to find a path
+        var toVisit = new Stack<Vector2Int>();
+        toVisit.Push(start);
+        var discovered = new HashSet<Vector2Int>();
+        while (toVisit.Count > 0)
+        {
+
+            var node = toVisit.Pop();
+            // Check if vlaue is destination
+            if (node == destination)
+            {
+                return true;
+            }
+            
+            if (discovered.Contains(node))
+            {
+                continue;
+            }
+
+            discovered.Add(node);
+            if (connections.TryGetValue(node, out var localConnections))
+            {
+                foreach (var connection in localConnections)
+                {
+                    toVisit.Push(connection);
+                }
+            }
+        }
+        return false;
     }
 }
