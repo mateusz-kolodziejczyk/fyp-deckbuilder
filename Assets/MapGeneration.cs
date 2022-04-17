@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using ScriptableObjects;
 using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -42,6 +43,8 @@ public class MapGeneration : MonoBehaviour
     
     private int targetEdgesRemoved = 0;
 
+    [SerializeField] private List<EncounterScriptableObject> encounterScriptableObjects;
+    
     [SerializeField] private int seed;
     [SerializeField] private bool useSeed;
     
@@ -61,6 +64,7 @@ public class MapGeneration : MonoBehaviour
         targetEdgesRemoved = (int)(totalConnections * percentEdgesRemoved);
         
         GenerateMap();
+        PopulateEncounters();
         DisplayConnections();
 
     }
@@ -358,5 +362,14 @@ public class MapGeneration : MonoBehaviour
             }
         }
         return false;
+    }
+
+    private void PopulateEncounters()
+    {
+        foreach (var encounter in encounters.Values)
+        {
+            encounter.GetComponent<EncounterData>().EncounterScriptableObject =
+                encounterScriptableObjects[Random.Range(0, encounterScriptableObjects.Count)];
+        }
     }
 }

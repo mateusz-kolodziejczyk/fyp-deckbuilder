@@ -10,7 +10,7 @@ public class LevelClick : MonoBehaviour
 {
     private EncounterAnimationHandler animationHandler;
 
-    private Coroutine animation;
+    private Coroutine animationCoroutine;
     private void Start()
     {
         animationHandler = GetComponent<EncounterAnimationHandler>();
@@ -24,19 +24,19 @@ public class LevelClick : MonoBehaviour
 
     public void OnMouseEnter()
     {
-        if (animation != null)
+        if (animationCoroutine != null)
         {
-            StopCoroutine(animation);
+            StopCoroutine(animationCoroutine);
 
         }
-        animation = StartCoroutine(animationHandler.IncreaseBoxSize());
+        animationCoroutine = StartCoroutine(animationHandler.IncreaseBoxSize());
     }
 
     public void OnMouseExit()
     { 
-        if (animation != null)
+        if (animationCoroutine != null)
         {
-            StopCoroutine(animation);
+            StopCoroutine(animationCoroutine);
 
         }
         StartCoroutine(animationHandler.ResetBoxSize());

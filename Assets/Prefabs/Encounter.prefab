@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 589117035304227762}
   - component: {fileID: 589117035304227761}
   - component: {fileID: 589117035304227763}
+  - component: {fileID: -2156007149315175546}
   m_Layer: 0
   m_Name: Encounter
   m_TagString: Untagged
@@ -143,6 +144,18 @@ MonoBehaviour:
   maxScale: 1.167
   progressPerFrame: 0.0782
   returnFactor: 3.85
+--- !u!114 &-2156007149315175546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589117035304227774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a98fedc22dd2f3478880c0d963d491c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1513086221559477518
 PrefabInstance:
   m_ObjectHideFlags: 0
