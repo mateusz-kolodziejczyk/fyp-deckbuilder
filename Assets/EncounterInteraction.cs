@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using SceneManagement;
 using ScriptableObjects;
+using Statics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -15,7 +16,6 @@ public class EncounterInteraction : MonoBehaviour
     private Coroutine animationCoroutine;
 
     public bool Active { get; set; } = true;
-    public Vector2 Position { get; set; } = Vector2.negativeInfinity;
     private bool isFaded = false;
     
     private void Start()
@@ -45,17 +45,29 @@ public class EncounterInteraction : MonoBehaviour
         {
             return;
         }
-        Debug.Log("Clicked");
-        if (TryGetComponent(out EncounterData data))
+        if (!TryGetComponent(out EncounterData data)) return;
+        // Check to see if the square is connected to player
+        // Get the map manager to update the map data store
+        var mapManager = GameObject.FindWithTag("MapManager").GetComponent<MapGeneration>();
+        mapManager.UpdateDataStore();
+        
+        if (!mapManager.IsConnected(CampaignMapDataStore.CurrentSquare, data.Position))
         {
-            if (data.EncounterScriptableObject is BattleScriptableObject)
-            {
+            return;
+        }
+        
+        CampaignMapDataStore.CurrentSquare = GetComponent<EncounterData>().Position;
+        
+
+
+        switch (data.EncounterScriptableObject)
+        {
+            case BattleScriptableObject:
                 SceneMovement.LoadCombat();
-            }
-            else if (data.EncounterScriptableObject is ShopScriptableObject)
-            {
+                break;
+            case ShopScriptableObject:
                 SceneMovement.LoadShop();
-            }
+                break;
         }
     }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using ScriptableObjects;
+using Statics;
 using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -103,10 +104,17 @@ public class MapGeneration : MonoBehaviour
             encounters[pos].GetComponent<EncounterData>().EncounterScriptableObject = scriptableObject;
         }
         
+        // Display connection
+        DisplayConnections();
         // Delete dangling vertices
         RemoveDanglingVertices();
     }
-    
+
+    public bool IsConnected(Vector2Int start, Vector2Int destination)
+    {
+        // Make sure the connections contain the start value, and that the destination also exists
+        return connections.TryGetValue(start, out var adjacentConnections) && adjacentConnections.Contains(destination);
+    }
     private void InitialiseMap()
     {
         var startEnc = GameObject.Instantiate(startEncounterPrefab, new Vector3(-encounterSpacing, pathSpacing, 0) , quaternion.identity);
@@ -267,6 +275,18 @@ public class MapGeneration : MonoBehaviour
         
     }
 
+    public void UpdateDataStore()
+    {
+        CampaignMapDataStore.Connections = connections;
+        
+        var posToEncounterScriptableObject = new Dictionary<Vector2Int, EncounterScriptableObject>();
+        foreach (var (pos, o) in encounters)
+        {
+            posToEncounterScriptableObject[pos] = o.GetComponent<EncounterData>().EncounterScriptableObject;
+        }
+
+        CampaignMapDataStore.EncounterScriptableObjects = posToEncounterScriptableObject;
+    }
     private void GenerateMap()
     {
         RemoveEdges();
@@ -350,9 +370,9 @@ public class MapGeneration : MonoBehaviour
 
     private void AddPositionToEncounterObject(Vector2Int position, ref GameObject encounterObject)
     {
-        if (encounterObject.TryGetComponent(out EncounterInteraction encounterInteraction))
+        if (encounterObject.TryGetComponent(out EncounterData encounterData))
         {
-            encounterInteraction.Position = position;
+            encounterData.Position = position;
         }
     }
 

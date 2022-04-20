@@ -18,6 +18,8 @@ public class EncounterData : MonoBehaviour
         }
     }
 
+    public Vector2Int Position { get; set; } = Vector2Int.zero;
+
     private void LoadImage()
     {
         GetComponent<SpriteRenderer>().sprite = encounterScriptableObject.image;

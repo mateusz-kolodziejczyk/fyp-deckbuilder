@@ -24,7 +24,6 @@ public class CampaignMapManageProgress : MonoBehaviour
             mapGeneration.LoadMap(CampaignMapDataStore.Connections, CampaignMapDataStore.EncounterScriptableObjects);
         }
 
-        CampaignMapDataStore.CurrentSquare = new Vector2Int(1, 0);
         PositionPlayer();
         mapGeneration.setActiveSquares(CampaignMapDataStore.CurrentSquare);
     }
