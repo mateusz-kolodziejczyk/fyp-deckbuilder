@@ -48,6 +48,25 @@ public class MapGeneration : MonoBehaviour
     [SerializeField] private int seed;
     [SerializeField] private bool useSeed;
     
+    // Properties
+    public Dictionary<Vector2Int, GameObject> Encounters
+    {
+        get => encounters;
+        set => encounters = value;
+    }
+
+    public (Vector2Int pos, GameObject o) StartEncounter
+    {
+        get => startEncounter;
+        set => startEncounter = value;
+    }
+
+    public (Vector2Int pos, GameObject o) FinalEncounter
+    {
+        get => finalEncounter;
+        set => finalEncounter = value;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,6 +75,11 @@ public class MapGeneration : MonoBehaviour
             Random.InitState(seed);
         }
         data = GetComponent<MapData>();
+
+    }
+
+    public void GenerateCampaignMap()
+    {
         InitialiseMap();
         InitialiseConnections();
 
@@ -66,15 +90,30 @@ public class MapGeneration : MonoBehaviour
         GenerateMap();
         PopulateEncounters();
         DisplayConnections();
+    }
 
+    public void LoadMap(Dictionary<Vector2Int, HashSet<Vector2Int>> connections, Dictionary<Vector2Int, EncounterScriptableObject> encounterScriptableObjects)
+    {
+        // Generate base map
+        InitialiseMap();
+        // Load in the connections, and set the encounters up.
+        this.connections = connections;
+        foreach (var (pos, scriptableObject) in encounterScriptableObjects)
+        {
+            encounters[pos].GetComponent<EncounterData>().EncounterScriptableObject = scriptableObject;
+        }
+        
+        // Delete dangling vertices
+        RemoveDanglingVertices();
     }
     
     private void InitialiseMap()
     {
         var startEnc = GameObject.Instantiate(startEncounterPrefab, new Vector3(-encounterSpacing, pathSpacing, 0) , quaternion.identity);
         startEnc.transform.SetParent(map.transform, false);
-        
-        startEncounter = (new Vector2Int(-1, 0), startEnc);
+        var startPos = new Vector2Int(0, -1);
+        AddPositionToEncounterObject(startPos,ref startEnc);
+        startEncounter = (startPos, startEnc);
 
         var p = 0;
         var i = 0;
@@ -86,13 +125,16 @@ public class MapGeneration : MonoBehaviour
                 var v = new Vector2Int(p, i);
                 var encounter = GameObject.Instantiate(encounterPrefab, new Vector3(i*encounterSpacing, p*pathSpacing, 0) , quaternion.identity);
                 encounter.transform.SetParent(map.transform, false);
+                AddPositionToEncounterObject(v,ref encounter);
                 encounters[v] = encounter;
             }
         }
         
         var finalEnc = GameObject.Instantiate(encounterPrefab, new Vector3(i*encounterSpacing, pathSpacing, 0) , quaternion.identity);
         finalEnc.transform.SetParent(map.transform, false);
-        finalEncounter = (new Vector2Int(i, 0), finalEnc);
+        var endPos = new Vector2Int(i, 0);
+        AddPositionToEncounterObject(endPos, ref finalEnc);
+        finalEncounter = (endPos, finalEnc);
     }
 
     private void InitialiseConnections()
@@ -306,6 +348,36 @@ public class MapGeneration : MonoBehaviour
         }
     }
 
+    private void AddPositionToEncounterObject(Vector2Int position, ref GameObject encounterObject)
+    {
+        if (encounterObject.TryGetComponent(out EncounterInteraction encounterInteraction))
+        {
+            encounterInteraction.Position = position;
+        }
+    }
+
+    // Set all squares as inactive that are the same depth or less than the current player position
+    public void setActiveSquares(Vector2Int playerPos)
+    {
+        startEncounter.o.GetComponent<EncounterInteraction>().Active = false;
+
+        foreach (var (pos, o) in encounters)       
+        {
+            if (o.TryGetComponent(out EncounterInteraction encounterInteraction))
+            {
+                if (pos.y <= playerPos.y)
+                {
+                    encounterInteraction.Active = false;
+                }
+                else
+                {
+                    encounterInteraction.Active = true;
+                }
+            }
+
+        }
+    }
+    
     private bool IsAlive(Vector2Int node)
     {
         // If start node or end node, return alive

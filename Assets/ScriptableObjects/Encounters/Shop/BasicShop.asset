@@ -15,4 +15,5 @@ MonoBehaviour:
   prefabName: BasicShop
   difficulty: 0
   weight: 0
+  image: {fileID: 21300000, guid: 280222532d4a87e4380596eeabee0473, type: 3}
   itemRarity: 0

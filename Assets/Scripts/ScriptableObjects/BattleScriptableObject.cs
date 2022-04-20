@@ -7,7 +7,6 @@ namespace ScriptableObjects
     [CreateAssetMenu(fileName = "Data", menuName = "Encounter/Battle", order = 1)]
     public class BattleScriptableObject : EncounterScriptableObject
     {
-        public EncounterType type = EncounterType.Battle;
         public List<GameObject> enemies;
         public List<Vector3Int> enemyPositions;
         public Vector3Int playerStartPosition;
