@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EncounterAnimationHandler : MonoBehaviour
+public class AnimationScaler : MonoBehaviour
 {
     [SerializeField] [Range(1f, 2f)] private float maxScale;
     [SerializeField] [Range(0.01f, 0.1f)] private float progressPerFrame;

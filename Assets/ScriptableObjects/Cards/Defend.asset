@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabName: Defend
   resourceCost: 1
-  goldValue: 10
+  goldValue: 2
+  range: 0
   description: Prevent 4 damage.
   type: 1
   magnitude: 4

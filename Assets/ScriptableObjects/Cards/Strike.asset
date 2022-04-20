@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabName: Strike
   resourceCost: 1
-  goldValue: 10
+  goldValue: 3
   range: 3
   description: Do 4 Damage
   type: 0

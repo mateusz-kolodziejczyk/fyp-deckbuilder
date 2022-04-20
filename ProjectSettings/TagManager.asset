@@ -16,6 +16,8 @@ TagManager:
   - RewardScreen
   - MapScroll
   - MapManager
+  - ShopManager
+  - ShopCardItem
   layers:
   - Default
   - TransparentFX

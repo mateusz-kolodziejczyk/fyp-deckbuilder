@@ -8,6 +8,6 @@ namespace Statics
     {
         public static CharacterData CharacterData { get; set; }
 
-        public static List<CardScriptableObject> Deck { get; set; }
+        public static List<CardScriptableObject> Deck { get; set; } = new();
     }
 }

@@ -8,10 +8,10 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-[RequireComponent(typeof(EncounterAnimationHandler))]
+[RequireComponent(typeof(AnimationScaler))]
 public class EncounterInteraction : MonoBehaviour
 {
-    private EncounterAnimationHandler animationHandler;
+    private AnimationScaler animationScaler;
 
     private Coroutine animationCoroutine;
 
@@ -20,7 +20,7 @@ public class EncounterInteraction : MonoBehaviour
     
     private void Start()
     {
-        animationHandler = GetComponent<EncounterAnimationHandler>();
+        animationScaler = GetComponent<AnimationScaler>();
     }
 
     private void Update()
@@ -83,7 +83,7 @@ public class EncounterInteraction : MonoBehaviour
         {
             return;
         }
-        animationCoroutine = StartCoroutine(animationHandler.IncreaseBoxSize());
+        animationCoroutine = StartCoroutine(animationScaler.IncreaseBoxSize());
     }
 
     public void OnMouseExit()
@@ -98,6 +98,6 @@ public class EncounterInteraction : MonoBehaviour
         {
             return;
         }
-        StartCoroutine(animationHandler.ResetBoxSize());
+        StartCoroutine(animationScaler.ResetBoxSize());
     }
 }

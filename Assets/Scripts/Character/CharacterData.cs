@@ -55,6 +55,8 @@ namespace Character
 
         public string Tag { get; set; }
 
+        public int Currency { get; set; } = 10;
+
         public virtual void Start()
         {
             Tag = gameObject.tag;
