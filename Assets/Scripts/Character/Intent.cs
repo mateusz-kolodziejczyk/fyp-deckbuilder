@@ -11,7 +11,7 @@ using UnityEngine.Tilemaps;
 public class Intent : MonoBehaviour
 {
     private Tilemap tilemap;
-    private EnemyData data;
+    private EnemyDataMono dataMono;
     private List<Vector3Int> paintedTiles;
     private EnemyAttack enemyAttack;
     private DrawSquares drawSquares;
@@ -19,7 +19,7 @@ public class Intent : MonoBehaviour
     private void Start()
     {
         tilemap = GameObject.FindWithTag("TileMap").GetComponent<Tilemap>();
-        data = GetComponent<EnemyData>();
+        dataMono = GetComponent<EnemyDataMono>();
         paintedTiles = new List<Vector3Int>();
         enemyAttack = GetComponent<EnemyAttack>();
         

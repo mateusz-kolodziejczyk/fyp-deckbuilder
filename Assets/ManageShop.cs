@@ -30,9 +30,6 @@ public class ManageShop : MonoBehaviour
             shopCardItems.Add(o.GetComponent<ShopCardItem>());
         }
         InitialiseShopCards();
-        // Testing
-        PlayerDataStore.CharacterData = gameObject.AddComponent<CharacterData>();
-        PlayerDataStore.CharacterData.Currency = 20;
         SetCurrencyText();
     }
 

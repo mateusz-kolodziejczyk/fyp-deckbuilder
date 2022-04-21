@@ -22,13 +22,13 @@ namespace Character
             Player = GameObject.FindWithTag("Player");
         }
 
-        public CharacterData GetPlayerData()
+        public CharacterDataMono GetPlayerData()
         {
             if (Player == null)
             {
                 FindPlayer();
             }
-            return Player.GetComponent<CharacterData>();
+            return Player.GetComponent<CharacterDataMono>();
         }
     }
 }

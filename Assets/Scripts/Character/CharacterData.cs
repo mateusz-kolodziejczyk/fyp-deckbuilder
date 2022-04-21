@@ -1,35 +1,15 @@
-using System;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Character
 {
-    public class CharacterData : MonoBehaviour
+    public class CharacterData
     {
-        [SerializeField]
-        private int hitPoints;
+        public Vector3Int Position { get; set; }
 
-        [SerializeField] private int movementSpeed;
+        public int MovementSpeed { get; set; }
 
-        [SerializeField] private Vector3Int position;
-
-        [SerializeField] private int resourceAmount;
-        public Vector3Int Position
-        {
-            get => position;
-            set => position = value;
-        }
-
-        public int MovementSpeed
-        {
-            get => movementSpeed;
-            set => movementSpeed = value;
-        }
-
-        public int HitPoints
-        {
-            get => hitPoints;
-            set => hitPoints = value;
-        }
+        public int HitPoints { get; set; }
 
         public int MovementPoints
         {
@@ -43,52 +23,34 @@ namespace Character
             set;
         }
 
-        public int ResourceAmount
-        {
-            get => resourceAmount;
-            set => resourceAmount = value;
-        }
-        
+        public int ResourceAmount { get; set; }
 
         public int MAXHitPoints { get; set; }
-        public int TemporaryHitPoints { get; set; } = 0;
+        public int TemporaryHitPoints { get; set; }
 
         public string Tag { get; set; }
 
-        public int Currency { get; set; } = 10;
+        public int Currency { get; set; }
 
-        public virtual void Start()
-        {
-            Tag = gameObject.tag;
-            MAXHitPoints = hitPoints;
-            MAXResource = resourceAmount;
-            MovementPoints = movementSpeed;
-        }
-        
         public CharacterData()
         {
-            hitPoints = 100;
-            Position = new Vector3Int(0,0, 0);
+            
         }
 
-        public CharacterData(int hitPoints)
+        public CharacterData(Vector3Int position, int movementSpeed, int maxResource, int maxHitPoints, int currency)
         {
-            HitPoints = hitPoints;
+            Position = position;
+            
+            MovementSpeed = movementSpeed;
+            MovementPoints = movementSpeed;
+            
+            MAXResource = maxResource;
+            ResourceAmount = maxResource;
+            
+            MAXHitPoints = maxHitPoints;
+            HitPoints = maxHitPoints;
+            
+            Currency = currency;
         }
-
-        public void UseMovementPoints(int pointsToUse)
-        {
-            MovementPoints -= pointsToUse;
-            if (MovementPoints < 0)
-            {
-                MovementPoints = 0;
-            }
-        }
-
-        public void ResetMovementPoints()
-        {
-            MovementPoints = MovementSpeed;
-        }
-        
     }
 }

@@ -30,7 +30,7 @@ namespace Character
             var positions = new List<Vector3Int>();
             foreach (var enemy in Enemies)
             {
-                if (enemy.TryGetComponent(out CharacterData data))
+                if (enemy.TryGetComponent(out CharacterDataMono data))
                 {
                     positions.Add(data.Position);
                 }

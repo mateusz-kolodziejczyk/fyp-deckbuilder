@@ -504,6 +504,7 @@ GameObject:
   m_Component:
   - component: {fileID: 497962953}
   - component: {fileID: 497962952}
+  - component: {fileID: 497962954}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -538,6 +539,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &497962954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497962951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 184b1b281bf82734fbcd043ffbc14ad5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &508643348
 GameObject:
   m_ObjectHideFlags: 0
@@ -1503,7 +1516,7 @@ GameObject:
   - component: {fileID: 802666850}
   - component: {fileID: 802666849}
   m_Layer: 5
-  m_Name: ResourceCost
+  m_Name: ResourcePoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2810,6 +2823,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3745544313155623843, guid: aa39228571e906a4cb84a7c8522159d6, type: 3}
+      propertyPath: healthText
+      value: 
+      objectReference: {fileID: 1725820003}
+    - target: {fileID: 3745544313155623843, guid: aa39228571e906a4cb84a7c8522159d6, type: 3}
+      propertyPath: movementText
+      value: 
+      objectReference: {fileID: 197250777}
+    - target: {fileID: 3745544313155623843, guid: aa39228571e906a4cb84a7c8522159d6, type: 3}
+      propertyPath: resourceText
+      value: 
+      objectReference: {fileID: 802666849}
     - target: {fileID: 3745544313155623843, guid: aa39228571e906a4cb84a7c8522159d6, type: 3}
       propertyPath: turnIndicator
       value: 

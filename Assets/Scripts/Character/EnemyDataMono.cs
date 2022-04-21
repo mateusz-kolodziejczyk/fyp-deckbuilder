@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Character
 {
-    public class EnemyData : CharacterData
+    public class EnemyDataMono : CharacterDataMono
     {
         [SerializeField]
         private List<EnemyAbilityScriptableObject> abilities;

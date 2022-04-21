@@ -10,5 +10,6 @@ namespace ScriptableObjects
         public List<GameObject> enemies;
         public List<Vector3Int> enemyPositions;
         public Vector3Int playerStartPosition;
+        public int currencyReward;
     }
 }

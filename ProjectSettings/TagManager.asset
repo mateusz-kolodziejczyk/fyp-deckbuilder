@@ -18,6 +18,8 @@ TagManager:
   - MapManager
   - ShopManager
   - ShopCardItem
+  - GameStartManager
+  - StartButton
   layers:
   - Default
   - TransparentFX

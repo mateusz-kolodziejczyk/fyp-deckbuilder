@@ -1,6 +1,7 @@
 using Card;
 using Enums;
 using Movement;
+using Statics;
 using TMPro;
 using UnityEngine;
 
@@ -13,8 +14,9 @@ namespace Character
         [SerializeField] 
         private TextMeshProUGUI turnIndicator;
 
+        [SerializeField] private TextMeshProUGUI healthText, movementText, resourceText;
         private CardPlaying cardPlaying;
-        private CharacterData characterData;
+        private CharacterDataMono characterDataMono;
         private PlayerMovement playerMovement;
 
         private CardTarget cardTarget;
@@ -35,7 +37,7 @@ namespace Character
         void Start()
         {
             cardPlaying = GetComponent<CardPlaying>();
-            characterData = GetComponent<CharacterData>();
+            characterDataMono = GetComponent<CharacterDataMono>();
             playerMovement = GetComponent<PlayerMovement>();
             cardTarget = GetComponent<CardTarget>();
             
@@ -54,8 +56,6 @@ namespace Character
         // Update is called once per frame
         void Update()
         {
-
-            
             if (turnManager.CurrentTurn != Turn.Player)
             {
                 return;
@@ -100,15 +100,17 @@ namespace Character
                 return;
             }
             
+            // Update Text
+            updateText();
+            
             cardPlaying.DrawCards();
             cardPlaying.DeselectCard();
-            characterData.ResourceAmount = characterData.MAXResource;
-            characterData.ResetMovementPoints();
+            characterDataMono.ResourceAmount = characterDataMono.MAXResource;
+            characterDataMono.ResetMovementPoints();
             playerMovement.CleanupMovementRange();
             cardTarget.ClearTargetSquares();
             finishedTurnSetup = true;
             
-            Debug.Log(characterData.HitPoints);
         }
 
         public void FinishTurn()
@@ -127,6 +129,10 @@ namespace Character
         private void updateText()
         {
             turnIndicator.text = $"Turn: {turnManager.CurrentTurn}";
+            healthText.text =
+                $"HP: {characterDataMono.HitPoints}/{characterDataMono.HitPoints} + {characterDataMono.TemporaryHitPoints}";
+            resourceText.text = $"RES: {characterDataMono.ResourceAmount}/{characterDataMono.MAXResource}";
+            movementText.text = $"MOV: {characterDataMono.MovementPoints}/{characterDataMono.MovementSpeed}";
         }
     }
 }

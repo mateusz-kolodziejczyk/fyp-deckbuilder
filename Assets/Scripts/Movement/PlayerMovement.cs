@@ -13,7 +13,7 @@ using MouseButton = UnityEngine.UIElements.MouseButton;
 
 namespace Movement
 {
-    [RequireComponent(typeof(CharacterData))]
+    [RequireComponent(typeof(CharacterDataMono))]
     [RequireComponent(typeof(PlayerTurn))]
     public class PlayerMovement : MonoBehaviour
     {
@@ -21,7 +21,7 @@ namespace Movement
         [SerializeField]
         private Tilemap tilemap;
  
-        private CharacterData characterData;
+        private CharacterDataMono characterDataMono;
 
         private PlayerTurn playerTurn;
 
@@ -39,11 +39,11 @@ namespace Movement
         {
             playerTurn = GetComponent<PlayerTurn>();
             
-            characterData = GetComponent<CharacterData>();
+            characterDataMono = GetComponent<CharacterDataMono>();
             // start at 0
-            transform.position = tilemap.CellToLocal(characterData.Position);
+            transform.position = tilemap.CellToLocal(characterDataMono.Position);
 
-            movementPointsText.text = $"{characterData.MovementSpeed}/{characterData.MovementSpeed}";
+            movementPointsText.text = $"{characterDataMono.MovementSpeed}/{characterDataMono.MovementSpeed}";
             
             var gridDrawerController = GameObject.FindWithTag("GridDrawerController");
             if (gridDrawerController != null)
@@ -63,7 +63,7 @@ namespace Movement
                 return;
             }
 
-            movementPointsText.text = $"{characterData.MovementPoints}/{characterData.MovementSpeed}";
+            movementPointsText.text = $"{characterDataMono.MovementPoints}/{characterDataMono.MovementSpeed}";
         }
 
         public void UpdateCurrentCellMouse(Vector3Int pos)
@@ -74,28 +74,39 @@ namespace Movement
             }
 
             // Get the manhattan distance to calculate where the player can move
-            int distance = DistanceHelpers.Vector3IntManhattanDistance(characterData.Position, pos);
-            if (distance > characterData.MovementPoints)
+            int distance = DistanceHelpers.Vector3IntManhattanDistance(characterDataMono.Position, pos);
+            if (distance > characterDataMono.MovementPoints)
             {
                 return;
             }
             
-            characterData.Position = pos;
-            Debug.Log(pos.x + "," + pos.y);
-            var newPos = tilemap.CellToLocal(pos);
-            transform.position = newPos;
+            characterDataMono.Position = pos;
+            UpdatePositionToDataPosition();
             
             // Cleanup the movement range visual
             CleanupMovementRange();
             
             // Lower Available movement points
-            characterData.UseMovementPoints(distance);
+            characterDataMono.UseMovementPoints(distance);
+        }
+
+        public void UpdatePositionToDataPosition()
+        {
+            var pos = characterDataMono.Position;
+            if (!tilemap.HasTile(pos))
+            {
+                characterDataMono.Position = Vector3Int.zero;
+                return;
+            }
+            
+            var newPos = tilemap.CellToLocal(pos);
+            transform.position = newPos;
         }
  
         void UpdateCurrentCell(Vector3Int offset)
         {
-            characterData.Position += offset;
-            transform.position = tilemap.CellToLocal(characterData.Position);
+            characterDataMono.Position += offset;
+            transform.position = tilemap.CellToLocal(characterDataMono.Position);
         }
 
         public void ShowMovementRange()
@@ -105,7 +116,7 @@ namespace Movement
             {
                 return;
             }
-            var startPos = characterData.Position;
+            var startPos = characterDataMono.Position;
             // Color moveable tiles black
 
             // Start a breadth first search starting from the player pos and ending when movement speed is expended.
@@ -127,7 +138,7 @@ namespace Movement
                 if (!visited.Contains(pos))
                 {
                     // If current node's distance to the start is the same as movement points, break
-                    if (DistanceHelpers.Vector3IntManhattanDistance(pos, startPos) >= characterData.MovementPoints)
+                    if (DistanceHelpers.Vector3IntManhattanDistance(pos, startPos) >= characterDataMono.MovementPoints)
                     {
                         break;
                     }

@@ -25,13 +25,13 @@ public class EnemyAttack : MonoBehaviour
 
     private PlayerHolder playerHolder;
 
-    private CharacterData data;
+    private CharacterDataMono dataMono;
     // Start is called before the first frame update
     private void Start()
     {
         abilityChooser = GetComponent<AbilityChooser>();
         playerHolder = GetComponent<PlayerHolder>();
-        data = GetComponent<CharacterData>();
+        dataMono = GetComponent<CharacterDataMono>();
     }
 
 
@@ -44,13 +44,13 @@ public class EnemyAttack : MonoBehaviour
         {
             for (int i = 1; i <= currentAbility.range; i++)
             {
-                squaresToAttack.Add(i*direction + data.Position);
+                squaresToAttack.Add(i*direction + dataMono.Position);
             }
         }
     }
     public void Attack()
     {
-        if (playerHolder.Player.TryGetComponent(out CharacterData playerData))
+        if (playerHolder.Player.TryGetComponent(out CharacterDataMono playerData))
         {
             if (squaresToAttack.Contains(playerData.Position))
             {

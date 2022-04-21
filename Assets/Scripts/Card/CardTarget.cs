@@ -12,7 +12,7 @@ namespace Card
 
         private DrawSquares drawSquares;
 
-        private CharacterData data;
+        private CharacterDataMono dataMono;
         
         private bool isHighlightingSquares = false;
 
@@ -21,7 +21,7 @@ namespace Card
         // Start is called before the first frame update
         void Start()
         {
-            data = GetComponent<CharacterData>();
+            dataMono = GetComponent<CharacterDataMono>();
             cardPlaying = GetComponent<CardPlaying>();
             drawSquares = GameObject.FindWithTag("GridDrawerController").GetComponent<DrawSquares>();
         }
@@ -54,7 +54,7 @@ namespace Card
                 return;
             }
 
-            highlightedSquares = GridHighlightHelper.CalculateHightlightedSquares(data.Position, card.range);
+            highlightedSquares = GridHighlightHelper.CalculateHightlightedSquares(dataMono.Position, card.range);
             drawSquares.DrawHighlights(highlightedSquares, HighlightType.PlayerAttack);
             
             isHighlightingSquares = true;

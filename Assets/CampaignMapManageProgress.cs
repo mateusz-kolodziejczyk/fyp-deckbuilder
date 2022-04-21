@@ -13,6 +13,8 @@ public class CampaignMapManageProgress : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        print(PlayerDataStore.CharacterData);
+        
         player = GameObject.FindWithTag("Player");
         mapGeneration = GetComponent<MapGeneration>();
         if (CampaignMapDataStore.CurrentSquare == new Vector2Int(0, -1))

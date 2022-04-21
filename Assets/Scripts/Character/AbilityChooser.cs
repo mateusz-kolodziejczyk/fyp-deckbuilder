@@ -6,12 +6,12 @@ using UnityEngine;
 
 public class AbilityChooser : MonoBehaviour
 {
-    private EnemyData data;
+    private EnemyDataMono dataMono;
 
     // Start is called before the first frame update
     void Start()
     {
-        data = GetComponent<EnemyData>();
+        dataMono = GetComponent<EnemyDataMono>();
     }
 
     // Update is called once per frame
@@ -23,6 +23,6 @@ public class AbilityChooser : MonoBehaviour
     public EnemyAbilityScriptableObject GetNextAbility()
     {
         // TODO: Do proper sequence of abilities
-        return data.Abilities[0];
+        return dataMono.Abilities[0];
     }
 }

@@ -3,36 +3,36 @@ using UnityEngine;
 
 namespace Character
 {
-    [RequireComponent(typeof(CharacterData))]
+    [RequireComponent(typeof(CharacterDataMono))]
     public class Resource : MonoBehaviour
     {
-        private CharacterData data;
+        private CharacterDataMono dataMono;
 
         [SerializeField]
         private TextMeshProUGUI resourceText;
         // Start is called before the first frame update
         void Start()
         {
-            data = GetComponent<CharacterData>();
+            dataMono = GetComponent<CharacterDataMono>();
             UpdateText();
         }
 
         public void UpdateResources(int resource)
         {
-            data.ResourceAmount += resource;
+            dataMono.ResourceAmount += resource;
         }
 
         public bool HasEnoughResources(int resourceCost)
         {
-            return data.ResourceAmount >= resourceCost;
+            return dataMono.ResourceAmount >= resourceCost;
         }
         
         public void UpdateText()
         {
             // If max resource is 0, it hasn't been initialised yet;
-            var maxResource = data.MAXResource == 0 ? data.ResourceAmount : data.MAXResource;
+            var maxResource = dataMono.MAXResource == 0 ? dataMono.ResourceAmount : dataMono.MAXResource;
 
-            var s = $"{data.ResourceAmount}/{maxResource}";
+            var s = $"{dataMono.ResourceAmount}/{maxResource}";
 
             resourceText.text = s;
         }

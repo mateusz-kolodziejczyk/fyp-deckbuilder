@@ -3,38 +3,38 @@ using UnityEngine;
 
 namespace Character
 {
-    [RequireComponent(typeof(CharacterData))]
+    [RequireComponent(typeof(CharacterDataMono))]
     public class Health : MonoBehaviour
     {
-        private CharacterData _data;
+        private CharacterDataMono dataMono;
 
         [SerializeField]
         private TextMeshProUGUI healthText;
         // Start is called before the first frame update
         void Start()
         {
-            _data = GetComponent<CharacterData>();
+            dataMono = GetComponent<CharacterDataMono>();
             UpdateHealthText();
         }
 
         public void UpdateHealth(int hp)
         {
-            _data.HitPoints += hp;
+            dataMono.HitPoints += hp;
         }
 
         public void AddTemporaryHP(int hp)
         {
-            _data.TemporaryHitPoints += hp;
+            dataMono.TemporaryHitPoints += hp;
         }
         public bool IsAlive()
         {
-            return _data.HitPoints > 0;
+            return dataMono.HitPoints > 0;
         }
 
         public void UpdateHealthText()
         {
             // If max hitpoints are 0, they haven't been initialised yet.
-            var maxHitPoints = _data.MAXHitPoints == 0 ? _data.HitPoints : _data.MAXHitPoints;
+            var maxHitPoints = dataMono.MAXHitPoints == 0 ? dataMono.HitPoints : dataMono.MAXHitPoints;
             // If the character is not alive, set the text to say "Dead"
             if (!IsAlive())
             {
@@ -42,12 +42,12 @@ namespace Character
                 return;
             }
             
-            var s = $"{tag} HP {_data.HitPoints}/{maxHitPoints}";
+            var s = $"{tag} HP {dataMono.HitPoints}/{maxHitPoints}";
             
             // IF there are any temporary hit points, add them at the end.
-            if (_data.TemporaryHitPoints > 0)
+            if (dataMono.TemporaryHitPoints > 0)
             {
-                s += $" + {_data.TemporaryHitPoints}";
+                s += $" + {dataMono.TemporaryHitPoints}";
             }
 
             healthText.text = s;

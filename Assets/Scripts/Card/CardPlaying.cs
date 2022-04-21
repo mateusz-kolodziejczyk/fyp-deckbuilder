@@ -28,7 +28,7 @@ namespace Card
 
         private PlayerTurn playerTurn;
 
-        private CharacterData characterData;
+        private CharacterDataMono characterDataMono;
 
         private Resource resource;
 
@@ -45,7 +45,7 @@ namespace Card
             cardTarget = GetComponent<CardTarget>();
             deck = GetComponent<Deck>();
             deckDrawer = GameObject.FindWithTag("UIDeck").GetComponent<DeckDrawer>();
-            characterData = GetComponent<CharacterData>();
+            characterDataMono = GetComponent<CharacterDataMono>();
             resource = GetComponent<Resource>();
             enemyHolder = GetComponent<EnemyHolder>();
         }
@@ -75,7 +75,6 @@ namespace Card
 
             foreach (var _ in Enumerable.Range(0, 5 + modifier))
             {
-                // TODO Max hand size check, compare to number of cards in hand already
                 // Set it to 5 for now, as only 5 cards are displayed
                 if (hand.Count >= 5)
                 {
@@ -84,11 +83,14 @@ namespace Card
                 
                 var c = deck.DrawCard();
 
-                // Drawing a card might result in a null
-                // TODO Reshuffle used cards into the deck after all cards are exhausted.
+                // Drawing a card might result in a null, if it does, reshuffle discards
                 if (c != null)
                 {
                     hand.Add(c);
+                }
+                else
+                {
+                    deck.ReshuffleDiscards();
                 }
             }
         }
@@ -137,6 +139,8 @@ namespace Card
                         playerHealth.AddTemporaryHP(card.magnitude);
                         playerHealth.UpdateHealthText();
                         break;
+                    case CardType.Special:
+                        break;
                     default:
                         break;
                 }
@@ -153,6 +157,8 @@ namespace Card
             hand.RemoveAt(currentCardIndex);
             
             cardTarget.ClearTargetSquares();
+            // Put card in discard pile
+            deck.DiscardPile.Add(c);
             return true;
         }
 
