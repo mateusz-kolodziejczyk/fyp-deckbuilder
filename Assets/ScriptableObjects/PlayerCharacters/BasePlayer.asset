@@ -20,5 +20,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0db55e643af8ef0459f8dd44f7796a50, type: 2}
   - {fileID: 11400000, guid: 0db55e643af8ef0459f8dd44f7796a50, type: 2}
   - {fileID: 11400000, guid: 0db55e643af8ef0459f8dd44f7796a50, type: 2}
+  - {fileID: 11400000, guid: 0db55e643af8ef0459f8dd44f7796a50, type: 2}
+  - {fileID: 11400000, guid: 0db55e643af8ef0459f8dd44f7796a50, type: 2}
+  - {fileID: 11400000, guid: 015898e1b28e62a438f3b224c8f38015, type: 2}
+  - {fileID: 11400000, guid: 015898e1b28e62a438f3b224c8f38015, type: 2}
+  - {fileID: 11400000, guid: 015898e1b28e62a438f3b224c8f38015, type: 2}
   startCurrency: 10
   startResource: 2

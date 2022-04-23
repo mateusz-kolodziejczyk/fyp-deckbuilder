@@ -16,8 +16,6 @@ namespace Card
 
         public CardScriptableObject DrawCard()
         {
-            PlayerDataStore.Deck.ForEach(x => Debug.Log($"{x.prefabName}"));
-            Cards.ForEach(x => Debug.Log($"{x.prefabName}"));
             if (Cards.Count <= 0)
             {
                 return null;

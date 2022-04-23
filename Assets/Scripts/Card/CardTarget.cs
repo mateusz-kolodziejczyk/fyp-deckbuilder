@@ -53,7 +53,6 @@ namespace Card
             {
                 return;
             }
-
             highlightedSquares = GridHighlightHelper.CalculateHightlightedSquares(dataMono.Position, card.range);
             drawSquares.DrawHighlights(highlightedSquares, HighlightType.PlayerAttack);
             

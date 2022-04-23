@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Statics;
+using TMPro;
 using UnityEngine;
 
 
@@ -10,8 +11,10 @@ public class CampaignMapManageProgress : MonoBehaviour
     private GameObject player;
 
     private MapGeneration mapGeneration;
+
+    [SerializeField] private TextMeshProUGUI healthText;
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         print(PlayerDataStore.CharacterData);
         
@@ -28,9 +31,11 @@ public class CampaignMapManageProgress : MonoBehaviour
 
         PositionPlayer();
         mapGeneration.setActiveSquares(CampaignMapDataStore.CurrentSquare);
+        // Update player hp text
+        healthText.text = $"{PlayerDataStore.CharacterData.HitPoints}/{PlayerDataStore.CharacterData.MAXHitPoints}";
     }
 
-    public void PositionPlayer()
+    private void PositionPlayer()
     {
         // Set player transform parent to the map
         player.transform.SetParent(mapGeneration.StartEncounter.o.transform.parent, false);

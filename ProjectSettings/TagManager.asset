@@ -20,6 +20,7 @@ TagManager:
   - ShopCardItem
   - GameStartManager
   - StartButton
+  - OptionsMenu
   layers:
   - Default
   - TransparentFX

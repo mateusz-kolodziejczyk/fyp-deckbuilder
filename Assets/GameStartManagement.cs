@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Card;
 using Character;
 using ScriptableObjects;
@@ -10,18 +11,17 @@ public class GameStartManagement : MonoBehaviour
 {
     [SerializeField] private PlayerScriptableObject playerCharacter;
 
+    public void ResetData()
+    {
+        PlayerDataStore.ResetData();
+        CampaignMapDataStore.ResetData();
+    }
     public void UpdatePlayerData()
     {
-        // Do not update playre data if it was already added
-        if (TryGetComponent(out CharacterDataMono _))
-        {
-            return;
-        }
-
         var playerData = new CharacterData(Vector3Int.zero, playerCharacter.movementPoints,
             playerCharacter.startResource, playerCharacter.hp, playerCharacter.startCurrency);
 
         PlayerDataStore.CharacterData = playerData;
-        PlayerDataStore.Deck = playerCharacter.startDeck;
+        PlayerDataStore.Deck = playerCharacter.startDeck.Select(x => x).ToList();
     }
 }

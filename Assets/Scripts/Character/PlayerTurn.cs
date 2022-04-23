@@ -11,8 +11,6 @@ namespace Character
     {
         private TurnManagement turnManager;
 
-        [SerializeField] 
-        private TextMeshProUGUI turnIndicator;
 
         [SerializeField] private TextMeshProUGUI healthText, movementText, resourceText;
         private CardPlaying cardPlaying;
@@ -47,9 +45,7 @@ namespace Character
             if (turnManager == null)
             {
                 Debug.Log("No Turn Manager Found");
-                return;
             }
-            turnIndicator.text = $"Turn: {turnManager.CurrentTurn}";
 
         }
 
@@ -128,11 +124,10 @@ namespace Character
 
         private void updateText()
         {
-            turnIndicator.text = $"Turn: {turnManager.CurrentTurn}";
             healthText.text =
-                $"HP: {characterDataMono.HitPoints}/{characterDataMono.HitPoints} + {characterDataMono.TemporaryHitPoints}";
-            resourceText.text = $"RES: {characterDataMono.ResourceAmount}/{characterDataMono.MAXResource}";
-            movementText.text = $"MOV: {characterDataMono.MovementPoints}/{characterDataMono.MovementSpeed}";
+                $"{characterDataMono.HitPoints}/{characterDataMono.MAXHitPoints} + {characterDataMono.TemporaryHitPoints}";
+            resourceText.text = $"{characterDataMono.ResourceAmount}/{characterDataMono.MAXResource}";
+            movementText.text = $"{characterDataMono.MovementPoints}/{characterDataMono.MovementSpeed}";
         }
     }
 }

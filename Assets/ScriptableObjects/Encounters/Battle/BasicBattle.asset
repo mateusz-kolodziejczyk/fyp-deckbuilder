@@ -15,9 +15,10 @@ MonoBehaviour:
   prefabName: BasicBattle
   difficulty: 0
   weight: 0
-  image: {fileID: 21300000, guid: 778d6fe49f794f741abf0d77fe9efe97, type: 3}
+  image: {fileID: 21300000, guid: 6a4c8e4ffc21a0e43a305fbb6f628957, type: 3}
   enemies:
   - {fileID: 2958106504354438867, guid: b76b2968286fee3499b1c14773607e6e, type: 3}
   enemyPositions:
   - {x: 2, y: 2, z: 0}
   playerStartPosition: {x: -2, y: -2, z: 0}
+  currencyReward: 0

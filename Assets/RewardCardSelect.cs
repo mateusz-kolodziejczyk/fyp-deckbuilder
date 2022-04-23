@@ -21,7 +21,6 @@ public class RewardCardSelect : MonoBehaviour, IPointerClickHandler
         if (cardManagement != null)
         {
             cardManagement.SelectCard(index);
-            Debug.Log(index);
         }
     }
 }

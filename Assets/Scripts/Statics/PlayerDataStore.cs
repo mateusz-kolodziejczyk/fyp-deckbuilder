@@ -9,5 +9,11 @@ namespace Statics
         public static CharacterData CharacterData { get; set; }
 
         public static List<CardScriptableObject> Deck { get; set; } = new();
+
+        public static void ResetData()
+        {
+            CharacterData = new CharacterData();
+            Deck = new List<CardScriptableObject>();
+        }
     }
 }

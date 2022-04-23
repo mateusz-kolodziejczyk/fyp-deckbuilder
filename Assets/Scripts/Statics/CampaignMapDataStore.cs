@@ -11,5 +11,12 @@ namespace Statics
 
         public static Dictionary<Vector2Int, EncounterScriptableObject> EncounterScriptableObjects { get; set; } =
             new();
+
+        public static void ResetData()
+        {
+            CurrentSquare = new Vector2Int(0, -1);
+            Connections = new Dictionary<Vector2Int, HashSet<Vector2Int>>();
+            EncounterScriptableObjects = new Dictionary<Vector2Int, EncounterScriptableObject>();
+        }
     }
 }

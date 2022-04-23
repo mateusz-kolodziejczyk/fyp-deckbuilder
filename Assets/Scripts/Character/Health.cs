@@ -42,7 +42,7 @@ namespace Character
                 return;
             }
             
-            var s = $"{tag} HP {dataMono.HitPoints}/{maxHitPoints}";
+            var s = $"{dataMono.HitPoints}/{maxHitPoints}";
             
             // IF there are any temporary hit points, add them at the end.
             if (dataMono.TemporaryHitPoints > 0)

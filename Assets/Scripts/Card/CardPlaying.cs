@@ -7,6 +7,7 @@ using JetBrains.Annotations;
 using ScriptableObjects;
 using UI;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 
 namespace Card
@@ -107,17 +108,20 @@ namespace Card
 
         public bool PlayCard(Vector3Int position)
         {
-            // Check if position is currently drawn.
-            if (!cardTarget.ContainsPos(position))
-            {
-                return false;
-            }
             if (hand.ElementAtOrDefault(currentCardIndex) == null)
             {
                 return false;
             }
             
             var c = hand[currentCardIndex];
+            
+            // Check if position is currently drawn.
+            // If card has range 0, it's not an attack card so position does not matter
+            if (!cardTarget.ContainsPos(position) && c.range > 0)
+            {
+                return false;
+            }
+
 
             var playerHealth = GetComponent<Health>();
             if (c is SimpleCardScriptableObject card)
@@ -159,6 +163,10 @@ namespace Card
             cardTarget.ClearTargetSquares();
             // Put card in discard pile
             deck.DiscardPile.Add(c);
+            
+            // Deselect card
+            DeselectCard();
+            
             return true;
         }
 
@@ -205,13 +213,21 @@ namespace Card
             
             // Unhighlight other cards
             deckDrawer.UnhighlightCards();
-
-            // Highlight the card
-            deckDrawer.HighlightCard(currentCardIndex);
             
             // Unhighlight currently highlighted squares
             cardTarget.ClearTargetSquares();
             
+            // If card has range 0, play it instantly
+            if (c.range == 0)
+            {
+                PlayCard(Vector3Int.zero);
+                playerTurn.State = PlayerState.Idle;
+                return;
+            }
+            
+            // Highlight the card
+            deckDrawer.HighlightCard(currentCardIndex);
+
             // Highlight new squares
             cardTarget.HighlightTargetSquares();
             

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Character;
 using Enums;
 using Movement;
 using TMPro;
@@ -12,15 +13,15 @@ public class EnemyTurn : MonoBehaviour
     private EnemyMovement enemyMovement;
     private Intent intent;
     private TurnManagement turnManager;
-    [SerializeField] 
-    private TextMeshProUGUI turnIndicator;
 
     private EnemyAttack enemyAttack;
 
+    private Health health;
     private bool attacked = false;
     // Start is called before the first frame update
     void Start()
     {
+        health = GetComponent<Health>();
         enemyMovement = GetComponent<EnemyMovement>();
         intent = GetComponent<Intent>();
         turnManager = GameObject.FindWithTag("TurnManager").GetComponent<TurnManagement>();
@@ -29,7 +30,6 @@ public class EnemyTurn : MonoBehaviour
             Debug.Log("No Turn Manager Found");
             return;
         }
-        SetTurnText();
         enemyAttack = GetComponent<EnemyAttack>();
     }
 
@@ -38,13 +38,16 @@ public class EnemyTurn : MonoBehaviour
     {
         if (turnManager.CurrentTurn == Turn.Enemy)
         {
-            attacked = false;
-            intent.ClearIntent();
-            enemyMovement.Move();
-            enemyAttack.CalculateSquaresToAttack();
-            intent.DrawIntent();
+            if (health.IsAlive())
+            {
+                attacked = false;
+                intent.ClearIntent();
+                enemyMovement.Move();
+                enemyAttack.CalculateSquaresToAttack();
+                intent.DrawIntent(); 
+            }
+
             turnManager.AdvanceTurn();
-            SetTurnText();
         }
 
         // Attack only once at the start of the player's turn.
@@ -55,8 +58,4 @@ public class EnemyTurn : MonoBehaviour
         }
     }
 
-    private void SetTurnText()
-    {
-        turnIndicator.text = $"Turn: {turnManager.CurrentTurn}";
-    }
 }

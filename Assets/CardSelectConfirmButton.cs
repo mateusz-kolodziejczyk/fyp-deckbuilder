@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Card;
+using Statics;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -30,17 +31,15 @@ public class CardSelectConfirmButton : MonoBehaviour
         }
 
         var card = rewardCardManagement.CardTypes[rewardCardManagement.SelectedCardIndex];
-        // Add card to player's deck.
-        var player = GameObject.FindWithTag("Player");
-
-        if (player != null && player.TryGetComponent(out Deck deck))
-        {
-            deck.Cards.Add(card);
-        }
+        
+        // Add card to player's deck, by adding it to the stored data version
+        PlayerDataStore.Deck.Add(card);
 
         rewardCardManagement.CardAlreadyChosen = true;
         rewardCardManagement.UnhighlightCards();
         rewardCardManagement.SelectedCardIndex = -1;
-        GameObject.FindWithTag("GameController").GetComponent<GameManager>().GoToCampaign();
+        var gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
+        gameManager.UpdatePlayerData();
+        gameManager.GoToCampaign();
     }
 }

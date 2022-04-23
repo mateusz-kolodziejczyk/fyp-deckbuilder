@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Card;
 using Character;
 using Movement;
@@ -35,8 +36,9 @@ public class GameManager : MonoBehaviour
 
         if (player.TryGetComponent(out Deck deck))
         {
-            deck.Cards = PlayerDataStore.Deck;
+            deck.Cards = PlayerDataStore.Deck.Select(x => x).ToList();
             deck.Shuffle();
+            Debug.Log(deck.Cards.Count);
         }
 
         if (!player.TryGetComponent(out PlayerDataMono data)) return;
@@ -103,21 +105,21 @@ public class GameManager : MonoBehaviour
             GameOver();
         }
 
-        // Start off assuming all enemies are dead, if one of them is alive make it false
-        var allEnemiesDead = true;
-
-        foreach (var data in enemyData)
+        // If enemies exist, return
+        if(enemyData.Any(data => data.HitPoints > 0))
         {
-            if (data.HitPoints > 0)
-            {
-                allEnemiesDead = false;
-            }
+            return;
         }
 
-        if (allEnemiesDead)
+        
+        // Deactivate player and enemy objects
+        GameObject.FindWithTag("Player").SetActive(false);
+        var enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (var enemy in enemies)
         {
-            ActivateRewardScreen();
+            enemy.SetActive(false);
         }
+        ActivateRewardScreen();
     }
 
     private void FindEnemies()
@@ -146,5 +148,12 @@ public class GameManager : MonoBehaviour
     private void ActivateRewardScreen()
     {
         rewardScreen.SetActive(true);
+    }
+
+    public void UpdatePlayerData()
+    {
+        // Right now only update hitpoints, everything else is only changed after fight
+        PlayerDataStore.CharacterData.HitPoints = playerDataMono.HitPoints;
+        
     }
 }
