@@ -15,7 +15,10 @@ namespace Character
         void Start()
         {
             dataMono = GetComponent<CharacterDataMono>();
-            UpdateHealthText();
+            if (healthText != null)
+            {
+                UpdateHealthText();
+            }
         }
 
         public void UpdateHealth(int hp)

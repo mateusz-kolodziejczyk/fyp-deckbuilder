@@ -8,5 +8,6 @@ namespace ScriptableObjects
     public class EnemyScriptableObject : CharacterScriptableObject
     {
         public List<EnemyAbilityScriptableObject> abilities;
+        public GameObject enemyPrefab;
     }
 }

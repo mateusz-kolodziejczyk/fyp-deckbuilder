@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Character;
 using Enums;
 using UnityEngine;
@@ -34,11 +35,10 @@ public class TurnManagement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        switch (foundComponents)
+        Debug.Log(enemyTurnComponents.Count);
+        if(!foundComponents)
         {
-            case false:
-                GetTurnComponents();
-                break;
+            GetTurnComponents();
         }
 
         switch (CurrentTurn)
@@ -49,7 +49,7 @@ public class TurnManagement : MonoBehaviour
                 break;
             case Turn.Enemy:
             {
-                foreach (var enemyTurnComponent in enemyTurnComponents)
+                foreach (var enemyTurnComponent in enemyTurnComponents.Where(enemyTurnComponent => enemyTurnComponent.gameObject.activeSelf))
                 {
                     enemyTurnComponent.MakeTurn();
                 }

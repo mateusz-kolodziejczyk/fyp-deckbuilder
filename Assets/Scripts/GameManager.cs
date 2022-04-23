@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,11 @@ using Movement;
 using SceneManagement;
 using ScriptableObjects;
 using Statics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private List<EnemyDataMono> enemyData = new();
     private GameObject rewardScreen;
     private CharacterDataMono playerDataMono;
 
@@ -20,11 +21,11 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        FindEnemies();
         FindPlayer();
         rewardScreen = GameObject.FindWithTag("RewardScreen");
         rewardScreen.SetActive(false);
         SetupPlayer();
+        SetupEnemies();
     }
 
     // Update is called once per frame
@@ -85,7 +86,37 @@ public class GameManager : MonoBehaviour
 
     private void SetupEnemies()
     {
+        // Try to get the encounter scriptable object as it contains enemy data
+        if (!CampaignMapDataStore.EncounterScriptableObjects.TryGetValue(CampaignMapDataStore.CurrentSquare,
+            out var encounterScriptableObject)) return;
+
+        if (encounterScriptableObject is not BattleScriptableObject encounter) return;
+        // Zip the enemy and enemy positions together as they have to be separated for the scritpable object
+        var enemyObjectsAndPositions = encounter.enemies.Zip(encounter.enemyPositions, Tuple.Create);
+
+        Enemies = new();
         
+        foreach (var (enemyScriptableObject, pos) in enemyObjectsAndPositions)
+        {
+            var newEnemy = Instantiate(enemyScriptableObject.enemyPrefab, Vector3.zero, Quaternion.identity);
+            var data = newEnemy.GetComponent<EnemyDataMono>();
+            
+            // HP
+            data.MAXHitPoints = enemyScriptableObject.hp;
+            data.HitPoints = enemyScriptableObject.hp;
+            
+            // Position
+            data.Position = pos;
+            
+            // Abilities
+            data.Abilities = new(enemyScriptableObject.abilities);
+            
+            // Movement
+            data.MovementSpeed = enemyScriptableObject.movementPoints;
+            data.MovementPoints = enemyScriptableObject.movementPoints;
+            
+            Enemies.Add(newEnemy);
+        }
     }
 
     public void GoToCampaign()
@@ -109,36 +140,20 @@ public class GameManager : MonoBehaviour
         }
 
         // If enemies exist, return
-        if(enemyData.Any(data => data.HitPoints > 0))
+        if(Enemies.Any(o => o.activeSelf))
         {
             return;
         }
-
         
         // Deactivate player and enemy objects
         GameObject.FindWithTag("Player").SetActive(false);
-        var enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach (var enemy in enemies)
+        foreach (var enemy in Enemies)
         {
             enemy.SetActive(false);
         }
         ActivateRewardScreen();
     }
-
-    private void FindEnemies()
-    {
-        var enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
-        Enemies = enemies.ToList();
-        
-        foreach (var enemy in enemies)
-        { ;
-            if (enemy.TryGetComponent(out EnemyDataMono data))
-            {
-                enemyData.Add(data);
-            }
-        }
-    }
+    
 
     private void FindPlayer()
     {

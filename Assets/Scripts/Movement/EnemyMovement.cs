@@ -28,6 +28,7 @@ namespace Movement
             
             characterDataMono = GetComponent<CharacterDataMono>();
             pathfinding = GetComponent<EnemyPathfinding>();
+            
             // Reset enemy to start square
             ResetToStart();
         }
@@ -35,7 +36,10 @@ namespace Movement
         // Update is called once per frame
         void Update()
         {
-        
+            if (playerDataMono == null)
+            {
+                playerDataMono = playerHolder.GetPlayerData();
+            }
         }
         
         public void Move()

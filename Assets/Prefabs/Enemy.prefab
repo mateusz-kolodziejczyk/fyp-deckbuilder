@@ -10,13 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 5437333419950350167}
   - component: {fileID: 3368613426320608274}
-  - component: {fileID: 4293070606737943321}
   - component: {fileID: 1833609231}
   - component: {fileID: 1557712097988107109}
   - component: {fileID: 1833609237}
   - component: {fileID: 1833609238}
   - component: {fileID: 1833609244}
   - component: {fileID: 1833609245}
+  - component: {fileID: 1833609255}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -77,8 +77,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1253681955
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 29ae68c51668571438b668649add205d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -91,18 +91,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4293070606737943321
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2958106504354438867}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f67bc180ffd1f9489f7c3b259378302, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1833609231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,7 +128,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4430053d0f6c89241a90365299d74fee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilemap: {fileID: 0}
 --- !u!114 &1833609238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,7 +140,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f41ba556eeb6a44195b228f16837ff9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnIndicator: {fileID: 0}
 --- !u!114 &1833609244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,12 +152,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a63f6b8f930787f4ab2a05382bf146b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPoints: 100
+  hitPoints: 10
   movementSpeed: 1
-  position: {x: -2, y: 0, z: 0}
+  position: {x: 2, y: 0, z: 0}
   resourceAmount: 0
-  abilities:
-  - {fileID: 11400000, guid: 750dab42f886e7d44a62cd59120866c6, type: 2}
 --- !u!114 &1833609245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,5 +166,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9a1394b75a79744fb11867540bba1ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1833609255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2958106504354438867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34953da7ece68814c91f28da6b905976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
