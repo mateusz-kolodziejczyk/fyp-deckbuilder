@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
     private List<EnemyDataMono> enemyData = new();
     private GameObject rewardScreen;
     private CharacterDataMono playerDataMono;
+
+    public List<GameObject> Enemies { get; private set; }
+    public GameObject Player { get; private set; }
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +36,7 @@ public class GameManager : MonoBehaviour
     private void SetupPlayer()
     {
         var player = GameObject.FindWithTag("Player");
-
+        Player = player;
         if (player.TryGetComponent(out Deck deck))
         {
             deck.Cards = PlayerDataStore.Deck.Select(x => x).ToList();
@@ -126,8 +129,10 @@ public class GameManager : MonoBehaviour
     {
         var enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
+        Enemies = enemies.ToList();
+        
         foreach (var enemy in enemies)
-        {
+        { ;
             if (enemy.TryGetComponent(out EnemyDataMono data))
             {
                 enemyData.Add(data);

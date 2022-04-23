@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -19,6 +20,19 @@ namespace Character
 
         public void UpdateHealth(int hp)
         {
+            while (dataMono.TemporaryHitPoints > 0 && hp != 0)
+            {
+                // This adds -1 if hp is negative, 1 if positive
+                var sign = hp > 0 ? 1 : -1;
+                dataMono.TemporaryHitPoints += 1*sign;
+                hp += sign;
+            }
+
+            if (hp == 0)
+            {
+                return;
+            }
+            
             dataMono.HitPoints += hp;
         }
 

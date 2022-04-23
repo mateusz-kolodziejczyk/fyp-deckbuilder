@@ -50,15 +50,16 @@ public class EnemyAttack : MonoBehaviour
     }
     public void Attack()
     {
-        if (playerHolder.Player.TryGetComponent(out CharacterDataMono playerData))
+        if (!playerHolder.Player.TryGetComponent(out CharacterDataMono playerData)) return;
+        
+
+        if (!squaresToAttack.Contains(playerData.Position)) return;
+        if (currentAbility.abilityType == CardType.Attack)
         {
-            if (squaresToAttack.Contains(playerData.Position))
-            {
-                if (currentAbility.abilityType == CardType.Attack)
-                {
-                    playerData.HitPoints -= currentAbility.magnitude;
-                }
-            }
+            if (!playerHolder.Player.TryGetComponent(out Health health)) return;
+            
+            health.UpdateHealth(-currentAbility.magnitude);
+            health.UpdateHealthText();
         }
     }
 }

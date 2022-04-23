@@ -28,10 +28,7 @@ namespace Character
         }
         public (Vector3Int, bool) GetNextSquareInPath()
         {
-            foreach (var pos in path)
-            {
-                Debug.Log($"Path: {pos}");
-            }
+
             // Only run if path contains
             if (path.Count > 0)
             {

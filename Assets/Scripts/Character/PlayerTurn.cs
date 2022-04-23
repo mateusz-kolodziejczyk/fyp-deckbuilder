@@ -29,6 +29,12 @@ namespace Character
             set => state = value;
         }
 
+        public bool FinishedTurnSetup
+        {
+            get => finishedTurnSetup;
+            private set => finishedTurnSetup = value;
+        }
+
         private PlayerInput input;
 
         // Start is called before the first frame update
@@ -52,10 +58,26 @@ namespace Character
         // Update is called once per frame
         void Update()
         {
-            if (turnManager.CurrentTurn != Turn.Player)
-            {
-                return;
-            }
+
+
+        }
+
+        public void SetUpTurn()
+        {
+            // Update Text
+            UpdateText();
+            
+            cardPlaying.DrawCards();
+            cardPlaying.DeselectCard();
+            characterDataMono.ResourceAmount = characterDataMono.MAXResource;
+            characterDataMono.ResetMovementPoints();
+            playerMovement.CleanupMovementRange();
+            cardTarget.ClearTargetSquares();
+            finishedTurnSetup = true;
+        }
+
+        public void HandleTurn()
+        {
             // Get input and update state at the same time
             state = input.HandleInput(state);
             // If not targeting, clear the target squares
@@ -91,29 +113,13 @@ namespace Character
                     break;
             }
 
-            if (finishedTurnSetup)
-            {
-                return;
-            }
-            
-            // Update Text
-            updateText();
-            
-            cardPlaying.DrawCards();
-            cardPlaying.DeselectCard();
-            characterDataMono.ResourceAmount = characterDataMono.MAXResource;
-            characterDataMono.ResetMovementPoints();
-            playerMovement.CleanupMovementRange();
-            cardTarget.ClearTargetSquares();
-            finishedTurnSetup = true;
-            
         }
-
+        
         public void FinishTurn()
         {
             finishedTurnSetup = false;
             turnManager.FinishPlayerTurn();
-            updateText();
+            UpdateText();
             state = PlayerState.Idle;
         }
 
@@ -122,10 +128,17 @@ namespace Character
             return turnManager.CurrentTurn == Turn.Player;
         }
 
-        private void updateText()
+        private void UpdateText()
         {
-            healthText.text =
-                $"{characterDataMono.HitPoints}/{characterDataMono.MAXHitPoints} + {characterDataMono.TemporaryHitPoints}";
+            var s = $"{characterDataMono.HitPoints}/{characterDataMono.MAXHitPoints}";
+            
+            if (characterDataMono.TemporaryHitPoints > 0)
+            {
+                s += $" + {characterDataMono.TemporaryHitPoints}";
+            }
+
+            healthText.text = s;
+            
             resourceText.text = $"{characterDataMono.ResourceAmount}/{characterDataMono.MAXResource}";
             movementText.text = $"{characterDataMono.MovementPoints}/{characterDataMono.MovementSpeed}";
         }

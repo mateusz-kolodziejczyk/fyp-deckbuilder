@@ -44,7 +44,7 @@ namespace Movement
 
             for (int i = 0; i < characterDataMono.MovementSpeed; i++)
             {
-                var (pos, returnedValue) = pathfinding.GetNextSquareInPath();
+                 var (pos, returnedValue) = pathfinding.GetNextSquareInPath();
                 // If didn't return a value, stop moving immediately
                 if (!returnedValue)
                 {

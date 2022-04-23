@@ -36,25 +36,23 @@ public class EnemyTurn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (turnManager.CurrentTurn == Turn.Enemy)
-        {
-            if (health.IsAlive())
-            {
-                attacked = false;
-                intent.ClearIntent();
-                enemyMovement.Move();
-                enemyAttack.CalculateSquaresToAttack();
-                intent.DrawIntent(); 
-            }
+    }
 
-            turnManager.AdvanceTurn();
-        }
-
-        // Attack only once at the start of the player's turn.
-        if (!attacked && turnManager.CurrentTurn == Turn.Player)
+    public void MakeTurn()
+    {
+        if (health.IsAlive())
         {
             enemyAttack.Attack();
-            attacked = true;
+            //attacked = false;
+            intent.ClearIntent();
+            enemyMovement.Move();
+            enemyAttack.CalculateSquaresToAttack();
+            intent.DrawIntent();
+        }
+        else
+        {
+            // Deactivate if dead
+            gameObject.SetActive(false);
         }
     }
 
