@@ -406,7 +406,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nPaths: 3
-  length: 1
+  length: 5
   percentEdgesRemoved: 0.231
   allowedConsecutiveSkips: 12
   encounterPrefab: {fileID: 589117035304227774, guid: 82533c9324e160e4aaba86f4455f0cf9, type: 3}
@@ -415,13 +415,18 @@ MonoBehaviour:
   map: {fileID: 1626247351}
   startEncounterPrefab: {fileID: 589117035304227774, guid: 67f1dd6931eb011468759d33315da460, type: 3}
   finalEncounterPrefab: {fileID: 589117035304227774, guid: 69222a47eb8d4d544851d18de2e90cae, type: 3}
-  encounterScriptableObjects:
-  - {fileID: 11400000, guid: 49ac6e04db0798041b00391f7fb6d1de, type: 2}
+  maxShopsInARow: 1
+  maxBattlesInARow: 1
+  percentShopsToChangeToBattles: 0.343
+  shopScriptableObjects:
   - {fileID: 11400000, guid: 93fc09d90a0f1034a84e8989ad3d87f2, type: 2}
+  battleScriptableObjects:
+  - {fileID: 11400000, guid: 49ac6e04db0798041b00391f7fb6d1de, type: 2}
+  - {fileID: 11400000, guid: 9db6a4f357d82cd4180bde0d69c3626c, type: 2}
   bossEncounterScriptableObjects:
   - {fileID: 11400000, guid: 98b15ab86048ec34eb1e3ed7a9121790, type: 2}
   seed: 100
-  useSeed: 1
+  useSeed: 0
 --- !u!4 &237804530
 Transform:
   m_ObjectHideFlags: 0

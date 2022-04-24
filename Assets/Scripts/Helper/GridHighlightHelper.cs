@@ -6,7 +6,7 @@ namespace Helper
 {
     public static class GridHighlightHelper
     {
-        public static List<Vector3Int> CalculateHightlightedSquares(Vector3Int startPosition, int range)
+        public static List<Vector3Int> CalculateHighlightedSquares(Vector3Int startPosition, int range)
         {
             var highlightedSquares = new List<Vector3Int>();
             var directions = HelperConstants.adjacentAddition;

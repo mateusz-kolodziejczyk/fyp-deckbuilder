@@ -135,6 +135,11 @@ namespace Card
                             {
                                 enemyHealth.UpdateHealth(-card.magnitude);
                                 enemyHealth.UpdateHealthText();
+                                if (!enemyHealth.IsAlive() && enemy.TryGetComponent(out EnemyDeath enemyDeath))
+                                {
+                                    enemyDeath.Die();
+                                    gameManager.CheckStatus();
+                                }
                             }
                         }
                         else

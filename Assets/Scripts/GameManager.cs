@@ -10,6 +10,7 @@ using ScriptableObjects;
 using Statics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -143,6 +144,12 @@ public class GameManager : MonoBehaviour
         if(Enemies.Any(o => o.activeSelf))
         {
             return;
+        }
+        
+        // If it's the final level, load the win screen instead of rewards
+        if (CampaignMapDataStore.CurrentSquare == CampaignMapDataStore.FinalEncounterPos)
+        {
+            SceneMovement.LoadWinScreen();
         }
         
         // Deactivate player and enemy objects

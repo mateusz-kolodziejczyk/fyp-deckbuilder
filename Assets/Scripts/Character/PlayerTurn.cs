@@ -80,7 +80,7 @@ namespace Character
         public void HandleTurn(List<Vector3Int> enemyPositions)
         {
             // Get input and update state at the same time
-            state = input.HandleInput(state, enemyPositions);
+            state = input.HandleInput(state, enemyPositions, characterDataMono.Position);
             // If not targeting, clear the target squares
             if (state != PlayerState.Targeting)
             {
@@ -105,10 +105,8 @@ namespace Character
                     cardTarget.HighlightTargetSquares();
                     break;
                 case PlayerState.EndTurn:
-                    playerMovement.CleanupMovementRange();
-                    cardTarget.ClearTargetSquares();
-                    cardPlaying.DeselectCard();
                     FinishTurn();
+                    turnManager.AdvanceTurn();
                     break;
                 default:
                     break;
@@ -118,8 +116,11 @@ namespace Character
         
         public void FinishTurn()
         {
+            playerMovement.CleanupMovementRange();
+            cardTarget.ClearTargetSquares();
+            cardPlaying.DeselectCard();
+            
             finishedTurnSetup = false;
-            turnManager.FinishPlayerTurn();
             UpdateText();
             state = PlayerState.Idle;
         }

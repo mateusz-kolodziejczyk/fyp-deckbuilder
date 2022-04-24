@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Character;
 using Enums;
+using UnityEditor.iOS;
 using UnityEngine;
 
 
@@ -26,11 +27,14 @@ public class TurnManagement : MonoBehaviour
     private bool foundComponents;
 
     private List<Vector3Int> enemyPositions;
+
+    private DrawSquares drawSquares;
     
     // Start is called before the first frame update
     private void Start()
     {
-        currentTurn = Turn.Player;
+        drawSquares = GameObject.FindWithTag("GridDrawerController").GetComponent<DrawSquares>();
+        currentTurn = Turn.Neutral;
         gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
     }
 
@@ -50,9 +54,14 @@ public class TurnManagement : MonoBehaviour
             // Turn manager handles both player and Enemy turns
             case Turn.Neutral:
                 CurrentTurn = Turn.Player;
+                // Update the health texts of the enemies
+                gameManager.Enemies.ForEach(x => x.GetComponent<EnemyHealth>().UpdateHealthText());
                 break;
             case Turn.Enemy:
             {
+                // Clear all the targeting highlights from last turn.
+                drawSquares.ResetHighlights(HighlightType.EnemyAttack);
+                
                 foreach (var enemyTurnComponent in enemyTurnComponents.Where(enemyTurnComponent => enemyTurnComponent.gameObject.activeSelf))
                 {
                     enemyTurnComponent.MakeTurn(enemyPositions);
@@ -115,12 +124,12 @@ public class TurnManagement : MonoBehaviour
 
     public void FinishPlayerTurn()
     {
-        if (currentTurn == Turn.Player)
-        {
-            currentTurn = Turn.Enemy;
-        }
+        if (currentTurn != Turn.Player) return;
+        
+        currentTurn = Turn.Enemy;
+        playerTurnComponent.FinishTurn();
+        
     }
-
     public void FinishEnemyTurn()
     {
         if (currentTurn == Turn.Enemy)
@@ -133,5 +142,17 @@ public class TurnManagement : MonoBehaviour
     public void ResetTurn()
     {
         currentTurn = Turn.Neutral;
+    }
+
+    public void ReHightlighSquares()
+    {
+        drawSquares.ResetHighlights(HighlightType.EnemyAttack);
+
+        foreach (var o in gameManager.Enemies.Where(x => x.activeSelf))
+        {
+            if (!o.TryGetComponent(out Intent intent)) return;
+            
+            intent.DrawIntent();
+        }
     }
 }

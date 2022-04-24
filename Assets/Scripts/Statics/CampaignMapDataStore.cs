@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ScriptableObjects;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Statics
@@ -13,12 +14,15 @@ namespace Statics
             new();
 
         public static EncounterScriptableObject BossEncounterScriptableObject { get; set; }
+        
+        public static Vector2Int FinalEncounterPos { get; set; }
         public static void ResetData()
         {
             CurrentSquare = new (0, -1);
             Connections = new();
             EncounterScriptableObjects = new();
             BossEncounterScriptableObject = null;
+            FinalEncounterPos = new();
         }
     }
 }

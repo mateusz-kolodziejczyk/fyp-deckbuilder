@@ -10,15 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f90d9e26948e4f1f8938c16a0009a464, type: 3}
-  m_Name: BasicBattle
+  m_Name: TwoEnemyBattle 1
   m_EditorClassIdentifier: 
-  prefabName: BasicBattle
-  difficulty: 0
+  prefabName: TwoEnemyBattle
+  difficulty: 2
   weight: 1
   image: {fileID: 21300000, guid: 6a4c8e4ffc21a0e43a305fbb6f628957, type: 3}
   enemies:
   - {fileID: 11400000, guid: bf90bc7769350034dafd156b88612f74, type: 2}
+  - {fileID: 11400000, guid: bf90bc7769350034dafd156b88612f74, type: 2}
   enemyPositions:
+  - {x: 2, y: 0, z: 0}
   - {x: 2, y: 2, z: 0}
   playerStartPosition: {x: -2, y: -2, z: 0}
   currencyReward: 0

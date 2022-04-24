@@ -99,7 +99,7 @@ public class DrawSquares : MonoBehaviour
 
     }
  
-    public void ResetHighlights(List<Vector3Int> squareCoords, HighlightType type)
+    public void ResetHighlights(HighlightType type, List<Vector3Int> squareCoords)
     {
         var currentHighlights = typeToHighlights[type];
         foreach (var coord in squareCoords)
@@ -108,6 +108,15 @@ public class DrawSquares : MonoBehaviour
             {
                 currentHighlights[coord].SetActive(false);
             }        
+        }
+    }
+
+    public void ResetHighlights(HighlightType type)
+    {
+        var currentHighlights = typeToHighlights[type];
+        foreach (var highlight in currentHighlights.Values)
+        {  
+            highlight.SetActive(false);
         }
     }
     

@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using Enums;
 using ScriptableObjects;
 using Statics;
 using Unity.Mathematics;
@@ -44,7 +46,12 @@ public class MapGeneration : MonoBehaviour
     
     private int targetEdgesRemoved = 0;
 
-    [SerializeField] private List<EncounterScriptableObject> encounterScriptableObjects;
+    [SerializeField] [Range(1, 10)] private int maxShopsInARow, maxBattlesInARow;
+    [SerializeField] [Range(0, 1)] private float percentShopsToChangeToBattles;
+    
+    [SerializeField] private List<ShopScriptableObject> shopScriptableObjects;
+    [SerializeField] private List<BattleScriptableObject> battleScriptableObjects;
+    
     [SerializeField] private List<EncounterScriptableObject> bossEncounterScriptableObjects;
     [SerializeField] private int seed;
     [SerializeField] private bool useSeed;
@@ -99,6 +106,7 @@ public class MapGeneration : MonoBehaviour
         InitialiseMap();
         // Load in the connections, and set the encounters up.
         this.connections = connections;
+        
         foreach (var (pos, scriptableObject) in encounterScriptableObjects)
         {
             encounters[pos].GetComponent<EncounterData>().EncounterScriptableObject = scriptableObject;
@@ -291,6 +299,7 @@ public class MapGeneration : MonoBehaviour
         CampaignMapDataStore.EncounterScriptableObjects = posToEncounterScriptableObject;
         CampaignMapDataStore.BossEncounterScriptableObject =
             finalEncounter.o.GetComponent<EncounterData>().EncounterScriptableObject;
+        CampaignMapDataStore.FinalEncounterPos = finalEncounter.pos;
     }
     private void GenerateMap()
     {
@@ -463,13 +472,123 @@ public class MapGeneration : MonoBehaviour
 
     private void PopulateEncounters()
     {
-        foreach (var encounter in encounters.Values)
+        var rowTypes = GenerateRowTypes();
+        var (battleLookupTable, battleMax) = GetEncounterLookupTable(new(battleScriptableObjects));
+        var (shopLookupTable, shopMax) = GetEncounterLookupTable(new(shopScriptableObjects));
+
+        foreach (var (pos, encounter) in encounters)
         {
-            encounter.GetComponent<EncounterData>().EncounterScriptableObject =
-                encounterScriptableObjects[Random.Range(0, encounterScriptableObjects.Count)];
+            // Pick lookup table based on row of current encounter
+            Dictionary<int, EncounterScriptableObject> lookupTable = new();
+            var max = 0;
+            var rowsWithShopsRemoved = new HashSet<int>();
+            if (rowTypes.TryGetValue(pos.y, out var type))
+            {
+                switch (type)
+                {
+                    case EncounterType.Battle:
+                        lookupTable = battleLookupTable;
+                        max = battleMax;
+                        break;
+                    case EncounterType.Shop:
+                        lookupTable = shopLookupTable;
+                        max = shopMax;
+                        // Roll a random number, if below % replace
+                        var rnd = Random.value;
+                        // Also check that not too many shops were removed, only remove one per row.
+                        if (rnd < percentShopsToChangeToBattles && !rowsWithShopsRemoved.Contains(pos.y))
+                        {
+                            lookupTable = battleLookupTable;
+                            max = battleMax;
+                            rowsWithShopsRemoved.Add(pos.y);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            
+            var randomValue = Random.Range(0, max);
+            EncounterScriptableObject chosenEncounter = null;
+            foreach (var key in lookupTable.Keys.ToList().OrderBy(x => x))
+            {
+                if (randomValue >= key) continue;
+                
+                chosenEncounter = lookupTable[key];
+                break;
+            }
+
+            if (chosenEncounter == null)
+            {
+                continue;
+            }
+
+            encounter.GetComponent<EncounterData>().EncounterScriptableObject = chosenEncounter;
         }
 
         finalEncounter.o.GetComponent<EncounterData>().EncounterScriptableObject =
             bossEncounterScriptableObjects[Random.Range(0, bossEncounterScriptableObjects.Count)];
     }
+
+    private (Dictionary<int, EncounterScriptableObject>, int max) GetEncounterLookupTable(List<EncounterScriptableObject> encounterScriptableObjects)
+    {
+        var currentMax = 0;
+
+        var lookupTable = new Dictionary<int, EncounterScriptableObject>();
+        foreach (var o in encounterScriptableObjects)
+        {
+            currentMax += (int) (((float)1 / (float)o.weight) * (float)1000);
+            lookupTable[currentMax] = o;
+        }
+
+        return (lookupTable, currentMax);
+    }
+
+    private Dictionary<int, EncounterType> GenerateRowTypes()
+    {
+        var shopsInARow = 0;
+        var battlesInARow = 0;
+
+        var rowTypes = new Dictionary<int, EncounterType>();
+        for (var i = 0; i < length; i++)
+        {
+            // Each row has a 40/60 chance of being shop/battle
+            var randomValue = Random.value;
+            var isBattle = randomValue < 0.6;
+            if (!isBattle)
+            {
+                // Only add new shop if there aren't already too many shops in a row
+                if (shopsInARow >= maxShopsInARow)
+                {
+                    shopsInARow = 0;
+                    rowTypes.Add(i, EncounterType.Battle);
+                    battlesInARow++;
+                }
+                else
+                {
+                    battlesInARow = 0;
+                    rowTypes.Add(i, EncounterType.Shop);
+                    shopsInARow++;
+                }
+
+            }
+            else
+            {
+                if (battlesInARow >= maxBattlesInARow)
+                {
+                    battlesInARow = 0;
+                    rowTypes.Add(i, EncounterType.Shop);
+                    shopsInARow++;
+                }
+                else
+                {
+                    shopsInARow = 0;
+                    rowTypes.Add(i, EncounterType.Battle);
+                    battlesInARow++;
+                }
+            }
+        }
+        return rowTypes;
+    }
+    
 }

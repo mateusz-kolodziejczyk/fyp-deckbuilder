@@ -18,6 +18,7 @@ public class EnemyTurn : MonoBehaviour
 
     private Health health;
     private bool attacked = false;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -43,8 +44,6 @@ public class EnemyTurn : MonoBehaviour
         if (health.IsAlive())
         {
             enemyAttack.Attack();
-            //attacked = false;
-            intent.ClearIntent();
             enemyMovement.Move(enemyPositions);
             enemyAttack.CalculateSquaresToAttack();
             intent.DrawIntent();

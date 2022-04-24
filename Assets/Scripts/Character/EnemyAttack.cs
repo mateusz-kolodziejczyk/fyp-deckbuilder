@@ -18,7 +18,7 @@ public class EnemyAttack : MonoBehaviour
     public List<Vector3Int> SquaresToAttack
     {
         get => squaresToAttack;
-        private set => squaresToAttack = value;
+        set => squaresToAttack = value;
     }
 
     private EnemyAbilityScriptableObject currentAbility;
@@ -38,6 +38,8 @@ public class EnemyAttack : MonoBehaviour
 
     public void CalculateSquaresToAttack()
     {
+        // Clear the list of squares to attack
+        squaresToAttack = new();
         currentAbility = abilityChooser.GetNextAbility();
         var directions = HelperConstants.adjacentAddition;
         foreach (var direction in directions)
@@ -54,12 +56,12 @@ public class EnemyAttack : MonoBehaviour
         
 
         if (!squaresToAttack.Contains(playerData.Position)) return;
-        if (currentAbility.abilityType == CardType.Attack)
-        {
-            if (!playerHolder.Player.TryGetComponent(out Health health)) return;
+        
+        if (currentAbility.abilityType != CardType.Attack) return;
+        
+        if (!playerHolder.Player.TryGetComponent(out Health health)) return;
             
-            health.UpdateHealth(-currentAbility.magnitude);
-            health.UpdateHealthText();
-        }
+        health.UpdateHealth(-currentAbility.magnitude);
+        health.UpdateHealthText();
     }
 }

@@ -35,21 +35,10 @@ public class Intent : MonoBehaviour
 
     public void DrawIntent()
     {
-        var squaresToPaint = enemyAttack.SquaresToAttack;
+        var squaresToPaint = new List<Vector3Int>(enemyAttack.SquaresToAttack);
         if (drawSquares != null)
         {
             drawSquares.DrawHighlights(squaresToPaint, HighlightType.EnemyAttack);
         }
-        paintedTiles = squaresToPaint;
-    }
-
-    public void ClearIntent()
-    {
-        if (drawSquares != null)
-        {
-            drawSquares.ResetHighlights(paintedTiles, HighlightType.EnemyAttack);
-
-        }
-        paintedTiles.Clear();
     }
 }

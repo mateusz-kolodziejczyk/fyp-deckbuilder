@@ -173,7 +173,7 @@ namespace Movement
             }
             if (drawSquares != null)
             {
-                drawSquares.ResetHighlights(movableSquares.ToList(), HighlightType.PlayerMovement);
+                drawSquares.ResetHighlights(HighlightType.PlayerMovement, movableSquares.ToList());
             }            
             movableSquares.Clear();
             // Reset flag

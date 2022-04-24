@@ -24,5 +24,15 @@ namespace SceneManagement
         {
             SceneManager.LoadScene(3);
         }
+
+        public static void LoadWinScreen()
+        {
+            SceneManager.LoadScene(4);
+        }
+
+        public static void LoadGameOver()
+        {
+            SceneManager.LoadScene(5);
+        }
     }
 }
