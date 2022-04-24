@@ -10,13 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dcb93bc8e9b249f0909a66582c11fff8, type: 3}
-  m_Name: Data
+  m_Name: Knight
   m_EditorClassIdentifier: 
-  prefabName: Cross
+  prefabName: Knight
   directions:
-  - {x: 1, y: 0}
-  - {x: 0, y: -1}
-  - {x: -1, y: 0}
-  - {x: 0, y: 1}
+  - {x: 1, y: 2}
+  - {x: 2, y: 1}
+  - {x: -1, y: 2}
+  - {x: -2, y: 1}
+  - {x: -1, y: -2}
+  - {x: -2, y: -1}
+  - {x: 1, y: -1}
+  - {x: 2, y: -2}
   gap: 0
-  repeat: 1
+  repeat: 0

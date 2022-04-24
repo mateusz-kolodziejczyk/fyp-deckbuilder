@@ -55,7 +55,11 @@ public class TurnManagement : MonoBehaviour
             case Turn.Neutral:
                 CurrentTurn = Turn.Player;
                 // Update the health texts of the enemies
-                gameManager.Enemies.ForEach(x => x.GetComponent<EnemyHealth>().UpdateHealthText());
+                foreach (var o in gameManager.Enemies.Where(x => x.activeSelf))
+                {
+                    o.GetComponent<EnemyHealth>().UpdateHealthText();
+                }
+
                 break;
             case Turn.Enemy:
             {

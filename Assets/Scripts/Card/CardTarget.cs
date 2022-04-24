@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Character;
 using Enums;
 using Helper;
+using ScriptableObjects;
 using UnityEngine;
 
 namespace Card
@@ -53,7 +54,10 @@ namespace Card
             {
                 return;
             }
-            highlightedSquares = GridHighlightHelper.CalculateHighlightedSquares(dataMono.Position, card.range);
+            // If card is not a simple card(one with a target pattern, return)
+            if (card is not SimpleCardScriptableObject targetCard) return;
+            
+            highlightedSquares = GridHighlightHelper.CalculateHighlightedSquares(dataMono.Position, targetCard.range, targetCard.targetingPattern);
             drawSquares.DrawHighlights(highlightedSquares, HighlightType.PlayerAttack);
             
             isHighlightingSquares = true;

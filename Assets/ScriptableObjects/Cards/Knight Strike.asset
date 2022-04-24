@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c94f8dc79ce44df5801f98a42b7473e3, type: 3}
-  m_Name: Strike
+  m_Name: Knight Strike
   m_EditorClassIdentifier: 
-  prefabName: Strike
+  prefabName: Knight Strike
   resourceCost: 1
   goldValue: 3
   range: 3
-  description: Do 4 Damage
+  description: Do 8 Damage
   type: 0
-  magnitude: 4
-  targetingPattern: {fileID: 11400000, guid: e6c4b0dcfdaf9e24286183b8e95cd6ff, type: 2}
+  magnitude: 8
+  targetingPattern: {fileID: 11400000, guid: 416f4a866b806494494cadf56f321033, type: 2}

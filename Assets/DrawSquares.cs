@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Enums;
 using Helper;
 using UnityEngine;
@@ -89,25 +90,20 @@ public class DrawSquares : MonoBehaviour
     public void DrawHighlights(List<Vector3Int> squareCoords, HighlightType type)
     {
         var currentHighlights = typeToHighlights[type];
-        foreach (var coord in squareCoords)
+        // Use Linq to iterate over only the coordinates that exist in currentHighlights
+        foreach (var coord in squareCoords.Where(coord => currentHighlights.ContainsKey(coord)))
         {
-            if (currentHighlights.ContainsKey(coord))
-            {
-                currentHighlights[coord].SetActive(true);
-            }
+            currentHighlights[coord].SetActive(true);
         }
-
     }
  
     public void ResetHighlights(HighlightType type, List<Vector3Int> squareCoords)
     {
         var currentHighlights = typeToHighlights[type];
-        foreach (var coord in squareCoords)
+        // Use Linq to iterate over only the coordinates that exist in currentHighlights
+        foreach (var coord in squareCoords.Where(coord => currentHighlights.ContainsKey(coord)))
         {
-            if (currentHighlights.ContainsKey(coord))
-            {
-                currentHighlights[coord].SetActive(false);
-            }        
+            currentHighlights[coord].SetActive(false);
         }
     }
 

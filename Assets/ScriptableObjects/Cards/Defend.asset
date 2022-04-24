@@ -16,6 +16,7 @@ MonoBehaviour:
   resourceCost: 1
   goldValue: 2
   range: 0
-  description: Prevent 4 damage.
+  description: Prevent 3 damage.
   type: 1
-  magnitude: 4
+  magnitude: 3
+  targetingPattern: {fileID: 0}

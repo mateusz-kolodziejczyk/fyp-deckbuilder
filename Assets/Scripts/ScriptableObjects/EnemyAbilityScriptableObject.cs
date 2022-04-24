@@ -1,4 +1,5 @@
 using Enums;
+using ScriptableObjects.ScriptableObjects;
 using UnityEngine;
 
 namespace ScriptableObjects
@@ -12,5 +13,6 @@ namespace ScriptableObjects
         public int range;
         public int magnitude;
         public CardType abilityType;
+        public TargetingPatternScriptableObject targetingPattern;
     }
 }

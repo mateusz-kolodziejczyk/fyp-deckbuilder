@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Character;
 using Enums;
 using Helper;
@@ -41,14 +42,7 @@ public class EnemyAttack : MonoBehaviour
         // Clear the list of squares to attack
         squaresToAttack = new();
         currentAbility = abilityChooser.GetNextAbility();
-        var directions = HelperConstants.adjacentAddition;
-        foreach (var direction in directions)
-        {
-            for (int i = 1; i <= currentAbility.range; i++)
-            {
-                squaresToAttack.Add(i*direction + dataMono.Position);
-            }
-        }
+        squaresToAttack = GridHighlightHelper.CalculateHighlightedSquares(dataMono.Position, currentAbility.range, currentAbility.targetingPattern);
     }
     public void Attack()
     {

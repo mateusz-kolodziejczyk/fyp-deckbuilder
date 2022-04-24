@@ -25,7 +25,7 @@ namespace Character
                 // This adds -1 if hp is negative, 1 if positive
                 var sign = hp > 0 ? 1 : -1;
                 DataMono.TemporaryHitPoints += 1*sign;
-                hp += sign;
+                hp += -1*sign;
             }
 
             if (hp == 0)

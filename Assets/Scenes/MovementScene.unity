@@ -2153,8 +2153,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cards:
-  - {fileID: 11400000, guid: 015898e1b28e62a438f3b224c8f38015, type: 2}
-  - {fileID: 11400000, guid: 0db55e643af8ef0459f8dd44f7796a50, type: 2}
+  - {fileID: 11400000, guid: c2b2f020e999dc940a5292b2ba7acc53, type: 2}
+  - {fileID: 11400000, guid: b42c3d08134092043afb258204402fa7, type: 2}
+  - {fileID: 11400000, guid: db0bf53840c25204e81ca7727d04f6ff, type: 2}
 --- !u!1 &1433505296
 GameObject:
   m_ObjectHideFlags: 0

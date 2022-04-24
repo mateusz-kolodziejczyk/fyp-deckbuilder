@@ -150,7 +150,7 @@ public class MapGeneration : MonoBehaviour
         
         var finalEnc = GameObject.Instantiate(finalEncounterPrefab, new Vector3(i*encounterSpacing, pathSpacing, 0) , quaternion.identity);
         finalEnc.transform.SetParent(map.transform, false);
-        var endPos = new Vector2Int(i+1, p);
+        var endPos = new Vector2Int(0, length);
         AddPositionToEncounterObject(endPos, ref finalEnc);
         finalEncounter = (endPos, finalEnc);
         encounters[endPos] = finalEnc;

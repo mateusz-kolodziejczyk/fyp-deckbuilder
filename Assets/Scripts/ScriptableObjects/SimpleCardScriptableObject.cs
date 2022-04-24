@@ -1,4 +1,5 @@
 ﻿using Enums;
+using ScriptableObjects.ScriptableObjects;
 using UnityEngine;
 
 namespace ScriptableObjects
@@ -9,5 +10,6 @@ namespace ScriptableObjects
         public CardType type;
         // magnitude is how much the card does. It is the number of damage it does as well as how much defense it adds.
         public int magnitude;
+        public TargetingPatternScriptableObject targetingPattern;
     }
 }
