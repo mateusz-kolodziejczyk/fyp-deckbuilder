@@ -26,11 +26,11 @@ public class CampaignMapManageProgress : MonoBehaviour
         }
         else
         {
-            mapGeneration.LoadMap(CampaignMapDataStore.Connections, CampaignMapDataStore.EncounterScriptableObjects);
+            mapGeneration.LoadMap(CampaignMapDataStore.Connections, CampaignMapDataStore.EncounterScriptableObjects, CampaignMapDataStore.BossEncounterScriptableObject);
         }
 
         PositionPlayer();
-        mapGeneration.setActiveSquares(CampaignMapDataStore.CurrentSquare);
+        mapGeneration.SetActiveSquares(CampaignMapDataStore.CurrentSquare);
         // Update player hp text
         healthText.text = $"{PlayerDataStore.CharacterData.HitPoints}/{PlayerDataStore.CharacterData.MAXHitPoints}";
     }

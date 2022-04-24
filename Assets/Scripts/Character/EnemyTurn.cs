@@ -38,14 +38,14 @@ public class EnemyTurn : MonoBehaviour
     {
     }
 
-    public void MakeTurn()
+    public void MakeTurn(List<Vector3Int> enemyPositions)
     {
         if (health.IsAlive())
         {
             enemyAttack.Attack();
             //attacked = false;
             intent.ClearIntent();
-            enemyMovement.Move();
+            enemyMovement.Move(enemyPositions);
             enemyAttack.CalculateSquaresToAttack();
             intent.DrawIntent();
         }

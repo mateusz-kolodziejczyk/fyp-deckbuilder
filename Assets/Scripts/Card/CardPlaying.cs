@@ -20,9 +20,7 @@ namespace Card
         private Deck deck;
 
         [NotNull] private List<CardScriptableObject> hand = new ();
-
-        [SerializeField] 
-        private Health enemyHealth;
+        
             
 
         private DeckDrawer deckDrawer;
@@ -37,18 +35,19 @@ namespace Card
 
         private CardTarget cardTarget;
 
-        private EnemyHolder enemyHolder;
+
+        private GameManager gameManager;
 
         // Start is called before the first frame update
         private void Start()
         {
             playerTurn = GetComponent<PlayerTurn>();
             cardTarget = GetComponent<CardTarget>();
+            gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
             deck = GetComponent<Deck>();
             deckDrawer = GameObject.FindWithTag("UIDeck").GetComponent<DeckDrawer>();
             characterDataMono = GetComponent<CharacterDataMono>();
             resource = GetComponent<Resource>();
-            enemyHolder = GetComponent<EnemyHolder>();
         }
 
         // Update is called once per frame
@@ -129,10 +128,14 @@ namespace Card
                 switch (card.type)
                 {
                     case CardType.Attack:
-                        if (enemyHolder.GetEnemyPositions().Contains(position))
+                        var enemy = gameManager.GetEnemyAtPosition(position);
+                        if (enemy != null)
                         {
-                            enemyHealth.UpdateHealth(-card.magnitude);
-                            enemyHealth.UpdateHealthText();
+                            if(enemy.TryGetComponent(out EnemyHealth enemyHealth))
+                            {
+                                enemyHealth.UpdateHealth(-card.magnitude);
+                                enemyHealth.UpdateHealthText();
+                            }
                         }
                         else
                         {

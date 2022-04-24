@@ -45,7 +45,7 @@ public class MapGeneration : MonoBehaviour
     private int targetEdgesRemoved = 0;
 
     [SerializeField] private List<EncounterScriptableObject> encounterScriptableObjects;
-    
+    [SerializeField] private List<EncounterScriptableObject> bossEncounterScriptableObjects;
     [SerializeField] private int seed;
     [SerializeField] private bool useSeed;
     
@@ -93,7 +93,7 @@ public class MapGeneration : MonoBehaviour
         DisplayConnections();
     }
 
-    public void LoadMap(Dictionary<Vector2Int, HashSet<Vector2Int>> connections, Dictionary<Vector2Int, EncounterScriptableObject> encounterScriptableObjects)
+    public void LoadMap(Dictionary<Vector2Int, HashSet<Vector2Int>> connections, Dictionary<Vector2Int, EncounterScriptableObject> encounterScriptableObjects, EncounterScriptableObject bossEncounterScriptableObject)
     {
         // Generate base map
         InitialiseMap();
@@ -103,6 +103,8 @@ public class MapGeneration : MonoBehaviour
         {
             encounters[pos].GetComponent<EncounterData>().EncounterScriptableObject = scriptableObject;
         }
+
+        finalEncounter.o.GetComponent<EncounterData>().EncounterScriptableObject = bossEncounterScriptableObject;
         
         // Display connection
         DisplayConnections();
@@ -138,11 +140,12 @@ public class MapGeneration : MonoBehaviour
             }
         }
         
-        var finalEnc = GameObject.Instantiate(encounterPrefab, new Vector3(i*encounterSpacing, pathSpacing, 0) , quaternion.identity);
+        var finalEnc = GameObject.Instantiate(finalEncounterPrefab, new Vector3(i*encounterSpacing, pathSpacing, 0) , quaternion.identity);
         finalEnc.transform.SetParent(map.transform, false);
-        var endPos = new Vector2Int(i, 0);
+        var endPos = new Vector2Int(i+1, p);
         AddPositionToEncounterObject(endPos, ref finalEnc);
         finalEncounter = (endPos, finalEnc);
+        encounters[endPos] = finalEnc;
     }
 
     private void InitialiseConnections()
@@ -286,6 +289,8 @@ public class MapGeneration : MonoBehaviour
         }
 
         CampaignMapDataStore.EncounterScriptableObjects = posToEncounterScriptableObject;
+        CampaignMapDataStore.BossEncounterScriptableObject =
+            finalEncounter.o.GetComponent<EncounterData>().EncounterScriptableObject;
     }
     private void GenerateMap()
     {
@@ -377,7 +382,7 @@ public class MapGeneration : MonoBehaviour
     }
 
     // Set all squares as inactive that are the same depth or less than the current player position
-    public void setActiveSquares(Vector2Int playerPos)
+    public void SetActiveSquares(Vector2Int playerPos)
     {
         startEncounter.o.GetComponent<EncounterInteraction>().Active = false;
 
@@ -463,5 +468,8 @@ public class MapGeneration : MonoBehaviour
             encounter.GetComponent<EncounterData>().EncounterScriptableObject =
                 encounterScriptableObjects[Random.Range(0, encounterScriptableObjects.Count)];
         }
+
+        finalEncounter.o.GetComponent<EncounterData>().EncounterScriptableObject =
+            bossEncounterScriptableObjects[Random.Range(0, bossEncounterScriptableObjects.Count)];
     }
 }

@@ -73,6 +73,9 @@ TagManager:
   - name: Encounter
     uniqueID: 1210275175
     locked: 0
+  - name: UI
+    uniqueID: 1606526143
+    locked: 0
   - name: Character
     uniqueID: 1253681955
     locked: 0

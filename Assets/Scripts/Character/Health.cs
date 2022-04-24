@@ -7,27 +7,24 @@ namespace Character
     [RequireComponent(typeof(CharacterDataMono))]
     public class Health : MonoBehaviour
     {
-        private CharacterDataMono dataMono;
+        private protected CharacterDataMono DataMono;
 
         [SerializeField]
         private TextMeshProUGUI healthText;
         // Start is called before the first frame update
         void Start()
         {
-            dataMono = GetComponent<CharacterDataMono>();
-            if (healthText != null)
-            {
-                UpdateHealthText();
-            }
+            DataMono = GetComponent<CharacterDataMono>();
+            UpdateHealthText();
         }
 
         public void UpdateHealth(int hp)
         {
-            while (dataMono.TemporaryHitPoints > 0 && hp != 0)
+            while (DataMono.TemporaryHitPoints > 0 && hp != 0)
             {
                 // This adds -1 if hp is negative, 1 if positive
                 var sign = hp > 0 ? 1 : -1;
-                dataMono.TemporaryHitPoints += 1*sign;
+                DataMono.TemporaryHitPoints += 1*sign;
                 hp += sign;
             }
 
@@ -36,22 +33,22 @@ namespace Character
                 return;
             }
             
-            dataMono.HitPoints += hp;
+            DataMono.HitPoints += hp;
         }
 
         public void AddTemporaryHP(int hp)
         {
-            dataMono.TemporaryHitPoints += hp;
+            DataMono.TemporaryHitPoints += hp;
         }
         public bool IsAlive()
         {
-            return dataMono.HitPoints > 0;
+            return DataMono.HitPoints > 0;
         }
 
-        public void UpdateHealthText()
+        public virtual void UpdateHealthText()
         {
             // If max hitpoints are 0, they haven't been initialised yet.
-            var maxHitPoints = dataMono.MAXHitPoints == 0 ? dataMono.HitPoints : dataMono.MAXHitPoints;
+            var maxHitPoints = DataMono.MAXHitPoints == 0 ? DataMono.HitPoints : DataMono.MAXHitPoints;
             // If the character is not alive, set the text to say "Dead"
             if (!IsAlive())
             {
@@ -59,12 +56,12 @@ namespace Character
                 return;
             }
             
-            var s = $"{dataMono.HitPoints}/{maxHitPoints}";
+            var s = $"{DataMono.HitPoints}/{maxHitPoints}";
             
             // IF there are any temporary hit points, add them at the end.
-            if (dataMono.TemporaryHitPoints > 0)
+            if (DataMono.TemporaryHitPoints > 0)
             {
-                s += $" + {dataMono.TemporaryHitPoints}";
+                s += $" + {DataMono.TemporaryHitPoints}";
             }
 
             healthText.text = s;

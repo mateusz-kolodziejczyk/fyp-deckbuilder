@@ -109,7 +109,7 @@ namespace Movement
             transform.position = tilemap.CellToLocal(characterDataMono.Position);
         }
 
-        public void ShowMovementRange()
+        public void ShowMovementRange(List<Vector3Int> enemyPositions)
         {
             // Do not recalculate movement range if it has already been done
             if (isShowingMovementRange)
@@ -146,12 +146,12 @@ namespace Movement
                     foreach (var adjacentAdd in adjacentAddition)
                     {
                         var adjacent = adjacentAdd + pos;
-                        if (tilemap.HasTile(adjacent))
-                        {
-                            movableSquares.Add(adjacent);
-                            queue.Enqueue(adjacent);
-                        }
+                        // Make sure the tile does nto have an enemy on it
+                        if (!tilemap.HasTile(adjacent) || enemyPositions.Contains(adjacent)) continue;
                         
+                        movableSquares.Add(adjacent);
+                        queue.Enqueue(adjacent);
+
                     }
                 }
             }

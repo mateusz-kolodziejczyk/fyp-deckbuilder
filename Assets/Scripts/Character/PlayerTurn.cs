@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Card;
 using Enums;
 using Movement;
@@ -76,10 +77,10 @@ namespace Character
             finishedTurnSetup = true;
         }
 
-        public void HandleTurn()
+        public void HandleTurn(List<Vector3Int> enemyPositions)
         {
             // Get input and update state at the same time
-            state = input.HandleInput(state);
+            state = input.HandleInput(state, enemyPositions);
             // If not targeting, clear the target squares
             if (state != PlayerState.Targeting)
             {
@@ -95,7 +96,7 @@ namespace Character
             switch (state)
             {
                 case PlayerState.Moving:
-                    playerMovement.ShowMovementRange();
+                    playerMovement.ShowMovementRange(enemyPositions);
                     cardTarget.ClearTargetSquares();
                     cardPlaying.DeselectCard();
                     break;

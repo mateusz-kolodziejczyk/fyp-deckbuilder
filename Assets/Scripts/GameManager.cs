@@ -176,4 +176,35 @@ public class GameManager : MonoBehaviour
         PlayerDataStore.CharacterData.HitPoints = playerDataMono.HitPoints;
         
     }
+
+    public List<Vector3Int> GetEnemyPositions()
+    {
+        var positions = new List<Vector3Int>();
+        foreach (var enemy in Enemies.Where(x => x.activeSelf))
+        {
+            if (enemy.TryGetComponent(out CharacterDataMono data))
+            {
+                positions.Add(data.Position);
+            }
+        }
+        return positions;
+    }
+
+    public GameObject GetEnemyAtPosition(Vector3Int pos)
+    {
+        var activeEnemies = Enemies.Where(x => x.activeSelf);
+
+        // Try to find an enemy that satisfies the query.
+        foreach (var activeEnemy in activeEnemies)
+        {
+            if (!activeEnemy.TryGetComponent(out CharacterDataMono data)) continue;
+            
+            if (data.Position == pos)
+            {
+                return activeEnemy;
+            }
+        }
+
+        return null;
+    }
 }

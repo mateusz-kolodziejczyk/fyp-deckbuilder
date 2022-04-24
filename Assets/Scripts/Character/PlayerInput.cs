@@ -23,7 +23,7 @@ public class PlayerInput : MonoBehaviour
     }
 
     // Returns a state since a keyboard input might involve a change in state.
-    public PlayerState HandleInput(PlayerState state)
+    public PlayerState HandleInput(PlayerState state, List<Vector3Int> enemyPositions)
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -33,7 +33,10 @@ public class PlayerInput : MonoBehaviour
                 switch (state)
                 {
                     case PlayerState.Moving:
-                        movement.UpdateCurrentCellMouse(pos);
+                        if (!enemyPositions.Contains(pos))
+                        {
+                            movement.UpdateCurrentCellMouse(pos);
+                        }
                         break;
                     case PlayerState.Targeting:
                         if (cardPlaying.PlayCard(pos))

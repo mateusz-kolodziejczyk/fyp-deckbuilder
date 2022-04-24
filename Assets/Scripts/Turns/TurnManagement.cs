@@ -24,6 +24,8 @@ public class TurnManagement : MonoBehaviour
     private PlayerTurn playerTurnComponent;
 
     private bool foundComponents;
+
+    private List<Vector3Int> enemyPositions;
     
     // Start is called before the first frame update
     private void Start()
@@ -35,12 +37,14 @@ public class TurnManagement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        Debug.Log(enemyTurnComponents.Count);
         if(!foundComponents)
         {
             GetTurnComponents();
         }
-
+        
+        // If enemy positions are null, get them
+        enemyPositions ??= gameManager.GetEnemyPositions();
+        
         switch (CurrentTurn)
         {
             // Turn manager handles both player and Enemy turns
@@ -51,9 +55,11 @@ public class TurnManagement : MonoBehaviour
             {
                 foreach (var enemyTurnComponent in enemyTurnComponents.Where(enemyTurnComponent => enemyTurnComponent.gameObject.activeSelf))
                 {
-                    enemyTurnComponent.MakeTurn();
+                    enemyTurnComponent.MakeTurn(enemyPositions);
                 }
                 AdvanceTurn();
+                // Get the enemy positions right after the enemies finish their turn
+                enemyPositions = gameManager.GetEnemyPositions();
                 break;
             }
             case Turn.Player:
@@ -62,7 +68,7 @@ public class TurnManagement : MonoBehaviour
                 {
                     playerTurnComponent.SetUpTurn();
                 }
-                playerTurnComponent.HandleTurn();
+                playerTurnComponent.HandleTurn(enemyPositions);
                 break;
             }
             default:

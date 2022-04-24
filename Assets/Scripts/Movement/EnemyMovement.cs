@@ -42,9 +42,9 @@ namespace Movement
             }
         }
         
-        public void Move()
+        public void Move(List<Vector3Int> ignoredPositions)
         {
-            pathfinding.CalculatePath(characterDataMono.Position, playerDataMono.Position, tilemap, new List<Vector3Int>());
+            pathfinding.CalculatePath(characterDataMono.Position, playerDataMono.Position, tilemap, ignoredPositions);
 
             for (int i = 0; i < characterDataMono.MovementSpeed; i++)
             {
