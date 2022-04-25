@@ -42,6 +42,21 @@ namespace Card
             isHighlightingSquares = false;
             drawSquares.ResetHighlights(HighlightType.PlayerAttack, highlightedSquares);
         }
+
+        public void HighlightPlayerSquare()
+        {
+            if (isHighlightingSquares)
+            {
+                return;
+            }
+
+            highlightedSquares = new() {dataMono.Position};
+            drawSquares.DrawHighlights(highlightedSquares, HighlightType.PlayerAttack);
+            
+            isHighlightingSquares = true;
+        }
+        
+        
         public void HighlightTargetSquares()
         {
             if (isHighlightingSquares)

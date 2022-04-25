@@ -1,61 +1,60 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Character;
 using Enums;
 using Helper;
 using ScriptableObjects;
-using Unity.VisualScripting;
 using UnityEngine;
 
-[RequireComponent(typeof(AbilityChooser))]
-[RequireComponent(typeof(PlayerHolder))]
-public class EnemyAttack : MonoBehaviour
+namespace Character
 {
-    private AbilityChooser abilityChooser;
-
-    private List<Vector3Int> squaresToAttack = new ();
-
-    public List<Vector3Int> SquaresToAttack
+    [RequireComponent(typeof(AbilityChooser))]
+    [RequireComponent(typeof(PlayerHolder))]
+    public class EnemyAttack : MonoBehaviour
     {
-        get => squaresToAttack;
-        set => squaresToAttack = value;
-    }
+        private AbilityChooser abilityChooser;
 
-    private EnemyAbilityScriptableObject currentAbility;
+        private List<Vector3Int> squaresToAttack = new ();
 
-    private PlayerHolder playerHolder;
+        public List<Vector3Int> SquaresToAttack
+        {
+            get => squaresToAttack;
+            set => squaresToAttack = value;
+        }
 
-    private CharacterDataMono dataMono;
-    // Start is called before the first frame update
-    private void Start()
-    {
-        abilityChooser = GetComponent<AbilityChooser>();
-        playerHolder = GetComponent<PlayerHolder>();
-        dataMono = GetComponent<CharacterDataMono>();
-    }
+        private EnemyAbilityScriptableObject currentAbility;
+
+        private PlayerHolder playerHolder;
+
+        private CharacterDataMono dataMono;
+        // Start is called before the first frame update
+        private void Start()
+        {
+            abilityChooser = GetComponent<AbilityChooser>();
+            playerHolder = GetComponent<PlayerHolder>();
+            dataMono = GetComponent<CharacterDataMono>();
+        }
 
 
 
-    public void CalculateSquaresToAttack()
-    {
-        // Clear the list of squares to attack
-        squaresToAttack = new();
-        currentAbility = abilityChooser.GetNextAbility();
-        squaresToAttack = GridHighlightHelper.CalculateHighlightedSquares(dataMono.Position, currentAbility.range, currentAbility.targetingPattern);
-    }
-    public void Attack()
-    {
-        if (!playerHolder.Player.TryGetComponent(out CharacterDataMono playerData)) return;
+        public void CalculateSquaresToAttack()
+        {
+            // Clear the list of squares to attack
+            squaresToAttack = new();
+            currentAbility = abilityChooser.GetNextAbility();
+            squaresToAttack = GridHighlightHelper.CalculateHighlightedSquares(dataMono.Position, currentAbility.range, currentAbility.targetingPattern);
+        }
+        public void Attack()
+        {
+            if (!playerHolder.Player.TryGetComponent(out CharacterDataMono playerData)) return;
         
 
-        if (!squaresToAttack.Contains(playerData.Position)) return;
+            if (!squaresToAttack.Contains(playerData.Position)) return;
         
-        if (currentAbility.abilityType != CardType.Attack) return;
+            if (currentAbility.abilityType != CardType.Attack) return;
         
-        if (!playerHolder.Player.TryGetComponent(out Health health)) return;
+            if (!playerHolder.Player.TryGetComponent(out Health health)) return;
             
-        health.UpdateHealth(-currentAbility.magnitude);
-        health.UpdateHealthText();
+            health.UpdateHealth(-currentAbility.magnitude);
+            health.UpdateHealthText();
+        }
     }
 }

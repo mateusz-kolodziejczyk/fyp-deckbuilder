@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Card;
@@ -8,9 +7,7 @@ using Movement;
 using SceneManagement;
 using ScriptableObjects;
 using Statics;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {

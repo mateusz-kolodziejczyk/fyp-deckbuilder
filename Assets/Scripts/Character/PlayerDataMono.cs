@@ -1,6 +1,4 @@
-﻿using Statics;
-
-namespace Character
+﻿namespace Character
 {
     public class PlayerDataMono : CharacterDataMono
     {

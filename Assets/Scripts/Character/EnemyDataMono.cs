@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using ScriptableObjects;
-using UnityEngine;
 
 namespace Character
 {

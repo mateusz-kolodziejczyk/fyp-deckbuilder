@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using SceneManagement;
 using Statics;
 using UnityEngine;

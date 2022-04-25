@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using Card;
 using Enums;
 using Movement;
-using Statics;
 using TMPro;
+using Turns;
 using UnityEngine;
 
 namespace Character

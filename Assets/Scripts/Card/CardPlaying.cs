@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Character;
@@ -6,8 +5,6 @@ using Enums;
 using JetBrains.Annotations;
 using ScriptableObjects;
 using UI;
-using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
 
 namespace Card
@@ -115,8 +112,7 @@ namespace Card
             var c = hand[currentCardIndex];
             
             // Check if position is currently drawn.
-            // If card has range 0, it's not an attack card so position does not matter
-            if (!cardTarget.ContainsPos(position) && c.range > 0)
+            if (!cardTarget.ContainsPos(position))
             {
                 return false;
             }
@@ -225,19 +221,21 @@ namespace Card
             // Unhighlight currently highlighted squares
             cardTarget.ClearTargetSquares();
             
-            // If card has range 0, play it instantly
-            if (c.range == 0)
-            {
-                PlayCard(Vector3Int.zero);
-                playerTurn.State = PlayerState.Idle;
-                return;
-            }
+
             
             // Highlight the card
             deckDrawer.HighlightCard(currentCardIndex);
 
-            // Highlight new squares
-            cardTarget.HighlightTargetSquares();
+            // If card has range 0, highlight the playerSquare
+            if (c.range == 0)
+            {
+                cardTarget.HighlightPlayerSquare();
+            }
+            else
+            {
+                // Highlight new squares
+                cardTarget.HighlightTargetSquares();  
+            }
             
             // Set the playeturn state to "targeting"
             playerTurn.State = PlayerState.Targeting;

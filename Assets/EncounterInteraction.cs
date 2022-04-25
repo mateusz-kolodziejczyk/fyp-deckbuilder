@@ -1,12 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using SceneManagement;
 using ScriptableObjects;
 using Statics;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(AnimationScaler))]
 public class EncounterInteraction : MonoBehaviour

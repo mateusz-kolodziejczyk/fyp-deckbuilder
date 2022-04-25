@@ -1,15 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Character;
 using Enums;
 using Helper;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
-using MouseButton = UnityEngine.UIElements.MouseButton;
 
 namespace Movement
 {
@@ -92,15 +88,24 @@ namespace Movement
 
         public void UpdatePositionToDataPosition()
         {
-            var pos = characterDataMono.Position;
+            if (TryGetComponent(out CharacterDataMono data) && characterDataMono == null)
+            {
+                characterDataMono = data;
+            }
+            
+            var pos = characterDataMono.Position;            
+            Debug.Log("Not CharacterDataMono");
             if (!tilemap.HasTile(pos))
             {
                 characterDataMono.Position = Vector3Int.zero;
                 return;
             }
+            Debug.Log("Not TileMap");
             
             var newPos = tilemap.CellToLocal(pos);
             transform.position = newPos;
+            Debug.Log("Not Transform");
+
         }
  
         void UpdateCurrentCell(Vector3Int offset)

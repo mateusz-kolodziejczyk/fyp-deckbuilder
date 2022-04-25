@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using Card;
 using Character;
 using ScriptableObjects;
 using Statics;
@@ -15,6 +12,7 @@ public class GameStartManagement : MonoBehaviour
     {
         PlayerDataStore.ResetData();
         CampaignMapDataStore.ResetData();
+        Debug.Log("Reset Data");
     }
     public void UpdatePlayerData()
     {
@@ -23,5 +21,7 @@ public class GameStartManagement : MonoBehaviour
 
         PlayerDataStore.CharacterData = playerData;
         PlayerDataStore.Deck = playerCharacter.startDeck.Select(x => x).ToList();
+        Debug.Log("Updated Player Data");
+        Debug.Log(PlayerDataStore.CharacterData);
     }
 }

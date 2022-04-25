@@ -1,10 +1,6 @@
-using System;
 using System.Collections.Generic;
 using ScriptableObjects;
-using Statics;
-using UI;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Card
