@@ -1,3 +1,4 @@
+using Enums;
 using UnityEngine.SceneManagement;
 
 namespace SceneManagement
@@ -6,32 +7,32 @@ namespace SceneManagement
     {
         public static void LoadMainMenu()
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(SceneMatcher.SceneTypeToIndex[SceneType.MainMenu]);
         }
 
         public static void LoadCombat()
         {
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(SceneMatcher.SceneTypeToIndex[SceneType.Battle]);
         }
 
         public static void LoadCampaign()
         {
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene(SceneMatcher.SceneTypeToIndex[SceneType.CampaignMap]);
         }
 
         public static void LoadShop()
         {
-            SceneManager.LoadScene(3);
+            SceneManager.LoadScene(SceneMatcher.SceneTypeToIndex[SceneType.Shop]);
         }
 
         public static void LoadWinScreen()
         {
-            SceneManager.LoadScene(4);
+            SceneManager.LoadScene(SceneMatcher.SceneTypeToIndex[SceneType.Win]);
         }
 
         public static void LoadGameOver()
         {
-            SceneManager.LoadScene(5);
+            SceneManager.LoadScene(SceneMatcher.SceneTypeToIndex[SceneType.GameOver]);
         }
     }
 }

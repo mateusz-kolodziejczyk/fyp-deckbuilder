@@ -21,6 +21,7 @@ TagManager:
   - GameStartManager
   - StartButton
   - OptionsMenu
+  - MusicPlayer
   layers:
   - Default
   - TransparentFX
