@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Audio;
 using Character;
 using Enemy;
 using Enums;
@@ -38,6 +39,8 @@ namespace Card
 
         private GameManager gameManager;
 
+        private PlayerAudio playerAudio;
+
         // Start is called before the first frame update
         private void Start()
         {
@@ -48,6 +51,7 @@ namespace Card
             deckDrawer = GameObject.FindWithTag("UIDeck").GetComponent<DeckDrawer>();
             characterDataMono = GetComponent<CharacterDataMono>();
             resource = GetComponent<Resource>();
+            playerAudio = GetComponent<PlayerAudio>();
         }
 
         // Update is called once per frame
@@ -130,6 +134,7 @@ namespace Card
                         var enemy = gameManager.GetEnemyAtPosition(position);
                         if (enemy != null)
                         {
+                            playerAudio.PlayAudio();
                             if(enemy.TryGetComponent(out EnemyHealth enemyHealth))
                             {
                                 enemyHealth.UpdateHealth(-card.magnitude);

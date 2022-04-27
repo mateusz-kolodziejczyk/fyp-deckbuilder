@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5da98e0d8214cde8620ea6f2a9a941e, type: 3}
+  m_Name: roxy
+  m_EditorClassIdentifier: 
+  prefabName: Roxy
+  movementPoints: 2
+  hp: 30
+  sprite: {fileID: 21300000, guid: 21f37d490c90ad749936e86297afe185, type: 3}
+  abilities:
+  - {fileID: 11400000, guid: 793345824bb9b7e43b6ed2c796734cd2, type: 2}
+  - {fileID: 11400000, guid: 664b97be74d125840b3897cb4ebbfcfd, type: 2}
+  enemyPrefab: {fileID: 2958106504354438867, guid: b76b2968286fee3499b1c14773607e6e, type: 3}

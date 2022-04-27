@@ -21,7 +21,7 @@ namespace Shop
             nameText.text = Card.prefabName;
             description.text = Card.description;
             resourceCost.text = Card.resourceCost.ToString();
-            moneyCost.text = $"${Card.goldValue}";
+            moneyCost.text = $"{Card.goldValue}";
         }
     }
 }

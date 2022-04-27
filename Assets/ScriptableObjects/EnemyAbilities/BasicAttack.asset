@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BasicAttack
   m_EditorClassIdentifier: 
   prefabName: BasicAttack
-  range: 2
+  range: 3
   magnitude: 5
   abilityType: 0
-  targetingPattern: {fileID: 11400000, guid: e6c4b0dcfdaf9e24286183b8e95cd6ff, type: 2}
+  targetingPattern: {fileID: 11400000, guid: 2d185fc8a68793f43b5d238b9186bac9, type: 2}

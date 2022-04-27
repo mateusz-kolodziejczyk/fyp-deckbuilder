@@ -10,7 +10,8 @@ namespace Shop
     public class ManageShop : MonoBehaviour
     {
         [SerializeField] private List<CardScriptableObject> possibleCards = new();
-    
+
+        private AudioSource audioSource;
         public List<CardScriptableObject> PossibleCards 
         {
             get => possibleCards;
@@ -29,6 +30,7 @@ namespace Shop
             }
             InitialiseShopCards();
             SetCurrencyText();
+            audioSource = GetComponent<AudioSource>();
         }
 
         private void InitialiseShopCards()
@@ -51,6 +53,8 @@ namespace Shop
             PlayerDataStore.Deck.Add(card);
             PlayerDataStore.CharacterData.Currency -= card.goldValue;
             SetCurrencyText();
+            // Play audio
+            audioSource.Play();
             return true;
         }
 
@@ -60,7 +64,7 @@ namespace Shop
             {
                 return;
             }
-            currencyText.text = $"Currency: {PlayerDataStore.CharacterData.Currency}";
+            currencyText.text = $"{PlayerDataStore.CharacterData.Currency}";
         }
     }
 }

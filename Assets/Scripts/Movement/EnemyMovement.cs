@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Character;
 using Enemy;
+using Managers;
 using Player;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -19,6 +20,8 @@ namespace Movement
         private EnemyPathfinding pathfinding;
 
         private CharacterDataMono playerDataMono;
+
+        private GameManager gameManager;
         // Start is called before the first frame update
         void Start()
         {
@@ -29,6 +32,8 @@ namespace Movement
             
             characterDataMono = GetComponent<CharacterDataMono>();
             pathfinding = GetComponent<EnemyPathfinding>();
+
+            gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
             
             // Reset enemy to start square
             ResetToStart();
@@ -47,9 +52,11 @@ namespace Movement
         {
             pathfinding.CalculatePath(characterDataMono.Position, playerDataMono.Position, tilemap, ignoredPositions);
 
+            // If gamemanager is not there, do not move.
+            if (gameManager == null) return;
             for (int i = 0; i < characterDataMono.MovementSpeed; i++)
             {
-                 var (pos, returnedValue) = pathfinding.GetNextSquareInPath();
+                var (pos, returnedValue) = pathfinding.GetNextSquareInPath();
                 // If didn't return a value, stop moving immediately
                 if (!returnedValue)
                 {
@@ -68,6 +75,11 @@ namespace Movement
                     return;
                 }
                 
+                // If there is an enemy at the position, do not move
+                if (gameManager.GetEnemyAtPosition(pos) != null)
+                {
+                    return;
+                }
                 // Handle moving
                 characterDataMono.Position = pos;
                 var newPos = tilemap.CellToLocal(pos);

@@ -25,5 +25,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 015898e1b28e62a438f3b224c8f38015, type: 2}
   - {fileID: 11400000, guid: 015898e1b28e62a438f3b224c8f38015, type: 2}
   - {fileID: 11400000, guid: 015898e1b28e62a438f3b224c8f38015, type: 2}
-  startCurrency: 10
+  startCurrency: 5
   startResource: 2

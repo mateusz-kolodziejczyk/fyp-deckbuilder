@@ -13,6 +13,8 @@ namespace ProceduralGeneration
         private MapGeneration mapGeneration;
 
         [SerializeField] private TextMeshProUGUI healthText;
+
+        [SerializeField] private TextMeshProUGUI currencyText;
         // Start is called before the first frame update
         private void Start()
         {
@@ -32,6 +34,8 @@ namespace ProceduralGeneration
             mapGeneration.SetActiveSquares(CampaignMapDataStore.CurrentSquare);
             // Update player hp text
             healthText.text = $"{PlayerDataStore.CharacterData.HitPoints}/{PlayerDataStore.CharacterData.MAXHitPoints}";
+            // Update player currency text
+            currencyText.text = $"{PlayerDataStore.CharacterData.Currency}";
         }
 
         private void PositionPlayer()

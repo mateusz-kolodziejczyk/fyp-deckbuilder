@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: basicEnemy
   m_EditorClassIdentifier: 
   prefabName: Basic Enemy
-  movementPoints: 1
+  movementPoints: 2
   hp: 10
-  sprite: {fileID: 21300000, guid: 29ae68c51668571438b668649add205d, type: 3}
+  sprite: {fileID: 21300000, guid: c20de44ba4502994cb6eb3523e8d2c88, type: 3}
   abilities:
   - {fileID: 11400000, guid: 750dab42f886e7d44a62cd59120866c6, type: 2}
+  - {fileID: 11400000, guid: cf2da5103b1e8e24fa5268681b6ed5be, type: 2}
   enemyPrefab: {fileID: 2958106504354438867, guid: b76b2968286fee3499b1c14773607e6e, type: 3}

@@ -21,4 +21,4 @@ MonoBehaviour:
   enemyPositions:
   - {x: 2, y: 2, z: 0}
   playerStartPosition: {x: -2, y: -2, z: 0}
-  currencyReward: 0
+  currencyReward: 3

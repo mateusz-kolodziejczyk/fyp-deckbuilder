@@ -22,21 +22,20 @@ namespace RewardScreen
             {
                 return;
             }
-
-            // Make sure that the index exists in the list
-            if (!rewardCardManagement.CardTypes.ElementAtOrDefault(rewardCardManagement.SelectedCardIndex))
+            
+            // If the index exists, the card exists
+            // If it does, add it to the deck
+            if (rewardCardManagement.CardTypes.ElementAtOrDefault(rewardCardManagement.SelectedCardIndex))
             {
-                return;
-            }
-
-            var card = rewardCardManagement.CardTypes[rewardCardManagement.SelectedCardIndex];
+                var card = rewardCardManagement.CardTypes[rewardCardManagement.SelectedCardIndex];
         
-            // Add card to player's deck, by adding it to the stored data version
-            PlayerDataStore.Deck.Add(card);
+                // Add card to player's deck, by adding it to the stored data version
+                PlayerDataStore.Deck.Add(card);
 
-            rewardCardManagement.CardAlreadyChosen = true;
-            rewardCardManagement.UnhighlightCards();
-            rewardCardManagement.SelectedCardIndex = -1;
+                rewardCardManagement.CardAlreadyChosen = true;
+                rewardCardManagement.UnhighlightCards();
+                rewardCardManagement.SelectedCardIndex = -1;
+            }
             var gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
             gameManager.UpdatePlayerData();
             gameManager.GoToCampaign();

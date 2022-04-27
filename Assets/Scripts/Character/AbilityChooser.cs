@@ -7,23 +7,24 @@ namespace Character
     public class AbilityChooser : MonoBehaviour
     {
         private EnemyDataMono dataMono;
+        private int currentAbilityIndex = 0;
 
         // Start is called before the first frame update
         void Start()
         {
             dataMono = GetComponent<EnemyDataMono>();
         }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
-
         public EnemyAbilityScriptableObject GetNextAbility()
         {
-            // TODO: Do proper sequence of abilities
-            return dataMono.Abilities[0];
+            var newAbility =  dataMono.Abilities[currentAbilityIndex];
+            
+            currentAbilityIndex += 1;
+            if (currentAbilityIndex >= dataMono.Abilities.Count)
+            {
+                currentAbilityIndex = 0;
+            }
+            
+            return newAbility;
         }
     }
 }

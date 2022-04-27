@@ -21,6 +21,8 @@ namespace Managers
         public List<GameObject> Enemies { get; private set; }
         public GameObject Player { get; private set; }
         // Start is called before the first frame update
+
+        private BattleScriptableObject currentEncounter;
         void Start()
         {
             FindPlayer();
@@ -76,6 +78,7 @@ namespace Managers
             if (encounterScriptableObject is BattleScriptableObject encounter)
             {
                 data.Position = encounter.playerStartPosition;
+                currentEncounter = encounter;
             }
         
             // Move the player to the correct location
@@ -88,13 +91,18 @@ namespace Managers
 
         private void SetupEnemies()
         {
-            // Try to get the encounter scriptable object as it contains enemy data
-            if (!CampaignMapDataStore.EncounterScriptableObjects.TryGetValue(CampaignMapDataStore.CurrentSquare,
-                out var encounterScriptableObject)) return;
+            if (currentEncounter == null)
+            {
+                // If current encounter is null, try to get the encounter manually.
+                if (!CampaignMapDataStore.EncounterScriptableObjects.TryGetValue(CampaignMapDataStore.CurrentSquare,
+                    out var encounterScriptableObject)) return;
+                if (encounterScriptableObject is not BattleScriptableObject encounter) return;
+                currentEncounter = encounter;
+            }
 
-            if (encounterScriptableObject is not BattleScriptableObject encounter) return;
+
             // Zip the enemy and enemy positions together as they have to be separated for the scritpable object
-            var enemyObjectsAndPositions = encounter.enemies.Zip(encounter.enemyPositions, Tuple.Create);
+            var enemyObjectsAndPositions = currentEncounter.enemies.Zip(currentEncounter.enemyPositions, Tuple.Create);
 
             Enemies = new();
         
@@ -102,7 +110,7 @@ namespace Managers
             {
                 var newEnemy = Instantiate(enemyScriptableObject.enemyPrefab, Vector3.zero, Quaternion.identity);
                 var data = newEnemy.GetComponent<EnemyDataMono>();
-            
+                
                 // HP
                 data.MAXHitPoints = enemyScriptableObject.hp;
                 data.HitPoints = enemyScriptableObject.hp;
@@ -117,6 +125,8 @@ namespace Managers
                 data.MovementSpeed = enemyScriptableObject.movementPoints;
                 data.MovementPoints = enemyScriptableObject.movementPoints;
             
+                // Setup enemy sprite
+                newEnemy.GetComponent<SpriteRenderer>().sprite = enemyScriptableObject.sprite;
                 Enemies.Add(newEnemy);
             }
         }
@@ -125,6 +135,7 @@ namespace Managers
         {
             SceneMovement.LoadCampaign();
         }
+
 
         public void GameOver()
         {
@@ -180,9 +191,9 @@ namespace Managers
 
         public void UpdatePlayerData()
         {
-            // Right now only update hitpoints, everything else is only changed after fight
+            // Update hitpoints and currency
             PlayerDataStore.CharacterData.HitPoints = playerDataMono.HitPoints;
-        
+            PlayerDataStore.CharacterData.Currency += currentEncounter.currencyReward;
         }
 
         public List<Vector3Int> GetEnemyPositions()
