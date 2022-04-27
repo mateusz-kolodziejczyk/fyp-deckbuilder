@@ -28,7 +28,6 @@ namespace Enemy
             turnManager = GameObject.FindWithTag("TurnManager").GetComponent<TurnManagement>();
             if (turnManager == null)
             {
-                Debug.Log("No Turn Manager Found");
                 return;
             }
             enemyAttack = GetComponent<EnemyAttack>();

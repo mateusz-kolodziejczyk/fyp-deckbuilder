@@ -1,6 +1,6 @@
 ﻿namespace Enums
 {
-    public enum CardType
+    public enum AbilityType
     {
         Attack,
         Defence,

@@ -12,7 +12,7 @@ namespace ScriptableObjects
 
         public int range;
         public int magnitude;
-        public CardType abilityType;
+        public AbilityType abilityType;
         public TargetingPatternScriptableObject targetingPattern;
     }
 }

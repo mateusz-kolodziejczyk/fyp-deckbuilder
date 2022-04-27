@@ -22,7 +22,7 @@ namespace Enemy
             set => squaresToAttack = value;
         }
 
-        private EnemyAbilityScriptableObject currentAbility;
+        public EnemyAbilityScriptableObject CurrentAbility { get; private set; }
 
         private PlayerHolder playerHolder;
 
@@ -41,8 +41,8 @@ namespace Enemy
         {
             // Clear the list of squares to attack
             squaresToAttack = new();
-            currentAbility = abilityChooser.GetNextAbility();
-            squaresToAttack = GridHighlightHelper.CalculateHighlightedSquares(dataMono.Position, currentAbility.range, currentAbility.targetingPattern);
+            CurrentAbility = abilityChooser.GetNextAbility();
+            squaresToAttack = GridHighlightHelper.CalculateHighlightedSquares(dataMono.Position, CurrentAbility.range, CurrentAbility.targetingPattern);
         }
         public void Attack()
         {
@@ -51,11 +51,11 @@ namespace Enemy
 
             if (!squaresToAttack.Contains(playerData.Position)) return;
         
-            if (currentAbility.abilityType != CardType.Attack) return;
+            if (CurrentAbility.abilityType != AbilityType.Attack) return;
         
             if (!playerHolder.Player.TryGetComponent(out Health health)) return;
             
-            health.UpdateHealth(-currentAbility.magnitude);
+            health.UpdateHealth(-CurrentAbility.magnitude);
             health.UpdateHealthText();
         }
     }

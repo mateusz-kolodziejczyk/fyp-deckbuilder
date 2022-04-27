@@ -126,7 +126,7 @@ namespace Card
             {
                 switch (card.type)
                 {
-                    case CardType.Attack:
+                    case AbilityType.Attack:
                         var enemy = gameManager.GetEnemyAtPosition(position);
                         if (enemy != null)
                         {
@@ -146,11 +146,11 @@ namespace Card
                             return false;
                         }
                         break;
-                    case CardType.Defence:
+                    case AbilityType.Defence:
                         playerHealth.AddTemporaryHP(card.magnitude);
                         playerHealth.UpdateHealthText();
                         break;
-                    case CardType.Special:
+                    case AbilityType.Special:
                         break;
                     default:
                         break;

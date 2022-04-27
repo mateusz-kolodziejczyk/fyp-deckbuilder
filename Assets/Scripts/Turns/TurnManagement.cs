@@ -5,6 +5,7 @@ using Character;
 using Enemy;
 using Enums;
 using Managers;
+using Pause;
 using Player;
 using UnityEngine;
 
@@ -15,6 +16,8 @@ namespace Turns
         private Turn currentTurn;
 
         private GameManager gameManager;
+
+        [SerializeField] private PauseManagement pauseManagement;
         public Turn CurrentTurn
         {
             get => currentTurn;
@@ -31,7 +34,8 @@ namespace Turns
         private List<Vector3Int> enemyPositions;
 
         private DrawSquares drawSquares;
-    
+
+        private List<EnemyHealth> unupdatedHealth = new();
         // Start is called before the first frame update
         private void Start()
         {
@@ -43,6 +47,20 @@ namespace Turns
         // Update is called once per frame
         private void Update()
         {
+            if (unupdatedHealth.Count > 0)
+            {
+                Debug.Log("Unupdated Health Exists");
+                var updatedHealth = new List<EnemyHealth>();
+                foreach (var enemyHealth in unupdatedHealth)
+                {
+                    if (enemyHealth.UpdateHealthText())
+                    {
+                        updatedHealth.Add(enemyHealth);
+                    }
+                }
+
+                unupdatedHealth = unupdatedHealth.Where(x => !updatedHealth.Contains(x)).ToList();
+            }
             if(!foundComponents)
             {
                 GetTurnComponents();
@@ -50,7 +68,12 @@ namespace Turns
         
             // If enemy positions are null, get them
             enemyPositions ??= gameManager.GetEnemyPositions();
-        
+            
+            // Do not handle input on pause
+            if (pauseManagement.IsActive)
+            {
+                return;
+            }
             switch (CurrentTurn)
             {
                 // Turn manager handles both player and Enemy turns
@@ -61,9 +84,9 @@ namespace Turns
                     {
                         // Do a while loop until the health text can be updated
                         var enemyHealth = o.GetComponent<EnemyHealth>();
-                        while (!enemyHealth.UpdateHealthText())
+                        if (!enemyHealth.UpdateHealthText())
                         {
-                            
+                            unupdatedHealth.Add(enemyHealth);
                         }
                     }
                     break;

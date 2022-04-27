@@ -14,7 +14,6 @@ namespace Managers
         {
             PlayerDataStore.ResetData();
             CampaignMapDataStore.ResetData();
-            Debug.Log("Reset Data");
         }
         public void UpdatePlayerData()
         {
@@ -23,8 +22,6 @@ namespace Managers
 
             PlayerDataStore.CharacterData = playerData;
             PlayerDataStore.Deck = playerCharacter.startDeck.Select(x => x).ToList();
-            Debug.Log("Updated Player Data");
-            Debug.Log(PlayerDataStore.CharacterData);
         }
     }
 }

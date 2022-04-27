@@ -4,14 +4,11 @@ namespace Quitting
 {
     public class ExitInputListener : MonoBehaviour
     {
+        
 
-        // Update is called once per frame
-        void Update()
+        public void Quit()
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                Application.Quit();
-            }
+            Application.Quit();
         }
     }
 }

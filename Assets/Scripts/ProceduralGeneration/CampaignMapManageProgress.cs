@@ -16,7 +16,6 @@ namespace ProceduralGeneration
         // Start is called before the first frame update
         private void Start()
         {
-            print(PlayerDataStore.CharacterData);
         
             player = GameObject.FindWithTag("Player");
             mapGeneration = GetComponent<MapGeneration>();
