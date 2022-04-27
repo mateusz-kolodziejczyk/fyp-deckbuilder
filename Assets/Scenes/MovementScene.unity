@@ -3462,14 +3462,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 783666116, guid: aa39228571e906a4cb84a7c8522159d6, type: 3}
-      propertyPath: uiDeck
-      value: 
-      objectReference: {fileID: 676475711}
-    - target: {fileID: 783666116, guid: aa39228571e906a4cb84a7c8522159d6, type: 3}
-      propertyPath: enemyHealth
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 783666117, guid: aa39228571e906a4cb84a7c8522159d6, type: 3}
       propertyPath: healthText
       value: 
@@ -3486,10 +3478,6 @@ PrefabInstance:
       propertyPath: movementPointsText
       value: 
       objectReference: {fileID: 197250777}
-    - target: {fileID: 1875848751212212745, guid: aa39228571e906a4cb84a7c8522159d6, type: 3}
-      propertyPath: m_SortingLayer
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 1875848751212212746, guid: aa39228571e906a4cb84a7c8522159d6, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -3550,10 +3538,6 @@ PrefabInstance:
       propertyPath: resourceText
       value: 
       objectReference: {fileID: 802666849}
-    - target: {fileID: 3745544313155623843, guid: aa39228571e906a4cb84a7c8522159d6, type: 3}
-      propertyPath: turnIndicator
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa39228571e906a4cb84a7c8522159d6, type: 3}
 --- !u!1001 &4187687344460507093

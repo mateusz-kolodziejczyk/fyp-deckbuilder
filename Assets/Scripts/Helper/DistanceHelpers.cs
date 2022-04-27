@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Helper
 {
-    public class DistanceHelpers
+    public static class DistanceHelpers
     {
         public static int Vector3IntManhattanDistance(Vector3Int v1, Vector3Int v2)
         {

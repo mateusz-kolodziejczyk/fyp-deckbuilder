@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Board;
+using Enemy;
 using Enums;
 using UnityEngine;
 using UnityEngine.Tilemaps;

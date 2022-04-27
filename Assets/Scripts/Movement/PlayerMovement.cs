@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
+using Board;
 using Character;
 using Enums;
 using Helper;
+using Player;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;

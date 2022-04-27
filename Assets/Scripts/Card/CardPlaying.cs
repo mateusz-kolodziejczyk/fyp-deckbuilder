@@ -1,8 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Character;
+using Enemy;
 using Enums;
 using JetBrains.Annotations;
+using Managers;
+using Player;
 using ScriptableObjects;
 using UI;
 using UnityEngine;
@@ -63,14 +66,14 @@ namespace Card
         // Modifier modifies the number of cards drawn.
         public void DrawCards(int modifier = 0)
         {
-            var defaultNumDrawn = 5;
+            var defaultNumDrawn = 3;
             // Do not draw anything if it would try to draw less than 0 cards.
             if (defaultNumDrawn + modifier < 0)
             {
                 return;
             }
 
-            foreach (var _ in Enumerable.Range(0, 5 + modifier))
+            foreach (var _ in Enumerable.Range(0, defaultNumDrawn + modifier))
             {
                 // Set it to 5 for now, as only 5 cards are displayed
                 if (hand.Count >= 5)

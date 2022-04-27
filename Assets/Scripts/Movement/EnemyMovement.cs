@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using Character;
+using Enemy;
+using Player;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
