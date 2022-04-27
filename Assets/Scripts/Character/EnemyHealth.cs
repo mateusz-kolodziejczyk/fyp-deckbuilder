@@ -7,9 +7,12 @@ namespace Character
     {
         [SerializeField] private HealthBar healthBar;
 
-        public override void UpdateHealthText()
+        public override bool UpdateHealthText()
         {
+            if (DataMono == null) return false;
+            
             healthBar.UpdateHealthBar(DataMono.MAXHitPoints, DataMono.HitPoints);
+            return true;
         }
     }
 }

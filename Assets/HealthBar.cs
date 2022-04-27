@@ -1,9 +1,10 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    [SerializeField] private Transform healthTransform;
+    [SerializeField] private Image healthBarImage;
     [SerializeField] private TextMeshProUGUI healthNumber;
     private float startXScale;
 
@@ -22,13 +23,9 @@ public class HealthBar : MonoBehaviour
         {
             return;
         }
-        
-        var newXScale = ((float)currentHealth/maxHealth) * startXScale;
-        var t = healthTransform;
-        var localScale = t.localScale;
-        localScale = new (newXScale, localScale.y, localScale.z);
-        t.localScale = localScale;
-        
+
+        var newFillAmount = ((float) currentHealth / (float) maxHealth);
+        healthBarImage.fillAmount = newFillAmount;        
         // Text
         healthNumber.text = currentHealth.ToString();
     }

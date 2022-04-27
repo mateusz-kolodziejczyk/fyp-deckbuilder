@@ -94,17 +94,14 @@ namespace Movement
             }
             
             var pos = characterDataMono.Position;            
-            Debug.Log("Not CharacterDataMono");
             if (!tilemap.HasTile(pos))
             {
                 characterDataMono.Position = Vector3Int.zero;
                 return;
             }
-            Debug.Log("Not TileMap");
             
             var newPos = tilemap.CellToLocal(pos);
             transform.position = newPos;
-            Debug.Log("Not Transform");
 
         }
  

@@ -44,7 +44,7 @@ namespace Character
             return DataMono.HitPoints > 0;
         }
 
-        public virtual void UpdateHealthText()
+        public virtual bool UpdateHealthText()
         {
             // If max hitpoints are 0, they haven't been initialised yet.
             var maxHitPoints = DataMono.MAXHitPoints == 0 ? DataMono.HitPoints : DataMono.MAXHitPoints;
@@ -52,7 +52,7 @@ namespace Character
             if (!IsAlive())
             {
                 healthText.text = $"{tag} is Dead";
-                return;
+                return true;
             }
             
             var s = $"{DataMono.HitPoints}/{maxHitPoints}";
@@ -64,6 +64,7 @@ namespace Character
             }
 
             healthText.text = s;
+            return true;
         }
     }
 }

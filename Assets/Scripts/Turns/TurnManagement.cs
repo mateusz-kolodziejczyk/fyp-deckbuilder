@@ -55,9 +55,13 @@ namespace Turns
                     // Update the health texts of the enemies
                     foreach (var o in gameManager.Enemies.Where(x => x.activeSelf))
                     {
-                        o.GetComponent<EnemyHealth>().UpdateHealthText();
+                        // Do a while loop until the health text can be updated
+                        var enemyHealth = o.GetComponent<EnemyHealth>();
+                        while (!enemyHealth.UpdateHealthText())
+                        {
+                            
+                        }
                     }
-
                     break;
                 case Turn.Enemy:
                 {
