@@ -22,6 +22,7 @@ TagManager:
   - StartButton
   - OptionsMenu
   - MusicPlayer
+  - PauseManager
   layers:
   - Default
   - TransparentFX

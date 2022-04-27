@@ -1,4 +1,5 @@
 using Animation;
+using Pause;
 using ProceduralGeneration;
 using SceneManagement;
 using ScriptableObjects;
@@ -16,10 +17,13 @@ namespace Encounter
 
         public bool Active { get; set; } = true;
         private bool isFaded = false;
-    
+
+        private PauseManagement pauseManager;
+        private bool pauseMenuActive = false;
         private void Start()
         {
             animationScaler = GetComponent<AnimationScaler>();
+            pauseManager = GameObject.FindWithTag("PauseManager").GetComponent<PauseManagement>();
         }
 
         private void Update()
@@ -28,6 +32,12 @@ namespace Encounter
             {
                 FadeOut();
             }
+            // If pause menu was active the frame before, and inactive now, start a coroutine to return to original size
+            if (pauseMenuActive && !pauseManager.IsActive)
+            {
+                animationCoroutine = StartCoroutine(animationScaler.ResetBoxSize());
+            }
+            pauseMenuActive = pauseManager.IsActive;
         }
 
         private void FadeOut()
@@ -40,6 +50,12 @@ namespace Encounter
         }
         public void OnMouseDown()
         {
+            // If pause menu is active, return
+            if (pauseManager.IsActive)
+            {
+                return;
+            }
+            
             if (!Active)
             {
                 return;
@@ -70,13 +86,16 @@ namespace Encounter
             }
         }
 
-        public void OnMouseEnter()
+        public void OnMouseOver()
         {
-        
             if (animationCoroutine != null)
             {
                 StopCoroutine(animationCoroutine);
-
+            }
+            // If pause menu is active, return
+            if (pauseManager.IsActive)
+            {
+                return;
             }
             if (!Active)
             {
@@ -86,12 +105,15 @@ namespace Encounter
         }
 
         public void OnMouseExit()
-        { 
-        
+        {
             if (animationCoroutine != null)
             {
                 StopCoroutine(animationCoroutine);
-
+            }
+            // If pause menu is active, return
+            if (pauseManager.IsActive)
+            {
+                return;
             }
             if (!Active)
             {

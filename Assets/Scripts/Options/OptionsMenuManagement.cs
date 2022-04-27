@@ -4,18 +4,22 @@ namespace Options
 {
     public class OptionsMenuManagement : MonoBehaviour
     {
-        private GameObject optionsMenu;
+        public bool IsActive { get; set; } = true;
         // Start is called before the first frame update
         void Start()
         {
-            optionsMenu = GameObject.FindWithTag("OptionsMenu");
-            optionsMenu.SetActive(false);
+            ToggleActive();
         }
 
         public void ToggleActive()
         {
-            optionsMenu.SetActive(!optionsMenu.activeSelf);
+            IsActive = !IsActive;
+            
+            foreach (Transform child in transform)
+            {
+                var childGameObject = child.gameObject;
+                childGameObject.SetActive(!childGameObject.activeSelf);
+            }
         }
-
     }
 }

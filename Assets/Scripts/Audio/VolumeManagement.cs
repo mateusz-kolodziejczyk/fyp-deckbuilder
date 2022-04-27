@@ -28,20 +28,29 @@ namespace Audio
 
         private void SetupSliders()
         {
+            mixer.GetFloat("mainVol", out var mainVol);
+            mixer.GetFloat("musicVol", out var musicVol);
+            mixer.GetFloat("sfxVol", out var sfxVol);
+
+            mainVol = Mathf.Clamp(mainVol, minVolume, maxVolume);
+            musicVol = Mathf.Clamp(musicVol, minVolume, maxVolume);
+            sfxVol = Mathf.Clamp(sfxVol, minVolume, maxVolume);
+            
             // Main
             mainVolumeSlider.maxValue = maxVolume;
             mainVolumeSlider.minValue = minVolume;
-            mainVolumeSlider.value = maxVolume;
-        
+            mainVolumeSlider.value = mainVol;
+            
             // Music
             musicVolumeSlider.maxValue = maxVolume;
             musicVolumeSlider.minValue = minVolume;
-            musicVolumeSlider.value = maxVolume;
-        
+            musicVolumeSlider.value = musicVol;
+
             // SFX
             sfxVolumeSlider.maxValue = maxVolume;
             sfxVolumeSlider.minValue = minVolume;
-            sfxVolumeSlider.value = maxVolume;
+            sfxVolumeSlider.value = sfxVol;
+
         }
 
         public void SetMainVolume(float value)
